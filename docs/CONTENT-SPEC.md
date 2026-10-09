@@ -26,7 +26,7 @@ Situação em 2026-10-09: 161 notas distintas, 157 alcançáveis. Ficam de fora 
 - Formatos: `[[Nota]]`, `[[Nota#Seção]]` e `[[Nota|texto]]` (este último ainda não é usado, mas deve funcionar).
 - Resolução pelo nome do arquivo sem extensão, sem diferenciar maiúsculas de minúsculas. Se houver dois arquivos com o mesmo nome, vale o que **não** está em pasta excluída (hoje: `Assistente IADoc.md` na raiz, e não o de `TODO/`).
 - Link para nota inexistente ou excluída: **não quebra o build**. Vira texto simples, sem link, e entra no relatório.
-- Links quebrados hoje: `[[Base de Conhecimento]]` (em `Docnuvem.md`) e `[[Significado dos ícones]]` (em duas notas de `Meus documentos`; o arquivo existente se chama `Significados dos ícones` e está em `TODO/`). Os pedidos de correção estão com o chat do vault.
+- Link quebrado hoje: `[[Significado dos ícones]]` (em duas notas de `Meus documentos`). A nota ainda não foi escrita: existe só um rascunho `Significados dos ícones` em `TODO/`, que é excluída. Enquanto isso o link vira texto simples. Quando a nota ficar pronta, o chat do vault a move para fora de `TODO/` e alinha o nome com os links, e ela entra no sumário de um módulo.
 - `[[Nota#Seção]]` aponta para o título correspondente; seção inexistente vira link para a nota, com aviso no relatório.
 
 ## 4. Estrutura e ordem da navegação
