@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Home — Manual Docnuvem (protótipo)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}
+/* Manual Docnuvem — tema (cores da marca: #101820, #196bfb, #ffffff, #f1f1f1) */
+.dn{
+  --bg:#FFFFFF; --surface:#F1F1F1; --surface2:#E6E8EB; --border:#D9DCE1;
+  --tx:#101820; --muted:#4E5A67;
+  --accent:#196BFB; --accent-tx:#FFFFFF; --accent-soft:#E7F0FF; --link:#1257D1;
+  --imp-bg:#FFF4DF; --imp-bd:#E3B14F; --imp-tx:#5C3D00;
+  --obs-bg:#EEF2F8; --obs-bd:#8A9BB3; --obs-tx:#2A3A50;
+  --dica-bg:#E5F6F1; --dica-bd:#3FA58B; --dica-tx:#0F4A3B;
+  --shadow:0 1px 2px rgba(20,32,46,.06),0 6px 20px rgba(20,32,46,.07);
+  --r-sm:6px; --r-md:10px; --r-lg:16px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px;
+  font-family:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--tx); line-height:1.6; font-size:16px;
+  box-sizing:border-box;
+}
+.dn[data-t="escuro"]{
+  --bg:#101820; --surface:#17212C; --surface2:#1F2B38; --border:#2D3B4A;
+  --tx:#F1F1F1; --muted:#A8B3BF;
+  --accent:#196BFB; --accent-tx:#FFFFFF; --accent-soft:#15294B; --link:#7FADFF;
+  --imp-bg:#2B2210; --imp-bd:#B88A2E; --imp-tx:#F2D9A0;
+  --obs-bg:#1B2536; --obs-bd:#6C7F9A; --obs-tx:#CBD6E4;
+  --dica-bg:#0F2A25; --dica-bd:#35967D; --dica-tx:#A8E3D2;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+.dn *,.dn *::before,.dn *::after{box-sizing:border-box}
+.dn h1,.dn h2,.dn h3,.dn p,.dn ul,.dn ol{margin:0}
+.dn a{color:var(--link);text-decoration:none}
+.dn svg{flex:none}
+.dn .ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.dn .ic-sm{width:16px;height:16px}
+.dn .muted{color:var(--muted)}
+
+/* Cabeçalho */
+.dn-top{display:flex;align-items:center;gap:var(--s4);padding:var(--s3) var(--s6);border-bottom:1px solid var(--border);background:var(--bg);flex-wrap:wrap}
+.dn-logo{display:flex;align-items:center;gap:var(--s2);font-weight:700;font-size:20px;color:var(--tx)!important;letter-spacing:-.01em}
+.dn-logo .mark{color:var(--accent)}
+.dn-nav{display:flex;gap:var(--s5);margin-left:var(--s6);font-size:15px}
+.dn-nav a{color:var(--muted)}
+.dn-nav a.on{color:var(--tx);font-weight:600}
+.dn-sp{flex:1}
+.dn-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);color:var(--tx);cursor:pointer;padding:0}
+
+/* Botões */
+.dn-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:44px;padding:0 var(--s5);border-radius:var(--r-md);font:600 15px/1 'Figtree',system-ui,sans-serif;border:1px solid var(--accent);background:var(--accent);color:var(--accent-tx)!important;cursor:pointer;text-decoration:none}
+.dn-btn.sec{background:transparent;color:var(--link)!important;border-color:var(--border)}
+
+/* Busca */
+.dn-search{display:flex;align-items:center;gap:var(--s3);min-height:56px;padding:0 var(--s4);border:1.5px solid var(--border);border-radius:var(--r-lg);background:var(--bg);box-shadow:var(--shadow);color:var(--muted);width:100%}
+.dn-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:500 17px 'Figtree',system-ui,sans-serif;color:var(--tx)}
+.dn-search input::placeholder{color:var(--muted)}
+.dn-search.sm{min-height:44px;border-radius:var(--r-md);box-shadow:none;background:var(--surface)}
+.dn-search.sm input{font-size:15px}
+.dn-kbd{font:600 12px 'Figtree',system-ui,sans-serif;border:1px solid var(--border);border-bottom-width:2px;border-radius:var(--r-sm);padding:2px 8px;color:var(--muted);background:var(--surface);white-space:nowrap}
+
+/* Home */
+.dn-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--s4);padding:var(--s8) var(--s5) var(--s7);background:linear-gradient(var(--surface),var(--bg))}
+.dn-hero h1{font-size:44px;line-height:1.15;font-weight:700;letter-spacing:-.02em}
+.dn-hero p{font-size:18px;color:var(--muted);max-width:560px}
+.dn-hero .box{width:100%;max-width:640px;display:flex;flex-direction:column;gap:var(--s4);align-items:center;margin-top:var(--s2)}
+.dn-sec{max-width:1120px;margin:0 auto;padding:var(--s6) var(--s5)}
+.dn-sec h2{font-size:22px;font-weight:700;margin-bottom:var(--s4);letter-spacing:-.01em}
+.dn-grid{display:grid;gap:var(--s4)}
+.dn-card{display:flex;flex-direction:column;gap:var(--s2);padding:var(--s5);border:1px solid var(--border);border-radius:var(--r-lg);background:var(--bg);color:var(--tx)!important}
+.dn-card .ib{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--r-md);background:var(--accent-soft);color:var(--link)}
+.dn-card b{font-size:17px;font-weight:650}
+.dn-card span.d{font-size:14.5px;color:var(--muted);line-height:1.5}
+.dn-mod{display:flex;align-items:center;gap:var(--s3);min-height:64px;padding:var(--s3) var(--s4);border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--tx)!important;font-weight:600;font-size:15.5px}
+.dn-mod .ib{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:var(--r-sm);background:var(--bg);color:var(--link);border:1px solid var(--border)}
+.dn-mod.off{opacity:.78}
+.dn-soon{margin-left:auto;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);background:var(--bg);white-space:nowrap}
+.dn-foot{border-top:1px solid var(--border);padding:var(--s5) var(--s6);display:flex;gap:var(--s4);flex-wrap:wrap;justify-content:space-between;color:var(--muted);font-size:14px;background:var(--surface)}
+
+/* Artigo */
+.dn-wrap{display:flex;flex-wrap:wrap;align-items:flex-start;max-width:1360px;margin:0 auto}
+.dn-side{flex:0 0 280px;padding:var(--s5) var(--s4) var(--s6) var(--s5);border-right:1px solid var(--border);font-size:15px}
+.dn-side .grp{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:var(--s4) var(--s2) var(--s2)}
+.dn-side a,.dn-side summary{display:flex;align-items:center;gap:var(--s2);min-height:36px;padding:4px var(--s3);border-radius:var(--r-sm);color:var(--tx);cursor:pointer;list-style:none}
+.dn-side summary::-webkit-details-marker{display:none}
+.dn-side summary .chev{margin-left:auto;color:var(--muted)}
+.dn-side details[open]>summary .chev{transform:rotate(90deg)}
+.dn-side .sub{margin-left:var(--s4);padding-left:var(--s2);border-left:1px solid var(--border)}
+.dn-side a.cur{background:var(--accent-soft);color:var(--link);font-weight:650}
+.dn-side a.dim,.dn-side summary.dim{color:var(--muted)}
+.dn-main{flex:999 1 560px;min-width:0;padding:var(--s6) var(--s7) var(--s7)}
+.dn-art{max-width:720px;display:flex;flex-direction:column;gap:var(--s4)}
+.dn-art h1{font-size:36px;line-height:1.2;font-weight:700;letter-spacing:-.02em}
+.dn-art h2{font-size:23px;line-height:1.3;font-weight:700;margin-top:var(--s5)}
+.dn-art p,.dn-art li{font-size:17px;line-height:1.7}
+.dn-art .lead{font-size:19px;color:var(--muted)}
+.dn-art ul{padding-left:var(--s5);display:flex;flex-direction:column;gap:var(--s2)}
+.dn-bc{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2);font-size:14px;color:var(--muted)}
+.dn-bc a{color:var(--muted)}
+.dn-bc .cur{color:var(--tx);font-weight:600}
+.dn-toc{flex:0 0 232px;padding:var(--s6) var(--s5) var(--s6) 0;font-size:14px;position:static}
+.dn-toc .t{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--s2)}
+.dn-toc a{display:block;padding:5px var(--s3);border-left:2px solid var(--border);color:var(--muted)}
+.dn-toc a.cur{border-left-color:var(--accent);color:var(--link);font-weight:650}
+.dn-step{display:flex;gap:var(--s3);align-items:center;margin-top:var(--s5)}
+.dn-step .n{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;background:var(--accent);color:var(--accent-tx);font-weight:700;font-size:15px;flex:none}
+.dn-step h2{margin:0}
+.dn-art code,.dn code{font:500 .9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface2);padding:1px 6px;border-radius:var(--r-sm)}
+.dn-call{display:flex;gap:var(--s3);padding:var(--s4);border-radius:var(--r-md);border:1px solid;font-size:16px;line-height:1.6}
+.dn-call .h{font-weight:700;display:block;margin-bottom:2px}
+.dn-call.imp{background:var(--imp-bg);border-color:var(--imp-bd);color:var(--imp-tx)}
+.dn-call.obs{background:var(--obs-bg);border-color:var(--obs-bd);color:var(--obs-tx)}
+.dn-call.dica{background:var(--dica-bg);border-color:var(--dica-bd);color:var(--dica-tx)}
+.dn-call p{font-size:16px!important}
+.dn-fig{margin:var(--s2) 0 0;display:flex;flex-direction:column;gap:var(--s2)}
+.dn-fig .shot{border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden;background:var(--bg)}
+.dn-fig figcaption{font-size:14.5px;font-style:italic;color:var(--muted)}
+.dn-ph{display:flex;gap:var(--s3);align-items:flex-start;padding:var(--s5);border:1.5px dashed var(--border);border-radius:var(--r-md);background:var(--surface);color:var(--muted)}
+.dn-ph b{display:block;color:var(--tx);font-size:15.5px}
+.dn-ph span{font-size:14.5px;line-height:1.5}
+.dn-see{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s3);margin-top:var(--s2)}
+.dn-see a{display:flex;align-items:center;gap:var(--s2);min-height:52px;padding:var(--s3) var(--s4);border:1px solid var(--border);border-radius:var(--r-md);color:var(--tx);font-weight:600;font-size:15px}
+.dn-pager{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s3);margin-top:var(--s6)}
+.dn-pager a{display:flex;flex-direction:column;gap:2px;padding:var(--s4);border:1px solid var(--border);border-radius:var(--r-md);color:var(--tx)}
+.dn-pager small{color:var(--muted);font-size:13px}
+.dn-pager b{color:var(--link);font-size:16px}
+.dn-pager a.nx{text-align:right}
+
+/* Mockup de captura de tela (ilustração) */
+.sc-bar{height:30px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;padding:0 var(--s3)}
+.sc-bar i{width:9px;height:9px;border-radius:50%;background:var(--border);display:block}
+.sc-body{padding:var(--s4);display:flex;flex-direction:column;gap:var(--s3);font-size:13px}
+.sc-row{display:flex;gap:var(--s3);align-items:center}
+.sc-line{height:10px;border-radius:5px;background:var(--surface2);flex:1}
+.sc-btn{padding:6px 14px;border-radius:var(--r-sm);background:var(--accent);color:var(--accent-tx);font-weight:600;font-size:13px;white-space:nowrap}
+
+/* Celular */
+.dn-phone{width:390px;height:844px;overflow:hidden;position:relative;display:flex;flex-direction:column;border:1px solid var(--border)}
+.dn-mtop{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s3);border-bottom:1px solid var(--border);background:var(--bg);min-height:60px}
+.dn-scrim{position:absolute;inset:0;background:rgba(8,14,24,.45);z-index:3}
+.dn-drawer{position:absolute;top:0;left:0;bottom:0;width:330px;background:var(--bg);z-index:4;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.dn-drawer .head{display:flex;align-items:center;justify-content:space-between;padding:var(--s2) var(--s3) var(--s2) var(--s4);min-height:60px;border-bottom:1px solid var(--border)}
+.dn-drawer .body{flex:1;overflow:auto;padding:var(--s3) var(--s3) var(--s4)}
+.dn-drawer .foot{padding:var(--s3);border-top:1px solid var(--border)}
+.dn-drawer a,.dn-drawer summary{display:flex;align-items:center;gap:var(--s3);min-height:48px;padding:0 var(--s3);border-radius:var(--r-sm);color:var(--tx);list-style:none;font-size:16px}
+.dn-drawer summary::-webkit-details-marker{display:none}
+.dn-drawer summary .chev{margin-left:auto;color:var(--muted)}
+.dn-drawer details[open]>summary .chev{transform:rotate(90deg)}
+.dn-drawer .sub{margin-left:var(--s5);border-left:1px solid var(--border);padding-left:var(--s2)}
+.dn-drawer a.cur{background:var(--accent-soft);color:var(--link);font-weight:650}
+.dn-label{font:600 13px 'Figtree',system-ui,sans-serif;color:#556579;padding:6px 0}
+
+/* Resultados de busca */
+.dn-res{display:flex;flex-direction:column;gap:2px;padding:var(--s3) var(--s4);border-radius:var(--r-md);color:var(--tx)!important}
+.dn-res .path{font-size:13px;color:var(--muted)}
+.dn-res b{font-size:16.5px;font-weight:650}
+.dn-res p{font-size:14.5px;color:var(--muted);line-height:1.55}
+.dn-res mark{background:var(--accent-soft);color:var(--tx);border-radius:3px;padding:0 2px;font-weight:600}
+.dn-res.sel{background:var(--accent-soft)}
+.dn-panel{border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow);background:var(--bg);padding:var(--s2);width:100%}
+</style>
+</head>
+<body>
+<!-- Protótipo estático do manual Docnuvem. Fonte dos tokens: docs/DESIGN.md -->
+
+<div style="width: 1280px; background: #E9EDF3; padding: 24px 0; display: flex; flex-direction: column; gap: 32px; font-family: 'Figtree', system-ui, sans-serif">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="dn-label" style="padding-left: 24px">Tema claro · desktop 1280</div>
+<div class="dn" data-t="claro">
+<header class="dn-top">
+<a class="dn-logo" href="#"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ5IiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMTQ5IDMyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzRfNDI4KSI+DQo8cGF0aCBkPSJNMTkuNTIwNCAwSDBWMjYuMDQ0NEgwLjM4NjY2NUw3Ljk5NzUgMzJIMjUuMDUyNEwzMC4yNTg1IDI2LjQxNzJWMTEuNTM3NkwxOS41MjA0IDBaTTIzLjgyMTUgNS45MzkzOVY1Ljk1NDhINy43MDA5NVYyNS4xMzg2SDQuNzY3ODRWMy44ODIwNkgyMS45MDI4TDIzLjgyMTUgNS45MzkzOVpNMjMuODIxNSA2Ljg1OTg0VjIwLjEwNUwxOS4xMjY4IDI1LjEzODZIOC42MDU5OVY2Ljg1OTg0SDIzLjgyMTVaTTAuOTA1MDQzIDAuOTA1MDQzSDE5LjEyNjhMMjEuMDU5NCAyLjk3NzAxSDMuODYzNTdWMjUuMTM4NkgwLjkwNTA0M1YwLjkwNTA0M1pNNC41NzgzNiAyOC4xNzQ5TDEuODU1NTMgMjYuMDQ0NEgxOS41MjA0TDI0LjcyNjUgMjAuNDYxN1Y2LjkzMzAxTDI2LjU5OSA4Ljk0MTA1VjIzLjA4MjhMMjEuOTA0MyAyOC4xMTY0SDQuNTc4MzZWMjguMTc1N1YyOC4xNzQ5Wk0yOS4zNTM0IDI2LjA2MDZMMjQuNjU4OCAzMS4wOTQySDguMzA5NDVMNS42NTk3OSAyOS4wMjE1SDIyLjI5NzJMMjcuNTAzMyAyMy40Mzg3VjkuOTEwOEwyOS4zNTI3IDExLjg5NDJWMjYuMDYxNEwyOS4zNTM0IDI2LjA2MDZaIiBmaWxsPSIjMTAxODIwIi8+DQo8cGF0aCBkPSJNNDguMzQwOSA2Ljk1MjI1SDQxLjgxMjNWMjMuMzkzMkg0OC4zNDA5QzUwLjYyMzkgMjMuNDk5NSA1Mi44NTQ1IDIyLjY4NzcgNTQuNTM1MiAyMS4xMzg3QzU3LjY1OTQgMTcuNzc1IDU3LjY1OTQgMTIuNTcxMiA1NC41MzUyIDkuMjA3NTRDNTIuODU0NSA3LjY1ODU3IDUwLjYyMzkgNi44NDY3MyA0OC4zNDA5IDYuOTUyMjVaTTUyLjYxNTggMTkuMzE4NkM1MS40NzU4IDIwLjQyMDEgNDkuOTIyMiAyMC45ODcgNDguMzQwOSAyMC44Nzk5SDQ0LjQ2NThWOS40NjU1OEg0OC4zNDA5QzQ5LjkyMzcgOS4zNTY5NyA1MS40NzgxIDkuOTIyMzMgNTIuNjIxMiAxMS4wMjIzQzU0LjU4ODQgMTMuNDM4NSA1NC41ODY4IDE2LjkwNDYgNTIuNjE1OCAxOS4zMTg2WiIgZmlsbD0iIzEwMTgyMCIvPg0KPHBhdGggZD0iTTY3LjA3MSAxMi42MTg5QzY1LjEzMTUgMTEuNTkxMyA2Mi44MDg0IDExLjU5MzcgNjAuODcwNSAxMi42MjVDNTkuOTY3NyAxMy4xMjE4IDU5LjIxNzUgMTMuODU2NiA1OC43MDM4IDE0Ljc1MDFDNTcuNjYyNCAxNi42MjcyIDU3LjY2MjQgMTguOTA4NyA1OC43MDM4IDIwLjc4NThDNTkuMjE3NSAyMS42NzkzIDU5Ljk2NyAyMi40MTQ5IDYwLjg3MDUgMjIuOTExN0M2Mi44MDg0IDIzLjk0MzEgNjUuMTMxNSAyMy45NDU0IDY3LjA3MSAyMi45MTc5QzY3Ljk3NjggMjIuNDIyNiA2OC43Mjc4IDIxLjY4NyA2OS4yNDMxIDIwLjc5MkM3MC4yOTI5IDE4LjkxMjYgNzAuMjkyOSAxNi42MjQxIDY5LjI0MzEgMTQuNzQ0N0M2OC43Mjg2IDEzLjg0OTcgNjcuOTc2OCAxMy4xMTQxIDY3LjA3MSAxMi42MTg5Wk02Ni40OTMzIDIwLjM2MzdDNjUuMDgxNCAyMS43MTAxIDYyLjg2MTYgMjEuNzEwMSA2MS40NDk3IDIwLjM2MzdDNjAuMTEwMiAxOC44OTI1IDYwLjExMDIgMTYuNjQ0MiA2MS40NDk3IDE1LjE3M0M2Mi44NjE2IDEzLjgyNjYgNjUuMDgxNCAxMy44MjY2IDY2LjQ5MzMgMTUuMTczQzY3LjgzOTcgMTYuNjQxMSA2Ny44Mzk3IDE4Ljg5NTYgNjYuNDkzMyAyMC4zNjM3WiIgZmlsbD0iIzEwMTgyMCIvPg0KPHBhdGggZD0iTTc2LjcwMDcgMjEuMzcyOUM3NS43OTk1IDIxLjM5NiA3NC45MzE0IDIxLjAyNzggNzQuMzIyMSAyMC4zNjMxQzczLjA2MiAxOC44NjI2IDczLjA2MiAxNi42NzI4IDc0LjMyMjEgMTUuMTcyNEM3NC45MzIyIDE0LjUwNzcgNzUuNzk5NSAxNC4xMzk1IDc2LjcwMDcgMTQuMTYyNkM3Ny43MTg5IDE0LjE3ODggNzguNjg5NSAxNC41OTcgNzkuNDAxMiAxNS4zMjU3TDgwLjk3NDggMTMuNjQ1OEM4MC40ODExIDEzLjA1ODEgNzkuODUyNSAxMi41OTkgNzkuMTQzMSAxMi4zMDcxQzc4LjM5MTQgMTEuOTk2NiA3Ny41ODQxIDExLjg0MTEgNzYuNzcwOCAxMS44NDk1Qzc1LjE3MSAxMS43ODU2IDczLjYxODEgMTIuMzk2NCA3Mi40OTA1IDEzLjUzMjVDNzAuMzA2MSAxNS45MzY1IDcwLjMwNjEgMTkuNjA2NyA3Mi40OTA1IDIyLjAxMDdDNzMuNjE4OSAyMy4xNDUyIDc1LjE3MTcgMjMuNzU0NSA3Ni43NzA4IDIzLjY4OThDNzguMzcyMSAyMy43NTkxIDc5LjkxOCAyMy4wOTgyIDgwLjk3NDggMjEuODkzNkw3OS40NTk3IDIwLjE5OUM3OC43Mjg3IDIwLjkzNjIgNzcuNzM4MiAyMS4zNTc1IDc2LjcwMDcgMjEuMzcyOVoiIGZpbGw9IiMxMDE4MjAiLz4NCjxwYXRoIGQ9Ik05MS40OTY0IDEzLjA5OTZDOTAuNjE0NCAxMi4yNTQ3IDg5LjQyODIgMTEuODA0MSA4OC4yMDgyIDExLjg0OTVDODcuMTM2IDExLjc4NCA4Ni4xMDIzIDEyLjE2NjEgODUuMzI3NCAxMi44NzQ3TDg0Ljc1NjcgMTIuMTQzSDgyLjMxNDJWMjMuMzkwOUg4NC43NzlWMTcuMTUxOUM4NC43MzUxIDE2LjM0MDEgODUuMDM4NiAxNS41NDgzIDg1LjYxMzIgMTQuOTczNkM4Ni4xNzMyIDE0LjQ0MzcgODYuOTIxOCAxNC4xNTggODcuNjkyOSAxNC4xODExQzg4LjQxOTIgMTQuMTM4NyA4OS4xMjcxIDE0LjQyMTQgODkuNjI0NiAxNC45NTEzQzkwLjExNzYgMTUuNTY2IDkwLjM2MjUgMTYuMzQzMiA5MC4zMTE3IDE3LjEyOTZWMjMuMzg4Nkg5Mi43NzY1VjE2LjMyMzFDOTIuODIwNCAxNS4xMTY5IDkyLjM1NiAxMy45NDc3IDkxLjQ5NjQgMTMuMDk5NloiIGZpbGw9IiMxMDE4MjAiLz4NCjxwYXRoIGQ9Ik0xMDIuNDc2IDEyLjE0MzhWMTguNDAyOEMxMDIuNTQ3IDE5LjIyNDcgMTAyLjI3OCAyMC4wMzk2IDEwMS43MyAyMC42NTY2QzEwMC41NjYgMjEuNjEzMiA5OC44ODg1IDIxLjYxMzIgOTcuNzI0NyAyMC42NTY2Qzk3LjE3NjMgMjAuMDM5NiA5Ni45MDY3IDE5LjIyNDcgOTYuOTc5MSAxOC40MDI4VjEyLjE0MzhIOTQuNTE0M1YxOC42MjYyQzk0LjQ5OTcgMTkuNDExMSA5NC42NDc1IDIwLjE5MDYgOTQuOTQ5NSAyMC45MTU0Qzk1LjIwNTIgMjEuNTM2MiA5NS42MTI3IDIyLjA4MzkgOTYuMTM0OSAyMi41MDY3Qzk2LjYzMDkgMjIuODk5NiA5Ny4xOTQgMjMuMiA5Ny43OTYzIDIzLjM5MzNDOTkuMDU0MSAyMy43ODQ2IDEwMC40MDIgMjMuNzg0NiAxMDEuNjYgMjMuMzkzM0MxMDIuMjYxIDIzLjIwMDcgMTAyLjgyMiAyMi45MDAzIDEwMy4zMTYgMjIuNTA2N0MxMDMuODM2IDIyLjA4MTYgMTA0LjI0MyAyMS41MzU0IDEwNC41MDIgMjAuOTE1NEMxMDQuODA3IDIwLjE5MTQgMTA0Ljk1NyAxOS40MTE5IDEwNC45NDMgMTguNjI2MkwxMDQuOTQgMTIuMTQzOEgxMDIuNDc2WiIgZmlsbD0iIzEwMTgyMCIvPg0KPHBhdGggZD0iTTExNS40MDYgMTIuMTQzOEwxMTIuMDgyIDIwLjg0NjhMMTA4Ljc1OCAxMi4xNDM4SDEwNi4wODFMMTEwLjYwMiAyMy4zODg3SDExMy41MTVMMTE4LjAxMiAxMi4xNDM4SDExNS40MDZaIiBmaWxsPSIjMTAxODIwIi8+DQo8cGF0aCBkPSJNMTIzLjQ3MyAxMS44NDk0QzEyMS45NTIgMTEuNzkyNCAxMjAuNDggMTIuMzg4NiAxMTkuNDI3IDEzLjQ4N0MxMTguMzYyIDE0LjY1MTYgMTE3LjgwMyAxNi4xOTA2IDExNy44NzEgMTcuNzY3M0MxMTcuOCAxOS4zNTYzIDExOC4zNzkgMjAuOTA2IDExOS40NzQgMjIuMDU5OUMxMjAuNTcyIDIzLjE1NTkgMTIyLjA3NiAyMy43NDUyIDEyMy42MjYgMjMuNjg1OUMxMjUuMzEgMjMuNzQyMSAxMjYuOTU2IDIzLjE3ODMgMTI4LjI1MiAyMi4xMDA3TDEyNy4wMzEgMjAuMzUxNUMxMjYuMTE5IDIxLjExNDggMTI0Ljk2OCAyMS41MzQ2IDEyMy43NzggMjEuNTM2OUMxMjIuOTg0IDIxLjU1NjEgMTIyLjIwNyAyMS4zMDM1IDEyMS41NzYgMjAuODIwNUMxMjAuOTI4IDIwLjI4MjEgMTIwLjUxNiAxOS41MTAzIDEyMC40MzIgMTguNjcxNUgxMjguNzQ1QzEyOC43OCAxOC4zNjczIDEyOC43OTYgMTguMDYxNSAxMjguNzkzIDE3Ljc1NTdDMTI4Ljg2MSAxNi4xOTYgMTI4LjMzMiAxNC42NjkzIDEyNy4zMTMgMTMuNDg3QzEyNi4zMzggMTIuNDAwMiAxMjQuOTMyIDExLjgwMDIgMTIzLjQ3MyAxMS44NDk0Wk0xMjAuNDQzIDE2LjgwNDVDMTIwLjUyNSAxNi4wNDE5IDEyMC44NiAxNS4zMjg3IDEyMS4zOTQgMTQuNzc5NUMxMjEuOTQzIDE0LjI2NjUgMTIyLjY3NSAxMy45OTc3IDEyMy40MjYgMTQuMDMzMUMxMjQuMTM0IDE0LjAwNzcgMTI0LjgyMyAxNC4yNzAzIDEyNS4zMzQgMTQuNzYxQzEyNS44NjYgMTUuMzE5NCAxMjYuMTk4IDE2LjAzODEgMTI2LjI3OSAxNi44MDQ1SDEyMC40NDNaIiBmaWxsPSIjMTAxODIwIi8+DQo8cGF0aCBkPSJNMTQ3LjYwNSAxMy4wOTk3QzE0Ni43MjMgMTIuMjU0NyAxNDUuNTM3IDExLjgwNDEgMTQ0LjMxNyAxMS44NDk2QzE0Mi4zOTEgMTEuODQ5NiAxNDEuMDIxIDEyLjUxODIgMTQwLjIwOCAxMy44NTY5QzEzOS44MTYgMTMuMjI5MSAxMzkuMjYzIDEyLjcxODQgMTM4LjYwNiAxMi4zNzcyQzEzNy44OTkgMTIuMDE2NyAxMzcuMTE0IDExLjgzNTcgMTM2LjMyMSAxMS44NDk2QzEzNS4yNTQgMTEuNzg0MSAxMzQuMjI0IDEyLjE2MTUgMTMzLjQ1IDEyLjg2NEwxMzIuOTQ3IDEyLjI0NEwxMzIuODY4IDEyLjQ0NDJWMTIuMTQyM0gxMzAuNDI2VjIzLjM5MjVIMTMyLjg5VjE3LjE1MzVDMTMyLjg0NiAxNi4zNDE3IDEzMy4xNDkgMTUuNTQ5OSAxMzMuNzI0IDE0Ljk3NTNDMTM0LjI4NCAxNC40NDUzIDEzNS4wMzIgMTQuMTYwMyAxMzUuODAzIDE0LjE4MjdDMTM2LjUzIDE0LjE0MDMgMTM3LjIzNyAxNC40MjMgMTM3LjczNCAxNC45NTI5QzEzOC4yMjcgMTUuNTY3NiAxMzguNDcyIDE2LjM0NDggMTM4LjQyMiAxNy4xMzEyVjIzLjM5MDJIMTQwLjg4NlYxNy4xNTEyQzE0MC44NDIgMTYuMzM5NCAxNDEuMTQ2IDE1LjU0NzYgMTQxLjcyIDE0Ljk3M0MxNDIuMjggMTQuNDQzIDE0My4wMjkgMTQuMTU3MyAxNDMuOCAxNC4xODA0QzE0NC41MjYgMTQuMTM4IDE0NS4yMzQgMTQuNDIwNyAxNDUuNzMyIDE0Ljk1MDZDMTQ2LjIyNSAxNS41NjUzIDE0Ni40NyAxNi4zNDI1IDE0Ni40MTkgMTcuMTI4OVYyMy4zODc5SDE0OC44ODRWMTYuMzIyNEMxNDguOTI4IDE1LjExNjIgMTQ4LjQ2MyAxMy45NDcgMTQ3LjYwNCAxMy4wOTg5TDE0Ny42MDUgMTMuMDk5N1oiIGZpbGw9IiMxMDE4MjAiLz4NCjwvZz4NCjxkZWZzPg0KPGNsaXBQYXRoIGlkPSJjbGlwMF80XzQyOCI+DQo8cmVjdCB3aWR0aD0iMTQ4Ljg4OCIgaGVpZ2h0PSIzMiIgZmlsbD0id2hpdGUiLz4NCjwvY2xpcFBhdGg+DQo8L2RlZnM+DQo8L3N2Zz4NCg==" alt="Docnuvem" style="height: 30px; width: auto; display: block"> <span class="muted" style="font-weight: 500; font-size: 17px; padding-left: 10px; border-left: 1px solid var(--border)">Manual</span></a>
+<nav class="dn-nav" aria-label="Principal">
+<a class="on" href="#">Início</a>
+<a href="#modulos">Módulos</a>
+<a href="#">Perguntas frequentes</a>
+</nav>
+<div class="dn-sp"></div>
+<button class="dn-iconbtn" aria-label="Alternar tema claro/escuro"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</header>
+
+<section class="dn-hero">
+<h1>Como podemos ajudar?</h1>
+<p>Encontre o passo a passo de qualquer função do Docnuvem.</p>
+<div class="box">
+<label class="dn-search">
+<svg class="ic" viewBox="0 0 24 24"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg>
+<input type="search" placeholder="Busque por assinatura, tarefa, permissão…" aria-label="Buscar no manual">
+<span class="dn-kbd">Ctrl K</span>
+</label>
+<a class="dn-btn" href="#"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Baixar manual (PDF)</a>
+</div>
+</section>
+
+<section class="dn-sec">
+<h2>O que você quer fazer?</h2>
+<div class="dn-grid" style="grid-template-columns: repeat(5, minmax(0, 1fr))">
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></svg></span>
+<b>Primeiros passos</b>
+<span class="d">Acesse o sistema e conheça a tela inicial.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21l3-1 12-12-2-2L4 18l-1 3zM14 6l2 2"/></svg></span>
+<b>Enviar documento para assinatura</b>
+<span class="d">Peça a assinatura de quem precisa assinar.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M3 13l3-8h12l3 8v6H3v-6zM3 13h5l1 3h6l1-3h5"/></svg></span>
+<b>Solicitar documentos</b>
+<span class="d">Peça arquivos a clientes e fornecedores.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
+<b>Configurar usuários</b>
+<span class="d">Cadastre pessoas e defina permissões.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+<b>Criar uma tarefa</b>
+<span class="d">Organize o trabalho no Módulo de Tarefas.</span>
+</a>
+
+</div>
+</section>
+
+<section class="dn-sec" id="modulos" style="padding-top: 8px">
+<h2>Módulos do manual</h2>
+<div class="dn-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr))">
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></span>
+<span>Acessando o Sistema</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg></span>
+<span>Dashboard</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5zM14 3v5h5"/></svg></span>
+<span>Meus documentos</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg></span>
+<span>Busca avançada</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span>
+<span>Notificações</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M8 8h12v12H8zM4 16V4h12"/></svg></span>
+<span>Meus modelos</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
+<span>Meus cadastros</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01"/></svg></span>
+<span>Tipos cadastrados</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></span>
+<span>Arquivos</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+<span>Relatórios</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 4h6v16H3zM15 4h6v10h-6z"/></svg></span>
+<span>Módulo de Tarefas</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16z"/></svg></span>
+<span>Assistente IADoc</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4"/></svg></span>
+<span>Auditoria</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+<span>Lixeira</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.5M12 17h.01"/></svg></span>
+<span>Perguntas Frequentes</span>
+
+</a>
+
+</div>
+</section>
+
+<footer class="dn-foot">
+<span>Manual do cliente Docnuvem</span>
+<a href="#">Baixar manual (PDF)</a>
+</footer>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="dn-label" style="padding-left: 24px">Tema escuro · desktop 1280</div>
+<div class="dn" data-t="escuro">
+<header class="dn-top">
+<a class="dn-logo" href="#"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMTUwIDMyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE4XzY4NykiPg0KPHBhdGggZD0iTTE5LjcxOTYgMEgwLjE5OTIxOVYyNi4wNDQ0SDAuNTg1ODg0TDguMTk2NzIgMzJIMjUuMjUxNkwzMC40NTc3IDI2LjQxNzJWMTEuNTM3NkwxOS43MTk2IDBaTTI0LjAyMDcgNS45MzkzOVY1Ljk1NDhINy45MDAxN1YyNS4xMzg2SDQuOTY3MDZWMy44ODIwNkgyMi4xMDJMMjQuMDIwNyA1LjkzOTM5Wk0yNC4wMjA3IDYuODU5ODRWMjAuMTA1TDE5LjMyNiAyNS4xMzg2SDguODA1MjFWNi44NTk4NEgyNC4wMjA3Wk0xLjEwNDI2IDAuOTA1MDQzSDE5LjMyNkwyMS4yNTg2IDIuOTc3MDFINC4wNjI3OVYyNS4xMzg2SDEuMTA0MjZWMC45MDUwNDNaTTQuNzc3NTggMjguMTc0OUwyLjA1NDc1IDI2LjA0NDRIMTkuNzE5NkwyNC45MjU4IDIwLjQ2MTdWNi45MzMwMUwyNi43OTgyIDguOTQxMDVWMjMuMDgyOEwyMi4xMDM2IDI4LjExNjRINC43Nzc1OFYyOC4xNzU3VjI4LjE3NDlaTTI5LjU1MjYgMjYuMDYwNkwyNC44NTggMzEuMDk0Mkg4LjUwODY3TDUuODU5MDEgMjkuMDIxNUgyMi40OTY0TDI3LjcwMjUgMjMuNDM4N1Y5LjkxMDhMMjkuNTUxOSAxMS44OTQyVjI2LjA2MTRMMjkuNTUyNiAyNi4wNjA2WiIgZmlsbD0iI0YyRjJGMiIvPg0KPHBhdGggZD0iTTQ4LjU0MDMgNi45NTIyNUg0Mi4wMTE3VjIzLjM5MzJINDguNTQwM0M1MC44MjM0IDIzLjQ5OTUgNTMuMDU0IDIyLjY4NzcgNTQuNzM0NyAyMS4xMzg3QzU3Ljg1ODggMTcuNzc1IDU3Ljg1ODggMTIuNTcxMiA1NC43MzQ3IDkuMjA3NTRDNTMuMDU0IDcuNjU4NTcgNTAuODIzNCA2Ljg0NjczIDQ4LjU0MDMgNi45NTIyNVpNNTIuODE1MiAxOS4zMTg2QzUxLjY3NTMgMjAuNDIwMSA1MC4xMjE3IDIwLjk4NyA0OC41NDAzIDIwLjg3OTlINDQuNjY1MlY5LjQ2NTU4SDQ4LjU0MDNDNTAuMTIzMiA5LjM1Njk3IDUxLjY3NzYgOS45MjIzMyA1Mi44MjA2IDExLjAyMjNDNTQuNzg3OCAxMy40Mzg1IDU0Ljc4NjMgMTYuOTA0NiA1Mi44MTUyIDE5LjMxODZaIiBmaWxsPSIjRjJGMkYyIi8+DQo8cGF0aCBkPSJNNjcuMjcwMyAxMi42MTg5QzY1LjMzMDggMTEuNTkxMyA2My4wMDc4IDExLjU5MzcgNjEuMDY5OCAxMi42MjVDNjAuMTY3MSAxMy4xMjE4IDU5LjQxNjkgMTMuODU2NiA1OC45MDMxIDE0Ljc1MDFDNTcuODYxNyAxNi42MjcyIDU3Ljg2MTcgMTguOTA4NyA1OC45MDMxIDIwLjc4NThDNTkuNDE2OSAyMS42NzkzIDYwLjE2NjMgMjIuNDE0OSA2MS4wNjk4IDIyLjkxMTdDNjMuMDA3OCAyMy45NDMxIDY1LjMzMDggMjMuOTQ1NCA2Ny4yNzAzIDIyLjkxNzlDNjguMTc2MSAyMi40MjI2IDY4LjkyNzEgMjEuNjg3IDY5LjQ0MjQgMjAuNzkyQzcwLjQ5MjMgMTguOTEyNiA3MC40OTIzIDE2LjYyNDEgNjkuNDQyNCAxNC43NDQ3QzY4LjkyNzkgMTMuODQ5NyA2OC4xNzYxIDEzLjExNDEgNjcuMjcwMyAxMi42MTg5Wk02Ni42OTI2IDIwLjM2MzdDNjUuMjgwOCAyMS43MTAxIDYzLjA2MDkgMjEuNzEwMSA2MS42NDkgMjAuMzYzN0M2MC4zMDk2IDE4Ljg5MjUgNjAuMzA5NiAxNi42NDQyIDYxLjY0OSAxNS4xNzNDNjMuMDYwOSAxMy44MjY2IDY1LjI4MDggMTMuODI2NiA2Ni42OTI2IDE1LjE3M0M2OC4wMzkgMTYuNjQxMSA2OC4wMzkgMTguODk1NiA2Ni42OTI2IDIwLjM2MzdaIiBmaWxsPSIjRjJGMkYyIi8+DQo8cGF0aCBkPSJNNzYuOTAwMyAyMS4zNzI5Qzc1Ljk5OTEgMjEuMzk2IDc1LjEzMSAyMS4wMjc4IDc0LjUyMTcgMjAuMzYzMUM3My4yNjE2IDE4Ljg2MjYgNzMuMjYxNiAxNi42NzI4IDc0LjUyMTcgMTUuMTcyNEM3NS4xMzE4IDE0LjUwNzcgNzUuOTk5MSAxNC4xMzk1IDc2LjkwMDMgMTQuMTYyNkM3Ny45MTg1IDE0LjE3ODggNzguODg5IDE0LjU5NyA3OS42MDA4IDE1LjMyNTdMODEuMTc0NCAxMy42NDU4QzgwLjY4MDYgMTMuMDU4MSA4MC4wNTIxIDEyLjU5OSA3OS4zNDI3IDEyLjMwNzFDNzguNTkxIDExLjk5NjYgNzcuNzgzNyAxMS44NDExIDc2Ljk3MDQgMTEuODQ5NUM3NS4zNzA1IDExLjc4NTYgNzMuODE3NyAxMi4zOTY0IDcyLjY5MDEgMTMuNTMyNUM3MC41MDU3IDE1LjkzNjUgNzAuNTA1NyAxOS42MDY3IDcyLjY5MDEgMjIuMDEwN0M3My44MTg1IDIzLjE0NTIgNzUuMzcxMyAyMy43NTQ1IDc2Ljk3MDQgMjMuNjg5OEM3OC41NzE3IDIzLjc1OTEgODAuMTE3NiAyMy4wOTgyIDgxLjE3NDQgMjEuODkzNkw3OS42NTkzIDIwLjE5OUM3OC45MjgzIDIwLjkzNjIgNzcuOTM3OCAyMS4zNTc1IDc2LjkwMDMgMjEuMzcyOVoiIGZpbGw9IiNGMkYyRjIiLz4NCjxwYXRoIGQ9Ik05MS42OTU4IDEzLjA5OTZDOTAuODEzOSAxMi4yNTQ3IDg5LjYyNzcgMTEuODA0MSA4OC40MDc2IDExLjg0OTVDODcuMzM1NCAxMS43ODQgODYuMzAxOCAxMi4xNjYxIDg1LjUyNjkgMTIuODc0N0w4NC45NTYxIDEyLjE0M0g4Mi41MTM3VjIzLjM5MDlIODQuOTc4NVYxNy4xNTE5Qzg0LjkzNDYgMTYuMzQwMSA4NS4yMzggMTUuNTQ4MyA4NS44MTI3IDE0Ljk3MzZDODYuMzcyNiAxNC40NDM3IDg3LjEyMTMgMTQuMTU4IDg3Ljg5MjMgMTQuMTgxMUM4OC42MTg3IDE0LjEzODcgODkuMzI2NSAxNC40MjE0IDg5LjgyNDEgMTQuOTUxM0M5MC4zMTcxIDE1LjU2NiA5MC41NjIgMTYuMzQzMiA5MC41MTEyIDE3LjEyOTZWMjMuMzg4Nkg5Mi45NzZWMTYuMzIzMUM5My4wMTk5IDE1LjExNjkgOTIuNTU1NCAxMy45NDc3IDkxLjY5NTggMTMuMDk5NloiIGZpbGw9IiNGMkYyRjIiLz4NCjxwYXRoIGQ9Ik0xMDIuNjc1IDEyLjE0MzhWMTguNDAyOEMxMDIuNzQ3IDE5LjIyNDcgMTAyLjQ3NyAyMC4wMzk2IDEwMS45MyAyMC42NTY2QzEwMC43NjYgMjEuNjEzMiA5OS4wODgxIDIxLjYxMzIgOTcuOTI0MyAyMC42NTY2Qzk3LjM3NTkgMjAuMDM5NiA5Ny4xMDYzIDE5LjIyNDcgOTcuMTc4NyAxOC40MDI4VjEyLjE0MzhIOTQuNzEzOVYxOC42MjYyQzk0LjY5OTIgMTkuNDExMSA5NC44NDcxIDIwLjE5MDYgOTUuMTQ5MSAyMC45MTU0Qzk1LjQwNDggMjEuNTM2MiA5NS44MTIzIDIyLjA4MzkgOTYuMzM0NSAyMi41MDY3Qzk2LjgzMDUgMjIuODk5NiA5Ny4zOTM2IDIzLjIgOTcuOTk1OSAyMy4zOTMzQzk5LjI1MzcgMjMuNzg0NiAxMDAuNjAyIDIzLjc4NDYgMTAxLjg1OSAyMy4zOTMzQzEwMi40NjEgMjMuMjAwNyAxMDMuMDIyIDIyLjkwMDMgMTAzLjUxNiAyMi41MDY3QzEwNC4wMzUgMjIuMDgxNiAxMDQuNDQzIDIxLjUzNTQgMTA0LjcwMiAyMC45MTU0QzEwNS4wMDcgMjAuMTkxNCAxMDUuMTU3IDE5LjQxMTkgMTA1LjE0MiAxOC42MjYyTDEwNS4xNCAxMi4xNDM4SDEwMi42NzVaIiBmaWxsPSIjRjJGMkYyIi8+DQo8cGF0aCBkPSJNMTE1LjYwNSAxMi4xNDM4TDExMi4yODEgMjAuODQ2OEwxMDguOTU4IDEyLjE0MzhIMTA2LjI4TDExMC44MDIgMjMuMzg4N0gxMTMuNzE0TDExOC4yMTEgMTIuMTQzOEgxMTUuNjA1WiIgZmlsbD0iI0YyRjJGMiIvPg0KPHBhdGggZD0iTTEyMy42NzIgMTEuODQ5NEMxMjIuMTUxIDExLjc5MjQgMTIwLjY3OSAxMi4zODg2IDExOS42MjYgMTMuNDg3QzExOC41NjEgMTQuNjUxNiAxMTguMDAyIDE2LjE5MDYgMTE4LjA3IDE3Ljc2NzNDMTE3Ljk5OSAxOS4zNTYzIDExOC41NzggMjAuOTA2IDExOS42NzMgMjIuMDU5OUMxMjAuNzcxIDIzLjE1NTkgMTIyLjI3NSAyMy43NDUyIDEyMy44MjUgMjMuNjg1OUMxMjUuNTA5IDIzLjc0MjEgMTI3LjE1NSAyMy4xNzgzIDEyOC40NTEgMjIuMTAwN0wxMjcuMjMgMjAuMzUxNUMxMjYuMzE4IDIxLjExNDggMTI1LjE2NyAyMS41MzQ2IDEyMy45NzcgMjEuNTM2OUMxMjMuMTgzIDIxLjU1NjEgMTIyLjQwNiAyMS4zMDM1IDEyMS43NzUgMjAuODIwNUMxMjEuMTI3IDIwLjI4MjEgMTIwLjcxNSAxOS41MTAzIDEyMC42MzEgMTguNjcxNUgxMjguOTQ0QzEyOC45NzkgMTguMzY3MyAxMjguOTk1IDE4LjA2MTUgMTI4Ljk5MiAxNy43NTU3QzEyOS4wNiAxNi4xOTYgMTI4LjUzMSAxNC42NjkzIDEyNy41MTIgMTMuNDg3QzEyNi41MzcgMTIuNDAwMiAxMjUuMTMxIDExLjgwMDIgMTIzLjY3MiAxMS44NDk0Wk0xMjAuNjQyIDE2LjgwNDVDMTIwLjcyNCAxNi4wNDE5IDEyMS4wNTkgMTUuMzI4NyAxMjEuNTkzIDE0Ljc3OTVDMTIyLjE0MiAxNC4yNjY1IDEyMi44NzQgMTMuOTk3NyAxMjMuNjI1IDE0LjAzMzFDMTI0LjMzMyAxNC4wMDc3IDEyNS4wMjIgMTQuMjcwMyAxMjUuNTMzIDE0Ljc2MUMxMjYuMDY1IDE1LjMxOTQgMTI2LjM5NyAxNi4wMzgxIDEyNi40NzggMTYuODA0NUgxMjAuNjQyWiIgZmlsbD0iI0YyRjJGMiIvPg0KPHBhdGggZD0iTTE0Ny44MDUgMTMuMDk5N0MxNDYuOTIzIDEyLjI1NDcgMTQ1LjczNyAxMS44MDQxIDE0NC41MTYgMTEuODQ5NkMxNDIuNTkgMTEuODQ5NiAxNDEuMjIxIDEyLjUxODIgMTQwLjQwOCAxMy44NTY5QzE0MC4wMTYgMTMuMjI5MSAxMzkuNDYyIDEyLjcxODQgMTM4LjgwNSAxMi4zNzcyQzEzOC4wOTkgMTIuMDE2NyAxMzcuMzE0IDExLjgzNTcgMTM2LjUyIDExLjg0OTZDMTM1LjQ1NCAxMS43ODQxIDEzNC40MjQgMTIuMTYxNSAxMzMuNjUgMTIuODY0TDEzMy4xNDYgMTIuMjQ0TDEzMy4wNjcgMTIuNDQ0MlYxMi4xNDIzSDEzMC42MjVWMjMuMzkyNUgxMzMuMDlWMTcuMTUzNUMxMzMuMDQ2IDE2LjM0MTcgMTMzLjM0OSAxNS41NDk5IDEzMy45MjMgMTQuOTc1M0MxMzQuNDg0IDE0LjQ0NTMgMTM1LjIzMiAxNC4xNjAzIDEzNi4wMDMgMTQuMTgyN0MxMzYuNzI5IDE0LjE0MDMgMTM3LjQzNiAxNC40MjMgMTM3LjkzNCAxNC45NTI5QzEzOC40MjcgMTUuNTY3NiAxMzguNjcyIDE2LjM0NDggMTM4LjYyMSAxNy4xMzEyVjIzLjM5MDJIMTQxLjA4NlYxNy4xNTEyQzE0MS4wNDIgMTYuMzM5NCAxNDEuMzQ1IDE1LjU0NzYgMTQxLjkyIDE0Ljk3M0MxNDIuNDggMTQuNDQzIDE0My4yMjkgMTQuMTU3MyAxNDQgMTQuMTgwNEMxNDQuNzI2IDE0LjEzOCAxNDUuNDM0IDE0LjQyMDcgMTQ1LjkzMSAxNC45NTA2QzE0Ni40MjQgMTUuNTY1MyAxNDYuNjY5IDE2LjM0MjUgMTQ2LjYxOCAxNy4xMjg5VjIzLjM4NzlIMTQ5LjA4M1YxNi4zMjI0QzE0OS4xMjcgMTUuMTE2MiAxNDguNjYzIDEzLjk0NyAxNDcuODA0IDEzLjA5ODlMMTQ3LjgwNSAxMy4wOTk3WiIgZmlsbD0iI0YyRjJGMiIvPg0KPC9nPg0KPGRlZnM+DQo8Y2xpcFBhdGggaWQ9ImNsaXAwXzE4XzY4NyI+DQo8cmVjdCB3aWR0aD0iMTQ4Ljg4OCIgaGVpZ2h0PSIzMiIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMTk5MjE5KSIvPg0KPC9jbGlwUGF0aD4NCjwvZGVmcz4NCjwvc3ZnPg0K" alt="Docnuvem" style="height: 30px; width: auto; display: block"> <span class="muted" style="font-weight: 500; font-size: 17px; padding-left: 10px; border-left: 1px solid var(--border)">Manual</span></a>
+<nav class="dn-nav" aria-label="Principal">
+<a class="on" href="#">Início</a>
+<a href="#modulos">Módulos</a>
+<a href="#">Perguntas frequentes</a>
+</nav>
+<div class="dn-sp"></div>
+<button class="dn-iconbtn" aria-label="Alternar tema claro/escuro"><svg class="ic" viewBox="0 0 24 24"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+</header>
+
+<section class="dn-hero">
+<h1>Como podemos ajudar?</h1>
+<p>Encontre o passo a passo de qualquer função do Docnuvem.</p>
+<div class="box">
+<label class="dn-search">
+<svg class="ic" viewBox="0 0 24 24"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg>
+<input type="search" placeholder="Busque por assinatura, tarefa, permissão…" aria-label="Buscar no manual">
+<span class="dn-kbd">Ctrl K</span>
+</label>
+<a class="dn-btn" href="#"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Baixar manual (PDF)</a>
+</div>
+</section>
+
+<section class="dn-sec">
+<h2>O que você quer fazer?</h2>
+<div class="dn-grid" style="grid-template-columns: repeat(5, minmax(0, 1fr))">
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></svg></span>
+<b>Primeiros passos</b>
+<span class="d">Acesse o sistema e conheça a tela inicial.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21l3-1 12-12-2-2L4 18l-1 3zM14 6l2 2"/></svg></span>
+<b>Enviar documento para assinatura</b>
+<span class="d">Peça a assinatura de quem precisa assinar.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M3 13l3-8h12l3 8v6H3v-6zM3 13h5l1 3h6l1-3h5"/></svg></span>
+<b>Solicitar documentos</b>
+<span class="d">Peça arquivos a clientes e fornecedores.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
+<b>Configurar usuários</b>
+<span class="d">Cadastre pessoas e defina permissões.</span>
+</a>
+
+<a class="dn-card" href="#">
+<span class="ib"><svg class="ic" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+<b>Criar uma tarefa</b>
+<span class="d">Organize o trabalho no Módulo de Tarefas.</span>
+</a>
+
+</div>
+</section>
+
+<section class="dn-sec" id="modulos" style="padding-top: 8px">
+<h2>Módulos do manual</h2>
+<div class="dn-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr))">
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></span>
+<span>Acessando o Sistema</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg></span>
+<span>Dashboard</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5zM14 3v5h5"/></svg></span>
+<span>Meus documentos</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg></span>
+<span>Busca avançada</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span>
+<span>Notificações</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M8 8h12v12H8zM4 16V4h12"/></svg></span>
+<span>Meus modelos</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
+<span>Meus cadastros</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01"/></svg></span>
+<span>Tipos cadastrados</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></span>
+<span>Arquivos</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+<span>Relatórios</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M3 4h6v16H3zM15 4h6v10h-6z"/></svg></span>
+<span>Módulo de Tarefas</span>
+
+</a>
+
+<a class="dn-mod off" href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16z"/></svg></span>
+<span>Assistente IADoc</span>
+<span class="dn-soon">em breve</span>
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4"/></svg></span>
+<span>Auditoria</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span>
+<span>Lixeira</span>
+
+</a>
+
+<a class="dn-mod " href="#">
+<span class="ib"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.5M12 17h.01"/></svg></span>
+<span>Perguntas Frequentes</span>
+
+</a>
+
+</div>
+</section>
+
+<footer class="dn-foot">
+<span>Manual do cliente Docnuvem</span>
+<a href="#">Baixar manual (PDF)</a>
+</footer>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
