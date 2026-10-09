@@ -34,7 +34,7 @@ const inlineHtml = (s) =>
 const rel = {
   excluidas: [], quebrados: new Map(), imagensAusentes: [], imagensAmbiguas: [],
   placeholders: new Map(), placeholdersComImagem: [], foraDoMenu: [], vazias: [],
-  duplicadasNoMenu: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
+  duplicadasNoMenu: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
 };
 const somar = (mapa, k, n = 1) => mapa.set(k, (mapa.get(k) || 0) + n);
 const empurrar = (mapa, k, v) => { if (!mapa.has(k)) mapa.set(k, []); mapa.get(k).push(v); };
@@ -82,22 +82,26 @@ function parseWiki(conteudo) {
   const [alvo, ...sec] = alvoBruto.split('#');
   return { alvo: alvo.trim(), secao: sec.length ? sec.join('#').trim() : null, alias };
 }
+// Aplica fn só ao texto fora de blocos (```) e de código inline (`).
+const fora = (t, fn) => t.split(/(```[\s\S]*?```|`[^`\n]*`)/g).map((parte, i) => (i % 2 ? parte : fn(parte))).join('');
 const resolverNota = (alvo) => notas.get(chave(alvo.replace(/\.md$/i, '').split('/').pop()));
 
 // ---------- 3. Alcance a partir da raiz ----------
 const raiz = notas.get(chave(config.notaRaiz));
 const alcancadas = []; // ordem DFS
 const vistas = new Set();
+const descobertaPor = new Map(); // rel -> nota que a descobriu
 function visitar(nota) {
   if (vistas.has(nota.rel)) return;
   vistas.add(nota.rel);
   alcancadas.push(nota);
-  for (const m of nota.texto.matchAll(RE_WIKI)) {
+  const textoSemCodigo = fora(nota.texto, (x) => x).split(/(```[\s\S]*?```|`[^`\n]*`)/g).filter((_, i) => i % 2 === 0).join('\n');
+  for (const m of textoSemCodigo.matchAll(RE_WIKI)) {
     if (m[1]) continue; // embed
     const { alvo } = parseWiki(m[2]);
     if (!alvo) continue;
     const dest = resolverNota(alvo);
-    if (dest) visitar(dest);
+    if (dest) { if (!vistas.has(dest.rel)) descobertaPor.set(dest.rel, nota); visitar(dest); }
   }
 }
 visitar(raiz);
@@ -107,12 +111,21 @@ const slugs = new Map(); // rel -> slug
 const usados = new Set(['index']);
 for (const n of alcancadas) {
   if (n === raiz) { slugs.set(n.rel, 'index'); continue; }
-  let s = slugify(n.nome) || 'pagina';
+  let s = n.rel.replace(/\.md$/, '').split('/').map(slugify).filter(Boolean).join('/') || 'pagina';
   if (usados.has(s)) { let i = 2; while (usados.has(`${s}-${i}`)) i++; rel.colisoesSlug.push(`Slug repetido "${s}" para "${n.rel}" → "${s}-${i}"`); s = `${s}-${i}`; }
   usados.add(s);
   slugs.set(n.rel, s);
 }
 const base = config.base.replace(/\/?$/, '/');
+const slugsDeTitulos = new Map(); // rel -> Set de âncoras
+const ancorasDe = (nota) => {
+  if (!slugsDeTitulos.has(nota.rel)) {
+    const set = new Set();
+    for (const l of nota.texto.split('\n')) { const m = l.match(/^#{1,6}\s+(.+?)\s*$/); if (m) set.add(slugHeading(m[1])); }
+    slugsDeTitulos.set(nota.rel, set);
+  }
+  return slugsDeTitulos.get(nota.rel);
+};
 const urlDe = (nota) => (nota === raiz ? base : `${base}${slugs.get(nota.rel)}/`);
 
 // ---------- 5. Menu a partir dos sumários ----------
@@ -164,13 +177,31 @@ function itemSidebar(no) {
     items: [{ label: 'Visão geral', link }, ...no.filhos.map(itemSidebar)],
   };
 }
+// Nota alcançável fora de qualquer sumário: vai para o fim do módulo de onde foi descoberta.
+const modulos = topo;
+const noDeNota = (nos, rel_) => { for (const n of nos) { if (n.nota.rel === rel_) return n; const f = noDeNota(n.filhos, rel_); if (f) return f; } return null; };
+const moduloDe = (rel_) => modulos.find((m) => m.nota.rel === rel_ || noDeNota(m.filhos, rel_));
+for (const n of alcancadas) {
+  if (n === raiz || noMenu.has(n.rel)) continue;
+  let origem = descobertaPor.get(n.rel);
+  let mod = null;
+  while (origem && !(mod = moduloDe(origem.rel))) origem = descobertaPor.get(origem.rel);
+  if (mod) { mod.filhos.push({ nota: n, filhos: [] }); noMenu.set(n.rel, 1); rel.foraDoMenu.push(`${n.rel} (anexada ao módulo "${mod.nota.nome}")`); }
+}
 const sidebar = [
   { label: 'Início', link: base },
   { label: 'Baixar o manual em PDF', link: `${base}${config.arquivoPdf}`, attrs: { download: true, target: '_blank' } },
-  ...topo.map(itemSidebar),
+  ...topo.map((no) => {
+    const item = itemSidebar(no);
+    if (!no.filhos.length && /\(Aguardando cadastro de notas\)/.test(no.nota.texto)) {
+      item.badge = { text: 'em breve', variant: 'caution' };
+      rel.emBreve.push(no.nota.rel);
+    }
+    return item;
+  }),
 ];
 for (const [r, n] of noMenu) if (n > 1) rel.duplicadasNoMenu.push(`${r} (${n}x)`);
-for (const n of alcancadas) if (n !== raiz && !noMenu.has(n.rel)) rel.foraDoMenu.push(n.rel);
+for (const n of alcancadas) if (n !== raiz && !noMenu.has(n.rel)) rel.foraDoMenu.push(`${n.rel} (sem módulo de origem)`);
 
 // ---------- 6. Imagens ----------
 const imagensUsadas = new Map(); // rel -> true
@@ -208,16 +239,20 @@ function transformar(nota) {
   // placeholders de print (podem ter ou não "Instrução")
   t = t.replace(/^\[Print sugerido:\s*([^|\]\n]+?)\s*(?:\|\s*Instrução:\s*([^\]\n]*?))?\s*\]\s*$/gm, (_, caminho, instrucao) => placeholder(caminho, instrucao, nota));
 
-  // wikilinks
-  t = t.replace(RE_WIKI, (inteiro, bang, conteudo) => {
+  // wikilinks (fora de código)
+  t = fora(t, (trecho) => trecho.replace(RE_WIKI, (inteiro, bang, conteudo) => {
     if (bang) return inteiro;
     const { alvo, secao: sec, alias } = parseWiki(conteudo);
     const texto = alias || (sec ? `${alvo} › ${sec}` : alvo);
     const dest = alvo ? resolverNota(alvo) : nota;
     if (!dest) { empurrar(rel.quebrados, nota.rel, alvo + (sec ? `#${sec}` : '')); return texto; }
-    const ancora = sec ? `#${slugHeading(sec)}` : '';
+    let ancora = '';
+    if (sec) {
+      if (ancorasDe(dest).has(slugHeading(sec))) ancora = `#${slugHeading(sec)}`;
+      else rel.secoesInexistentes.push(`${nota.rel}: [[${alvo}#${sec}]]`);
+    }
     return `[${texto}](${urlDe(dest)}${ancora})`;
-  });
+  }));
 
   // avisos em blockquote: "> **Importante:** texto"
   t = t.replace(/^((?:>[^\n]*\n?)+)/gm, (bloco) => {
@@ -229,23 +264,17 @@ function transformar(nota) {
     return `:::${tipo}[${m[1].trim()}]\n${m[2].trim()}\n:::\n`;
   });
 
-  // avisos em seção: "## Importante", "## Resultado esperado"...
-  t = t.split('\n');
-  const saida = [];
-  for (let i = 0; i < t.length; i++) {
-    const m = t[i].match(/^##\s+(.+?)\s*$/);
-    const tipo = m && TIPOS_ROTULO[chave(m[1])];
-    if (!tipo) { saida.push(t[i]); continue; }
-    let j = i + 1;
-    while (j < t.length && !/^#{1,6}\s+/.test(t[j])) j++;
-    const corpo = t.slice(i + 1, j).join('\n').trim();
-    if (corpo) {
-      rel.avisosConvertidos++;
-      saida.push(`:::${tipo}[${m[1].trim()}]`, corpo, ':::', '');
-    }
-    i = j - 1;
+  // "## Guias relacionados" vira "## Veja também", no fim da página
+  const linhas = t.split('\n');
+  const ini = linhas.findIndex((l) => /^##\s+Guias relacionados\s*$/.test(l));
+  if (ini >= 0) {
+    let fim = linhas.length;
+    for (let k = ini + 1; k < linhas.length; k++) if (/^#{1,2}\s+/.test(linhas[k])) { fim = k; break; }
+    const bloco = linhas.splice(ini, fim - ini);
+    bloco[0] = '## Veja também';
+    linhas.push('', ...bloco);
   }
-  return saida.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  return linhas.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
 }
 
 function figura(ref, legenda, nota) {
@@ -261,16 +290,21 @@ function figura(ref, legenda, nota) {
 
 function placeholder(caminho, instrucao, nota) {
   somar(rel.placeholders, nota.rel);
-  if (imagens.some((i) => i.rel === nfc(caminho.trim()))) rel.placeholdersComImagem.push(`${nota.rel}: ${caminho}`);
+  if (imagens.some((i) => i.rel === nfc(caminho.trim()))) {
+    rel.placeholdersComImagem.push(`${nota.rel}: ${caminho}`);
+    return figura(caminho, null, nota);
+  }
   if (!config.SHOW_PRINT_PLACEHOLDERS) return '';
-  return `\n<figure class="print-placeholder" data-print="${escHtml(caminho)}"><span class="print-placeholder__tag">Print a inserir</span>${instrucao ? `<p>${inlineHtml(instrucao)}</p>` : ''}<figcaption>${escHtml(caminho)}</figcaption></figure>\n`;
+  return `\n<figure class="print-placeholder" data-pagefind-ignore data-print="${escHtml(caminho)}"><span class="print-placeholder__tag">Imagem em breve</span>${instrucao ? `<p>${inlineHtml(instrucao)}</p>` : ''}<figcaption>${escHtml(caminho)}</figcaption></figure>\n`;
 }
 
 function descricao(corpo) {
   for (const par of corpo.split(/\n\s*\n/)) {
     const p = par.trim();
     if (!p || /^(#|:::|<|[-*]\s|\||!)/.test(p)) continue;
-    const limpo = p.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*_`]/g, '').replace(/\s+/g, ' ');
+    let limpo = p.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[*_`]/g, '').replace(/\s+/g, ' ');
+    const fim = limpo.search(/[.!?](\s|$)/);
+    if (fim > 0) limpo = limpo.slice(0, fim + 1);
     return limpo.length > 160 ? limpo.slice(0, 157).trimEnd() + '…' : limpo;
   }
   return config.descricao;
@@ -295,7 +329,9 @@ for (const nota of alcancadas) {
   const fm = ['---', `title: ${JSON.stringify(titulo)}`, `description: ${JSON.stringify(descricao(corpo))}`, `editUrl: false`];
   if (nota === raiz) fm.push('tableOfContents: false');
   fm.push('---', '');
-  fs.writeFileSync(path.join(SAIDA_DOCS, `${slug}.md`), fm.join('\n') + corpo);
+  const destino = path.join(SAIDA_DOCS, `${slug}.md`);
+  fs.mkdirSync(path.dirname(destino), { recursive: true });
+  fs.writeFileSync(destino, fm.join('\n') + corpo);
   manual.push({ slug, titulo, origem: nota.rel });
 }
 for (const r of imagensUsadas.keys()) {
@@ -355,8 +391,14 @@ ${lista(rel.placeholdersComImagem)}
 ## Páginas vazias ou "aguardando cadastro"
 ${lista(rel.vazias)}
 
-## Publicadas mas fora do menu (alcançadas só por link no texto)
+## Publicadas mas fora de qualquer sumário (anexadas ao módulo de origem)
 ${lista(rel.foraDoMenu)}
+
+## Módulos "em breve" (só a nota do módulo, selo no menu)
+${lista(rel.emBreve)}
+
+## Seções "[[Nota#Seção]]" inexistentes (link vai para a nota)
+${lista(rel.secoesInexistentes)}
 
 ## Notas que aparecem mais de uma vez no menu
 ${lista(rel.duplicadasNoMenu)}

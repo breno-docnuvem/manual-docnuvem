@@ -32,15 +32,11 @@ export default {
   pastasExcluidas: ['TODO'],
   notasExcluidas: ['Diretrizes de escrita do manual', 'Diretrizes de geração de manuais'],
 
-  // Seções "## Título" e blockquotes "> **Título:**" que viram avisos (asides do Starlight).
-  // Tipos: note | tip | caution | danger
+  // Avisos: citações "> **Importante:** ..." viram blocos de destaque (CONTENT-SPEC, seção 5).
+  // Tipos do Starlight: note | tip | caution | danger. Prefixo desconhecido fica como citação.
   avisos: {
-    'pré-requisito': 'note',
     'importante': 'caution',
-    'atenção': 'caution',
     'observação': 'note',
-    'nota': 'note',
     'dica': 'tip',
-    'resultado esperado': 'tip',
   },
 };
