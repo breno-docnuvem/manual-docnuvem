@@ -97,6 +97,16 @@ Cada uma existe em **claro e escuro** no mesmo arquivo.
 3. **Menu no celular** (`design/menu-celular.html`): gaveta aberta sobre o artigo, ao lado do artigo com menu fechado (trilha, h1, lead, "Nesta página" recolhível, passo 1 com figura).
 4. **Busca** (`design/busca.html`): resultados com trecho e termo destacado.
 
+### 4.1 Conformidade da home e do cabeçalho (revisão 2026-10-09, após ver o site publicado)
+
+O site no ar saiu diferente do protótipo em três pontos. O protótipo (`design/home.html`) é a referência:
+
+1. **Hero em faixa de largura total.** A faixa do título + busca + botão PDF vai de borda a borda da janela (sob o cabeçalho), com degradê vertical de `surface` (topo) para `bg` (base), de modo que **não aparece borda nem retângulo**: ela se dissolve no fundo da página. No site ela está confinada à largura da coluna de conteúdo e aparece como um painel retangular mais claro que o fundo. O conteúdo interno continua centralizado (títulos e busca com máx. 640 px; seções abaixo com máx. 1120 px).
+2. **Fundo uniforme.** Cabeçalho, página e áreas laterais usam o **mesmo `bg`**; o cabeçalho se separa só por uma borda inferior de 1 px `border`, sem fundo mais claro. No site o cabeçalho e o painel aparecem num tom mais claro que o resto da página (escuro: `#17212C` contra `#101820`).
+3. **Cabeçalho da home.** No protótipo da home o cabeçalho é: logo + "Manual", links *Início · Módulos · Perguntas frequentes* e o alternador de tema (ícone de lua/sol). A busca fica só no hero. Nas páginas de artigo o cabeçalho é: logo + "Manual", **busca pequena** (44 px, fundo `surface`), botão secundário **Baixar PDF** e o alternador de tema. Aceita-se usar o cabeçalho nativo do Starlight (busca + Baixar PDF + seletor de tema) **nas duas** desde que, na home, a busca do cabeçalho fique oculta (já existe a busca grande no hero) e o seletor de tema seja só o ícone, sem rótulo "Auto/Escuro".
+
+Medidas da home para conferir: hero com padding vertical 72/48 px; título 44 px; seção "O que você quer fazer?" com 5 cartões em uma linha (≥1120 px de largura); módulos em 4 colunas.
+
 Os blocos "Pré-requisito", "Resultado esperado", Importante, Dica e Observação no exemplo são **ilustrativos** (a nota atual do vault não os tem). As capturas nos protótipos são desenhos de exemplo, não prints reais.
 
 ## 5. Responsividade
