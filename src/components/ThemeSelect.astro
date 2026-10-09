@@ -1,0 +1,65 @@
+---
+// Seletor de tema próprio (botão com ícone + menu), no lugar do <select> nativo do Starlight:
+// o menu nativo não obedece às cores do tema. Mesma lógica de armazenamento do Starlight
+// (localStorage "starlight-theme": "light" | "dark" | "" = automático).
+---
+
+<starlight-theme-select>
+  <button type="button" class="dn-theme-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Alterar tema">
+    <svg class="ic ic-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+    <svg class="ic ic-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+  </button>
+  <ul class="dn-theme-menu" role="menu" hidden>
+    <li role="none"><button type="button" role="menuitemradio" data-tema="light" aria-checked="false"><span class="check" aria-hidden="true">✓</span>Claro</button></li>
+    <li role="none"><button type="button" role="menuitemradio" data-tema="dark" aria-checked="false"><span class="check" aria-hidden="true">✓</span>Escuro</button></li>
+    <li role="none"><button type="button" role="menuitemradio" data-tema="auto" aria-checked="false"><span class="check" aria-hidden="true">✓</span>Automático</button></li>
+  </ul>
+</starlight-theme-select>
+
+<script is:inline>
+  (function () {
+    if (customElements.get('starlight-theme-select')) return;
+    class DnThemeSelect extends HTMLElement {
+      // o elemento pode ser criado antes dos filhos (segunda cópia, no rodapé da gaveta): iniciar ao conectar
+      connectedCallback() {
+        if (this.pronto) return;
+        this.pronto = true;
+        this.botao = this.querySelector('.dn-theme-btn');
+        this.menu = this.querySelector('.dn-theme-menu');
+        if (!this.botao || !this.menu) { this.pronto = false; return; }
+        this.escolhido = this.guardado();
+        this.marcar();
+        this.botao.addEventListener('click', (e) => { e.stopPropagation(); this.alternar(); });
+        this.menu.addEventListener('click', (e) => {
+          const item = e.target.closest('[data-tema]');
+          if (!item) return;
+          this.aplicar(item.dataset.tema);
+          this.alternar(false);
+          this.botao.focus();
+        });
+        document.addEventListener('click', () => this.alternar(false));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.alternar(false); });
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (this.escolhido === 'auto') this.aplicar('auto'); });
+      }
+      guardado() {
+        try { const v = localStorage.getItem('starlight-theme'); return v === 'light' || v === 'dark' ? v : 'auto'; } catch (e) { return 'auto'; }
+      }
+      alternar(abrir) {
+        const vaiAbrir = abrir === undefined ? this.menu.hidden : abrir;
+        this.menu.hidden = !vaiAbrir;
+        this.botao.setAttribute('aria-expanded', String(vaiAbrir));
+      }
+      aplicar(tema) {
+        this.escolhido = tema;
+        const efetivo = tema === 'auto' ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : tema;
+        document.documentElement.dataset.theme = efetivo;
+        try { localStorage.setItem('starlight-theme', tema === 'auto' ? '' : tema); } catch (e) {}
+        this.marcar();
+      }
+      marcar() {
+        this.menu.querySelectorAll('[data-tema]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.tema === this.escolhido)));
+      }
+    }
+    customElements.define('starlight-theme-select', DnThemeSelect);
+  })();
+</script>

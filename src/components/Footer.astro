@@ -16,6 +16,7 @@ const href = `${config.base.replace(/\/?$/, '/')}${config.arquivoPdf}`;
     var alvo = e.target.closest && e.target.closest('[data-abrir-busca]');
     if (!alvo) return;
     var botao = document.querySelector('site-search button');
-    if (botao) botao.click();
+    // adia: o clique original ainda sobe até a janela e fecharia o diálogo recém-aberto
+    if (botao) setTimeout(function () { botao.click(); }, 0);
   });
 </script>
