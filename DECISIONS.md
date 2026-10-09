@@ -54,3 +54,8 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 **Decisão:** o histórico antes mantido no Google Drive (`historico-manual-docnuvem.txt`) passa a ser registrado em `docs/handoffs/`.
 **Motivo:** um único lugar, versionado, lido por todos os chats.
 
+## 2026-10-09 — Coautoria dos commits: conta brenonunesbatista
+
+**Decisão:** commits feitos pelos chats incluem `Co-authored-by` para a conta GitHub `brenonunesbatista` (e-mail noreply do GitHub, em `CLAUDE.md`). O autor continua sendo "Claude".
+**Motivo:** o Breno é o responsável pelo conteúdo e pelo push; a conta dele aparece como colaboradora no GitHub. Commits anteriores não foram reescritos.
+

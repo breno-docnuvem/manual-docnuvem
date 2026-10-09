@@ -94,7 +94,7 @@ Os chats compartilham a mesma cópia local do repositório, então o cuidado é 
 
 - O Breno faz o `push` pelo GitHub Desktop. **Nenhum chat roda `git push`.**
 - Commits pequenos e frequentes, com `git add` **por caminho**, nunca `git add -A` ou `git add .`.
-- Mensagem no formato `área: o que mudou`.
+- Mensagem no formato `área: o que mudou`. Termine a mensagem com a linha de coautoria definida no `CLAUDE.md` (`Co-authored-by: brenonunesbatista ...`).
 - Antes de começar, `git status`: alterações que não são suas pertencem a outro chat (ou ao Breno) e ficam fora do seu commit.
 - Nada de `--force`, `reset --hard`, `clean -fd` ou reescrita de histórico. Para desfazer algo, use `git revert` e explique no handoff.
 - Antes de uma operação grande no vault ou no código, faça um commit de ponto de retorno.
