@@ -1,0 +1,60 @@
+/* Estilo do PDF (página /manual-completo/). Usa os tokens de tokens.css. */
+/* cinzas e acentos vêm de tokens.css (tema claro) */
+:root { --sl-text-sm: 0.85rem; --sl-text-xs: 0.75rem; }
+@page { size: A4; margin: 22mm 18mm 22mm 18mm; @bottom-center { content: 'Manual Docnuvem · página ' counter(page); font: 9pt var(--sl-font); color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+
+html { font: 11pt/1.55 var(--sl-font); color: #1c2230; }
+body { margin: 0; }
+a { color: var(--sl-color-accent); text-decoration: none; }
+code { font-family: var(--sl-font-mono); font-size: 0.9em; }
+img { max-width: 100%; height: auto; }
+
+.capa { height: 235mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; border-left: 8mm solid var(--sl-color-accent); padding-left: 14mm; }
+.capa__marca { font-size: 14pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sl-color-accent); margin: 0; }
+.capa h1 { font-size: 36pt; line-height: 1.1; margin: 4mm 0; }
+.capa__data { font-size: 13pt; color: var(--sl-color-gray-3); text-transform: capitalize; }
+
+.indice { page-break-after: always; }
+.indice__titulo { font-size: 22pt; margin: 0 0 6mm; }
+.indice ul { list-style: none; padding: 0; margin: 0; }
+.indice li { margin: 1mm 0; font-size: 10pt; }
+.indice .num { display: inline-block; min-width: 10mm; color: var(--sl-color-gray-3); }
+.indice__n1 { font-weight: 700; margin-top: 4mm; font-size: 11pt; }
+.indice__n2 { padding-left: 5mm; }
+.indice__n3 { padding-left: 10mm; font-size: 9.5pt; }
+
+.cap { margin: 0; }
+.cap--n1 { page-break-before: always; }
+.cap--n2, .cap--n3 { margin-top: 10mm; }
+.cap__titulo { font-size: 20pt; border-bottom: 2px solid var(--sl-color-accent); padding-bottom: 2mm; margin: 0 0 5mm; break-after: avoid; }
+.cap--n2 .cap__titulo { font-size: 16pt; }
+.cap--n3 .cap__titulo { font-size: 14pt; }
+.cap__titulo .num { color: var(--sl-color-accent); margin-right: 2mm; }
+.conteudo h2 { font-size: 13pt; margin: 6mm 0 2mm; break-after: avoid; }
+.conteudo h3 { font-size: 11.5pt; break-after: avoid; }
+.conteudo p, .conteudo li { orphans: 3; widows: 3; }
+.conteudo table { border-collapse: collapse; width: 100%; font-size: 10pt; break-inside: avoid; }
+.conteudo th, .conteudo td { border: 1px solid var(--sl-color-gray-5); padding: 2mm 3mm; text-align: left; vertical-align: top; }
+.conteudo th { background: var(--sl-color-gray-6); }
+
+figure { margin: 5mm 0; break-inside: avoid; }
+figure.manual-figura img { border: 1px solid var(--sl-color-gray-5); border-radius: var(--manual-raio); }
+figcaption { font-size: 9pt; color: var(--sl-color-gray-2); margin-top: 1.5mm; }
+figure.print-placeholder { padding: 4mm; background: var(--manual-placeholder-fundo); border: 1.5px dashed var(--manual-placeholder-borda); border-radius: var(--manual-raio); }
+.print-placeholder__tag { font-size: 8pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--sl-color-accent-high); }
+figure.print-placeholder p { margin: 1mm 0 0; }
+figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-size: 8pt; word-break: break-all; }
+
+.starlight-aside { margin: 4mm 0; padding: 3mm 4mm; border: 1px solid; border-radius: var(--dn-r-md); break-inside: avoid; }
+.starlight-aside--caution { background: var(--dn-imp-bg); border-color: var(--dn-imp-bd); color: var(--dn-imp-tx); }
+.starlight-aside--note { background: var(--dn-obs-bg); border-color: var(--dn-obs-bd); color: var(--dn-obs-tx); }
+.starlight-aside--tip { background: var(--dn-dica-bg); border-color: var(--dn-dica-bd); color: var(--dn-dica-tx); }
+.starlight-aside__title { font-weight: 700; margin: 0 0 1mm; }
+.starlight-aside__content > :first-child { margin-top: 0; }
+.starlight-aside__content > :last-child { margin-bottom: 0; }
+
+/* Anchors do Starlight e a home interativa não fazem sentido no papel */
+.sl-anchor-link, .sr-only, .dn-hero, .dn-sec { display: none; }
+.passo { display: inline-flex; align-items: center; justify-content: center; width: 7mm; height: 7mm; margin-right: 2mm; border-radius: 50%; background: var(--sl-color-accent); color: #fff; font-weight: 700; font-size: 10pt; vertical-align: middle; }
+.starlight-aside svg { display: none; }

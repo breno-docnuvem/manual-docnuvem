@@ -1,0 +1,76 @@
+---
+// Página única com o manual inteiro, usada só para gerar o PDF (scripts/gerar-pdf.mjs).
+// Não aparece no menu nem na busca; fica com noindex.
+import { getCollection, render } from 'astro:content';
+import manual from '../generated/manual.json';
+import config from '../../site.config.mjs';
+import '../styles/tokens.css';
+import '../styles/impressao.css';
+
+const docs = new Map((await getCollection('docs')).map((d) => [d.id, d]));
+const capitulos = [];
+for (const item of manual.ordem) {
+  const entrada = docs.get(item.slug);
+  if (!entrada) continue;
+  const { Content } = await render(entrada);
+  capitulos.push({ ...item, Content });
+}
+const data = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{config.titulo}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" />
+  </head>
+  <body data-pagefind-ignore data-base={manual.base}>
+    <section class="capa">
+      <p class="capa__marca">Docnuvem</p>
+      <h1>Manual do usuário</h1>
+      <p class="capa__data">{data}</p>
+    </section>
+
+    <nav class="indice" aria-label="Índice">
+      <h1 class="indice__titulo">Índice</h1>
+      <ul>
+        {capitulos.filter((c) => c.slug !== 'index').map((c) => (
+          <li class={`indice__n${Math.min(c.nivel, 3)}`}>
+            <a href={`#${c.slug}`}><span class="num">{c.numero}</span> {c.titulo}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {capitulos.map((c) => (
+      <section id={c.slug} class={`cap cap--n${Math.min(c.nivel, 3)}`} data-slug={c.slug}>
+        <h1 class="cap__titulo">{c.numero && <span class="num">{c.numero}</span>} {c.titulo}</h1>
+        <div class="conteudo"><c.Content /></div>
+      </section>
+    ))}
+
+    <script is:inline>
+      // Ids repetidos entre páginas (ex.: "1-cadastrar") ganham prefixo; links internos viram âncoras do documento.
+      (function () {
+        var base = document.body.dataset.base || '/';
+        var secoes = {};
+        document.querySelectorAll('section.cap').forEach(function (s) {
+          secoes[s.dataset.slug] = true;
+          s.querySelectorAll('[id]').forEach(function (el) { if (el !== s) el.id = s.dataset.slug + '--' + el.id; });
+        });
+        document.querySelectorAll('.conteudo a[href]').forEach(function (a) {
+          var u = new URL(a.getAttribute('href'), location.href);
+          if (u.origin !== location.origin) return;
+          var p = u.pathname;
+          if (p.indexOf(base) === 0) p = p.slice(base.length);
+          p = p.replace(/\/$/, '') || 'index';
+          if (!secoes[p]) return;
+          a.setAttribute('href', u.hash ? '#' + p + '--' + u.hash.slice(1) : '#' + p);
+        });
+        document.querySelectorAll('img').forEach(function (i) { i.loading = 'eager'; });
+      })();
+    </script>
+  </body>
+</html>

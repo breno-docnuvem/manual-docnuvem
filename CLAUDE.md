@@ -30,18 +30,16 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 
 ## Git
 
-- O Breno faz o **push** pelo GitHub Desktop. **Nunca rode `git push`**, e nunca use `--force`, `reset --hard`, `clean -fd` ou reescrita de histórico.
+- O Breno faz o **push** pelo GitHub Desktop; chats rodando na pasta dele **nunca rodam `git push`**. Exceção (autorizada pelo Breno em 2026-10-09): sessão na nuvem, sem acesso ao GitHub Desktop, pode dar `git push` na branch de trabalho da sessão e também **direto na `main`** (o trabalho passa a ficar na `main`; cada push republica o site). Antes de cada push na `main`: `git pull` para integrar o que for novo, rodar `npm run build:completo` e conferir que passou. Em qualquer caso, nunca use `--force`, `reset --hard`, `clean -fd` ou reescrita de histórico.
 - Faça commits pequenos e frequentes na branch atual. Adicione arquivos **por caminho** (`git add caminho/arquivo`); não use `git add -A` nem `git add .`, para não levar junto o trabalho de outro chat.
 - Mensagens de commit em português, no formato `área: o que mudou` (ex.: `docs: adiciona CONTENT-SPEC inicial`). Áreas: `docs`, `design`, `site`, `pdf`, `build`, `conteudo`.
 - Antes de uma operação grande ou arriscada, faça um commit de ponto de retorno.
-- O login do Breno no GitHub Desktop não vale para os commits feitos pelos chats: esta pasta não tem identidade de Git configurada. Use `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...` sem alterar a configuração do Breno. O push, feito por ele no GitHub Desktop, é que o identifica no GitHub.
-- **Coautoria:** todo commit feito por um chat termina com a linha abaixo, em linha própria, junto das demais linhas de atribuição, para o Breno (conta GitHub `brenonunesbatista`) constar como colaborador:
+- **Autoria (atualizada em 2026-10-09 por autorização do Breno):** o autor dos commits feitos por chats é o **Claude**, e o Breno consta como coautor. Sessões na nuvem já vêm com a identidade do Claude; em pasta local sem identidade, use `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...`, sem alterar a configuração dele. Commits antigos não são reescritos.
+- **Coautoria:** termine toda mensagem de commit com as linhas de atribuição do Claude (`Co-Authored-By: Claude ...`) e, em linha própria, com:
 
   ```
   Co-authored-by: brenonunesbatista <256785727+brenonunesbatista@users.noreply.github.com>
   ```
-
-  Commits antigos não são reescritos; a regra vale daqui para frente.
 - Inclua o handoff atualizado no mesmo commit do trabalho a que ele se refere, ou em um commit `docs: handoff ...` logo em seguida.
 
 ## Código (chat do Claude Code)

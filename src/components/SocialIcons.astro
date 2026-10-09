@@ -1,0 +1,10 @@
+---
+// Slot do cabeçalho: botão "Baixar PDF" (design: cabeçalho do artigo).
+import config from '../../site.config.mjs';
+const href = `${config.base.replace(/\/?$/, '/')}${config.arquivoPdf}`;
+---
+
+<a class="dn-btn dn-btn--sec" href={href} download>
+  <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+  <span>Baixar PDF</span>
+</a>

@@ -1,0 +1,62 @@
+/* Tokens do tema, a partir de design/tema.css (identidade aprovada pelo Breno).
+   Marca: #101820, #196bfb, #ffffff, #f1f1f1. Demais cores e a fonte Figtree são propostas do design.
+   Único lugar a trocar para mudar cores, fontes e espaçamentos. */
+:root {
+  --sl-font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Escala de cinzas do Starlight (tema claro) */
+  --sl-color-white: #101820;
+  --sl-color-gray-1: #2a3440;
+  --sl-color-gray-2: #4e5a67;
+  --sl-color-gray-3: #6b7785;
+  --sl-color-gray-4: #b9c0ca;
+  --sl-color-gray-5: #d9dce1;
+  --sl-color-gray-6: #f1f1f1;
+  --sl-color-gray-7: #f7f8fa;
+  --sl-color-black: #ffffff;
+
+  /* Destaque */
+  --sl-color-accent-low: #e7f0ff;
+  --sl-color-accent: #196bfb;
+  --sl-color-accent-high: #1257d1;
+  --sl-color-text-accent: #1257d1;
+
+  /* Avisos: Importante / Observação / Dica */
+  --dn-imp-bg: #fff4df; --dn-imp-bd: #e3b14f; --dn-imp-tx: #5c3d00;
+  --dn-obs-bg: #eef2f8; --dn-obs-bd: #8a9bb3; --dn-obs-tx: #2a3a50;
+  --dn-dica-bg: #e5f6f1; --dn-dica-bd: #3fa58b; --dn-dica-tx: #0f4a3b;
+
+  /* Formas e espaçamentos */
+  --dn-sombra: 0 1px 2px rgba(20, 32, 46, 0.06), 0 6px 20px rgba(20, 32, 46, 0.07);
+  --dn-r-sm: 6px; --dn-r-md: 10px; --dn-r-lg: 16px;
+  --dn-s2: 8px; --dn-s3: 12px; --dn-s4: 16px; --dn-s5: 24px; --dn-s6: 32px; --dn-s7: 48px; --dn-s8: 72px;
+
+  /* Aliases usados pelos estilos do manual */
+  --manual-raio: var(--dn-r-md);
+  --manual-espaco: var(--dn-s5);
+  --manual-borda: var(--sl-color-gray-5);
+  --manual-placeholder-fundo: var(--sl-color-gray-6);
+  --manual-placeholder-borda: var(--sl-color-gray-5);
+}
+:root[data-theme='dark'] {
+  --sl-color-white: #f1f1f1;
+  --sl-color-gray-1: #d9dde2;
+  --sl-color-gray-2: #a8b3bf;
+  --sl-color-gray-3: #7d8a98;
+  --sl-color-gray-4: #3b4a5a;
+  --sl-color-gray-5: #2d3b4a;
+  --sl-color-gray-6: #17212c;
+  --sl-color-gray-7: #121b24;
+  --sl-color-black: #101820;
+
+  --sl-color-accent-low: #15294b;
+  --sl-color-accent: #196bfb;
+  --sl-color-accent-high: #7fadff;
+  --sl-color-text-accent: #7fadff;
+
+  --dn-imp-bg: #2b2210; --dn-imp-bd: #b88a2e; --dn-imp-tx: #f2d9a0;
+  --dn-obs-bg: #1b2536; --dn-obs-bd: #6c7f9a; --dn-obs-tx: #cbd6e4;
+  --dn-dica-bg: #0f2a25; --dn-dica-bd: #35967d; --dn-dica-tx: #a8e3d2;
+  --dn-sombra: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+}

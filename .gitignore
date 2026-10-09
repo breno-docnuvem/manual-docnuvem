@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+# gerado pelo build a partir do vault
+src/content/docs/
+src/generated/
+public/imagens/
+.build/
+.wrangler/
+.env*
+.claude/settings.local.json

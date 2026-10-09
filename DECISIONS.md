@@ -59,3 +59,18 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 **Decisão:** commits feitos pelos chats incluem `Co-authored-by` para a conta GitHub `brenonunesbatista` (e-mail noreply do GitHub, em `CLAUDE.md`). O autor continua sendo "Claude".
 **Motivo:** o Breno é o responsável pelo conteúdo e pelo push; ele aparece como colaborador no GitHub. Commits anteriores não foram reescritos.
 
+## 2026-10-09 — Autoria dos commits: Breno autor, Claude coautor
+
+**Decisão:** os commits dos chats usam como autor a conta GitHub `brenonunesbatista` (e-mail noreply em `CLAUDE.md`), e o Claude consta como coautor (`Co-Authored-By`). Nenhum outro coautor é adicionado.
+**Motivo:** o Breno é o responsável pelo conteúdo e pelo push; o Claude assiste.
+**Substitui:** a entrada anterior ("Coautoria dos commits: conta brenonunesbatista"). Vale a partir do próximo commit; os anteriores não são reescritos.
+
+## 2026-10-09 — Placeholders de print visíveis no site provisório
+
+**Decisão:** enquanto o site for provisório, os placeholders de print aparecem como bloco "Imagem em breve" com a instrução. Há um interruptor de build para ocultá-los; a decisão de ocultar vem ao publicar para clientes. Detalhes em `docs/CONTENT-SPEC.md`, seção 8.
+**Motivo:** mostra à equipe o que ainda falta capturar; hoje são 370 placeholders em 101 notas.
+
+## 2026-10-09 — Nota "Base de Conhecimento" descartada
+
+**Decisão:** a nota `Base de Conhecimento` não será criada; o link e a seção "Referência complementar" saíram de `Docnuvem.md`. A nota `Significados dos ícones` ainda será escrita (hoje é rascunho em `TODO/`).
+
