@@ -35,7 +35,7 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 - Mensagens de commit em português, no formato `área: o que mudou` (ex.: `docs: adiciona CONTENT-SPEC inicial`). Áreas: `docs`, `design`, `site`, `pdf`, `build`, `conteudo`.
 - Antes de uma operação grande ou arriscada, faça um commit de ponto de retorno.
 - O login do Breno no GitHub Desktop não vale para os commits feitos pelos chats: esta pasta não tem identidade de Git configurada. Use `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...` sem alterar a configuração do Breno. O push, feito por ele no GitHub Desktop, é que o identifica no GitHub.
-- **Coautoria:** todo commit feito por um chat termina com a linha abaixo, em linha própria, junto das demais linhas de atribuição, para a conta GitHub do Breno (`brenonunesbatista`) constar como colaboradora:
+- **Coautoria:** todo commit feito por um chat termina com a linha abaixo, em linha própria, junto das demais linhas de atribuição, para o Breno (conta GitHub `brenonunesbatista`) constar como colaborador:
 
   ```
   Co-authored-by: brenonunesbatista <256785727+brenonunesbatista@users.noreply.github.com>

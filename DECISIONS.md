@@ -57,5 +57,5 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 ## 2026-10-09 — Coautoria dos commits: conta brenonunesbatista
 
 **Decisão:** commits feitos pelos chats incluem `Co-authored-by` para a conta GitHub `brenonunesbatista` (e-mail noreply do GitHub, em `CLAUDE.md`). O autor continua sendo "Claude".
-**Motivo:** o Breno é o responsável pelo conteúdo e pelo push; a conta dele aparece como colaboradora no GitHub. Commits anteriores não foram reescritos.
+**Motivo:** o Breno é o responsável pelo conteúdo e pelo push; ele aparece como colaborador no GitHub. Commits anteriores não foram reescritos.
 
