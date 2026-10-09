@@ -5,6 +5,7 @@ import { getCollection, render } from 'astro:content';
 import logoClaro from '../assets/logo-claro.svg?raw';
 import manual from '../generated/manual.json';
 import config from '../../site.config.mjs';
+import '../styles/fontes.css';
 import '../styles/tokens.css';
 import '../styles/impressao.css';
 
@@ -26,7 +27,6 @@ const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
     <meta charset="utf-8" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{config.titulo}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" />
   </head>
   <body data-pagefind-ignore data-base={manual.base}>
     <section class="capa">

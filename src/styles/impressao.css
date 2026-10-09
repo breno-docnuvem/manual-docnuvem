@@ -4,7 +4,7 @@
 @page { size: A4; margin: 22mm 18mm 22mm 18mm; @bottom-center { content: 'Manual Docnuvem · página ' counter(page); font: 9pt var(--sl-font); color: #6b7280; } }
 @page :first { @bottom-center { content: none; } }
 
-html { font: 11pt/1.55 var(--sl-font); color: #1c2230; }
+html { font: 11pt/1.55 var(--f-body); color: #1c2230; }
 body { margin: 0; }
 a { color: var(--sl-color-accent); text-decoration: none; }
 code { font-family: var(--sl-font-mono); font-size: 0.9em; }
@@ -62,3 +62,6 @@ figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-siz
 .dn-see a { display: flex; gap: 2mm; align-items: center; padding: 3mm; border: 1px solid var(--sl-color-gray-5); border-radius: var(--dn-r-md); }
 .passo { display: inline-flex; align-items: center; justify-content: center; width: 7mm; height: 7mm; margin-right: 2mm; border-radius: 50%; background: var(--sl-color-accent); color: #fff; font-weight: 700; font-size: 10pt; vertical-align: middle; }
 .starlight-aside svg { display: none; }
+
+/* Tipografia B: títulos em Plus Jakarta Sans */
+.capa h1, .indice__titulo, .cap__titulo, .conteudo :is(h1, h2, h3, h4), .starlight-aside__title { font-family: var(--f-title); }

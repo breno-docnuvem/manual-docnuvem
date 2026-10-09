@@ -44,7 +44,7 @@
 .dn-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--dn-s2);
   min-height: 44px; padding: 0 var(--dn-s5); border-radius: var(--dn-r-md);
-  font: 600 15px/1 var(--sl-font); text-decoration: none;
+  font: 600 16px/1 var(--f-body); text-decoration: none;
   border: 1px solid var(--sl-color-accent); background: var(--sl-color-accent); color: #fff !important; cursor: pointer;
 }
 .dn-btn--sec, .dn-btn.dn-btn--sec { background: transparent; color: var(--sl-color-text-accent) !important; border-color: var(--sl-color-gray-5); }
@@ -72,10 +72,10 @@ body:has(.dn-hero) .header site-search { display: none; }
 .dn-search {
   display: flex; align-items: center; gap: var(--dn-s3); width: 100%; min-height: 56px; padding: 0 var(--dn-s4);
   border: 1.5px solid var(--sl-color-gray-5); border-radius: var(--dn-r-lg); background: var(--sl-color-black);
-  box-shadow: var(--dn-sombra); color: var(--sl-color-gray-2); cursor: text; font: 500 17px var(--sl-font); text-align: left;
+  box-shadow: var(--dn-sombra); color: var(--sl-color-gray-2); cursor: text; font: 500 18px var(--f-body); text-align: left;
 }
 .dn-search .ph { flex: 1; }
-.dn-kbd { font: 600 12px var(--sl-font); border: 1px solid var(--sl-color-gray-5); border-bottom-width: 2px; border-radius: var(--dn-r-sm); padding: 2px 8px; color: var(--sl-color-gray-2); background: var(--sl-color-gray-6); white-space: nowrap; }
+.dn-kbd { font: 600 12.5px var(--f-body); border: 1px solid var(--sl-color-gray-5); border-bottom-width: 2px; border-radius: var(--dn-r-sm); padding: 2px 8px; color: var(--sl-color-gray-2); background: var(--sl-color-gray-6); white-space: nowrap; }
 .dn-sec { padding: var(--dn-s6) 0 var(--dn-s3); }
 .dn-sec h2 { font-size: 22px; font-weight: 700; margin: 0 0 var(--dn-s4); letter-spacing: -0.01em; border: 0; }
 .dn-grid { display: grid; gap: var(--dn-s4); }
@@ -119,11 +119,11 @@ main:has(.dn-hero) .content-panel:first-child { display: none; }
 
 /* ---------- Medidas do design ---------- */
 :root { --sl-content-width: 45rem; --sl-sidebar-width: 17.5rem; }
-.sl-markdown-content { font-size: 17px; line-height: 1.7; }
+.sl-markdown-content { font-size: 18px; line-height: 1.7; }
 @media (max-width: 50rem) {
   .sl-markdown-content h1, #_top { font-size: 28px; }
   .sl-markdown-content h2 { font-size: 20px; }
-  .sl-markdown-content { font-size: 16px; }
+  .sl-markdown-content { font-size: 17px; }
 }
 .site-title::after { content: 'Manual'; margin-left: var(--dn-s3); padding-left: var(--dn-s3); border-left: 1px solid var(--sl-color-gray-5); font-weight: 500; font-size: 17px; color: var(--sl-color-gray-2); white-space: nowrap; }
 .site-title img, .site-title svg { height: 30px; width: auto; }
@@ -151,3 +151,22 @@ main:has(.dn-hero) .content-panel:first-child { display: none; }
 
 /* O hero encosta no cabeçalho (sem faixa de respiro acima) */
 .content-panel:has(.dn-hero) { padding-top: 0; border-top: 0; }
+
+/* ---------- Tipografia B (DESIGN.md): títulos em Plus Jakarta Sans ---------- */
+.sl-markdown-content :is(h1, h2, h3, h4), #_top, .dn-hero h1, .dn-sec h2, .dn-card b,
+.starlight-aside__title, .sidebar-content .large, .right-sidebar h2, .site-title::after,
+.pagination-links .title { font-family: var(--f-title); }
+.dn-hero h1 { letter-spacing: -0.025em; }
+.sl-markdown-content h2 { letter-spacing: -0.01em; }
+.sl-markdown-content h3 { font-size: 19px; }
+.dn-card b { font-size: 17px; font-weight: 700; }
+.dn-card .d { font-size: 15.5px; }
+.dn-mod { font-size: 16.5px; }
+.dn-sec h2 { font-size: 22px; }
+.starlight-aside { font-size: 17px; }
+.sl-markdown-content figure figcaption { font-size: 15px; }
+.sidebar-content { font-size: 16px; }
+.right-sidebar { font-size: 15px; }
+.right-sidebar h2 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sl-color-gray-2); }
+.sl-markdown-content > p:first-child { font-size: 20px; line-height: 1.55; color: var(--sl-color-gray-2); }
+@media (max-width: 50rem) { .sl-markdown-content > p:first-child { font-size: 17px; } .starlight-aside { font-size: 16px; } }

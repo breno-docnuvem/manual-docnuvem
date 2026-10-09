@@ -1,8 +1,11 @@
 /* Tokens do tema, a partir de design/tema.css (identidade aprovada pelo Breno).
-   Marca: #101820, #196bfb, #ffffff, #f1f1f1. Demais cores e a fonte Figtree são propostas do design.
+   Marca: #101820, #196bfb, #ffffff, #f1f1f1. Demais cores e as fontes são propostas do design.
    Único lugar a trocar para mudar cores, fontes e espaçamentos. */
 :root {
-  --sl-font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Tipografia B (DESIGN.md): títulos Plus Jakarta Sans, texto Source Sans 3 (fontes em fontes.css) */
+  --f-title: 'Plus Jakarta Sans', 'Source Sans 3', system-ui, sans-serif;
+  --f-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font: var(--f-body);
   --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Escala de cinzas do Starlight (tema claro) */
