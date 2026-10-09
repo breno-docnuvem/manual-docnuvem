@@ -190,7 +190,6 @@ for (const n of alcancadas) {
 }
 const sidebar = [
   { label: 'Início', link: base },
-  { label: 'Baixar o manual em PDF', link: `${base}${config.arquivoPdf}`, attrs: { download: true, target: '_blank' } },
   ...topo.map((no) => {
     const item = itemSidebar(no);
     if (!no.filhos.length && /\(Aguardando cadastro de notas\)/.test(no.nota.texto)) {
@@ -264,6 +263,9 @@ function transformar(nota) {
     return `:::${tipo}[${m[1].trim()}]\n${m[2].trim()}\n:::\n`;
   });
 
+  // "## 1. Título" vira passo numerado (design: círculo com o número)
+  t = t.replace(/^##\s+(\d+)\.\s+(.+)$/gm, '## <span class="passo">$1</span> $2');
+
   // "## Guias relacionados" vira "## Veja também", no fim da página
   const linhas = t.split('\n');
   const ini = linhas.findIndex((l) => /^##\s+Guias relacionados\s*$/.test(l));
@@ -317,9 +319,29 @@ fs.mkdirSync(SAIDA_DOCS, { recursive: true });
 fs.mkdirSync(SAIDA_GEN, { recursive: true });
 fs.mkdirSync(SAIDA_REL, { recursive: true });
 
+function paginaInicial(corpo) {
+  // Home do design: hero com busca + cartões por tarefa + grade de módulos; o sumário do hub sai (a grade o substitui).
+  const semSumario = corpo.replace(/^## Sumário\n[\s\S]*?(?=^## |(?![\s\S]))/m, '');
+  const icone = (d) => `<span class="ib"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"></path></svg></span>`;
+  const cartoes = config.cartoesHome.map((c) => {
+    const dest = resolverNota(c.nota);
+    if (!dest || !slugs.has(dest.rel)) { rel.quebrados.set('(cartões da home)', [...(rel.quebrados.get('(cartões da home)') || []), c.nota]); return ''; }
+    return `<a class="dn-card" href="${urlDe(dest)}">${icone(c.icone)}<b>${escHtml(c.nome)}</b><span class="d">${escHtml(c.desc)}</span></a>`;
+  }).join('');
+  const modulos = topo.map((no) => {
+    const breve = !no.filhos.length && /\(Aguardando cadastro de notas\)/.test(no.nota.texto);
+    const t = tituloDe(no.nota);
+    return `<a class="dn-mod${breve ? ' off' : ''}" href="${urlDe(no.nota)}">${icone(config.iconesModulos[t] || config.iconeGenerico).replace('class="ib"', 'class="ib sm"')}<span>${escHtml(t)}</span>${breve ? '<span class="dn-soon">em breve</span>' : ''}</a>`;
+  }).join('');
+  const pdf = `${base}${config.arquivoPdf}`;
+  const hero = `<div class="dn-hero"><h1>Como podemos ajudar?</h1><p>Encontre o passo a passo de qualquer função do Docnuvem.</p><div class="box"><button type="button" class="dn-search" data-abrir-busca aria-label="Buscar no manual"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"></path></svg><span class="ph">Busque por assinatura, tarefa, permissão…</span><span class="dn-kbd">Ctrl K</span></button><a class="dn-btn" href="${pdf}" download><svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>Baixar manual (PDF)</a></div></div>`;
+  return `\n${hero}\n\n<div class="dn-sec"><h2>O que você quer fazer?</h2><div class="dn-grid dn-grid--5">${cartoes}</div></div>\n\n<div class="dn-sec" id="modulos"><h2>Módulos do manual</h2><div class="dn-grid dn-grid--4">${modulos}</div></div>\n\n${semSumario}`;
+}
+
 const manual = [];
 for (const nota of alcancadas) {
-  const corpo = transformar(nota);
+  let corpo = transformar(nota);
+  if (nota === raiz) corpo = paginaInicial(corpo);
   const titulo = tituloDe(nota);
   if (!/^#\s+/m.test(nota.texto)) rel.semTitulo.push(nota.rel);
   const semConteudo = corpo.replace(/:::|\s/g, '') === '' ||
@@ -327,7 +349,7 @@ for (const nota of alcancadas) {
   if (semConteudo) rel.vazias.push(nota.rel);
   const slug = slugs.get(nota.rel);
   const fm = ['---', `title: ${JSON.stringify(titulo)}`, `description: ${JSON.stringify(descricao(corpo))}`, `editUrl: false`];
-  if (nota === raiz) fm.push('tableOfContents: false');
+  if (nota === raiz) fm.push('tableOfContents: false', 'template: splash');
   fm.push('---', '');
   const destino = path.join(SAIDA_DOCS, `${slug}.md`);
   fs.mkdirSync(path.dirname(destino), { recursive: true });

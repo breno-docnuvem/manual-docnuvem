@@ -1,13 +1,6 @@
 /* Estilo do PDF (página /manual-completo/). Usa os tokens de tokens.css. */
-:root {
-  --sl-color-gray-2: #4a4f5a;
-  --sl-color-gray-3: #6b7280;
-  --sl-color-gray-4: #b6bcc8;
-  --sl-color-gray-5: #d5d9e0;
-  --sl-color-gray-6: #f3f4f7;
-  --sl-text-sm: 0.85rem;
-  --sl-text-xs: 0.75rem;
-}
+/* cinzas e acentos vêm de tokens.css (tema claro) */
+:root { --sl-text-sm: 0.85rem; --sl-text-xs: 0.75rem; }
 @page { size: A4; margin: 22mm 18mm 22mm 18mm; @bottom-center { content: 'Manual Docnuvem · página ' counter(page); font: 9pt var(--sl-font); color: #6b7280; } }
 @page :first { @bottom-center { content: none; } }
 
@@ -53,14 +46,15 @@ figure.print-placeholder { padding: 4mm; background: var(--manual-placeholder-fu
 figure.print-placeholder p { margin: 1mm 0 0; }
 figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-size: 8pt; word-break: break-all; }
 
-.starlight-aside { margin: 4mm 0; padding: 3mm 4mm; border-left: 1.2mm solid var(--sl-color-accent); background: var(--sl-color-gray-6); border-radius: 0 var(--manual-raio) var(--manual-raio) 0; break-inside: avoid; }
-.starlight-aside--tip { border-color: #2e8b57; }
-.starlight-aside--caution { border-color: #d98e04; }
-.starlight-aside--danger { border-color: #c0392b; }
+.starlight-aside { margin: 4mm 0; padding: 3mm 4mm; border: 1px solid; border-radius: var(--dn-r-md); break-inside: avoid; }
+.starlight-aside--caution { background: var(--dn-imp-bg); border-color: var(--dn-imp-bd); color: var(--dn-imp-tx); }
+.starlight-aside--note { background: var(--dn-obs-bg); border-color: var(--dn-obs-bd); color: var(--dn-obs-tx); }
+.starlight-aside--tip { background: var(--dn-dica-bg); border-color: var(--dn-dica-bd); color: var(--dn-dica-tx); }
 .starlight-aside__title { font-weight: 700; margin: 0 0 1mm; }
 .starlight-aside__content > :first-child { margin-top: 0; }
 .starlight-aside__content > :last-child { margin-bottom: 0; }
 
-/* Âncoras de título geradas pelo Starlight não fazem sentido no papel */
-.sl-anchor-link { display: none; }
-.sr-only { display: none; }
+/* Anchors do Starlight e a home interativa não fazem sentido no papel */
+.sl-anchor-link, .sr-only, .dn-hero, .dn-sec { display: none; }
+.passo { display: inline-flex; align-items: center; justify-content: center; width: 7mm; height: 7mm; margin-right: 2mm; border-radius: 50%; background: var(--sl-color-accent); color: #fff; font-weight: 700; font-size: 10pt; vertical-align: middle; }
+.starlight-aside svg { display: none; }

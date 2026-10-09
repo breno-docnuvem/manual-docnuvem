@@ -18,9 +18,16 @@ export default defineConfig({
       sidebar,
       customCss: ['./src/styles/tokens.css', './src/styles/manual.css'],
       pagination: true,
-      head: config.NOINDEX
-        ? [{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' } }]
-        : [],
+      components: {
+        SocialIcons: './src/components/SocialIcons.astro',
+        Footer: './src/components/Footer.astro',
+      },
+      head: [
+        { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
+        { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' } },
+        { tag: 'link', attrs: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap' } },
+        ...(config.NOINDEX ? [{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' } }] : []),
+      ],
     }),
   ],
 });

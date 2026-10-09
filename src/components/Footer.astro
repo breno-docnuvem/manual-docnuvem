@@ -1,0 +1,21 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+import config from '../../site.config.mjs';
+const href = `${config.base.replace(/\/?$/, '/')}${config.arquivoPdf}`;
+---
+
+<Default {...Astro.props}><slot /></Default>
+<div class="dn-foot">
+  <span>Manual do cliente Docnuvem</span>
+  <a href={href} download>Baixar manual (PDF)</a>
+</div>
+
+<script is:inline>
+  // Caixa de busca da home abre a busca do Starlight.
+  document.addEventListener('click', function (e) {
+    var alvo = e.target.closest && e.target.closest('[data-abrir-busca]');
+    if (!alvo) return;
+    var botao = document.querySelector('site-search button');
+    if (botao) botao.click();
+  });
+</script>
