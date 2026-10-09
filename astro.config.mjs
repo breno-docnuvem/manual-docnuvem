@@ -20,6 +20,8 @@ export default defineConfig({
       customCss: ['./src/styles/fontes.css', './src/styles/tokens.css', './src/styles/manual.css'],
       pagination: true,
       components: {
+        Sidebar: './src/components/Sidebar.astro',
+        MobileMenuFooter: './src/components/MobileMenuFooter.astro',
         PageTitle: './src/components/PageTitle.astro',
         SocialIcons: './src/components/SocialIcons.astro',
         Footer: './src/components/Footer.astro',

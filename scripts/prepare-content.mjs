@@ -367,6 +367,8 @@ for (const r of imagensUsadas.keys()) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(path.join(VAULT, r), dest);
 }
+// Página 404 (o Starlight a exige; texto fixo do site, não vem do vault)
+fs.writeFileSync(path.join(SAIDA_DOCS, '404.md'), `---\ntitle: "Página não encontrada"\ndescription: "Esta página não existe ou mudou de endereço."\ntemplate: splash\neditUrl: false\n---\n\nNão encontramos essa página. Ela pode ter mudado de endereço.\n\n[Voltar ao início](${base}) ou use a busca no topo da página.\n`);
 const orfas = imagens.filter((i) => !imagensUsadas.has(i.rel)).map((i) => i.rel);
 
 fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar.json'), JSON.stringify(sidebar, null, 2));
