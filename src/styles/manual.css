@@ -170,3 +170,24 @@ main:has(.dn-hero) .content-panel:first-child { display: none; }
 .right-sidebar h2 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sl-color-gray-2); }
 .sl-markdown-content > p:first-child { font-size: 20px; line-height: 1.55; color: var(--sl-color-gray-2); }
 @media (max-width: 50rem) { .sl-markdown-content > p:first-child { font-size: 17px; } .starlight-aside { font-size: 16px; } }
+
+/* ---------- Trilha de navegação ---------- */
+.dn-bc { display: flex; flex-wrap: wrap; align-items: center; gap: var(--dn-s2); font-size: 14.5px; color: var(--sl-color-gray-2); margin-bottom: var(--dn-s2); }
+.dn-bc a { color: var(--sl-color-gray-2); text-decoration: none; }
+.dn-bc a:hover { color: var(--sl-color-text-accent); }
+.dn-bc .cur { color: var(--sl-color-white); font-weight: 600; }
+.dn-bc .sep { color: var(--sl-color-gray-3); }
+
+/* ---------- "Nesta página": filete, item atual em acento ---------- */
+starlight-toc a, mobile-starlight-toc a { border-inline-start: 2px solid var(--sl-color-gray-5); padding-inline-start: var(--dn-s3); border-radius: 0; }
+starlight-toc a[aria-current='true'], mobile-starlight-toc a[aria-current='true'] { border-inline-start-color: var(--sl-color-accent); color: var(--sl-color-text-accent); font-weight: 650; }
+
+/* ---------- Busca (diálogo) ---------- */
+.pagefind-ui, site-search dialog {
+  --pagefind-ui-primary: var(--sl-color-accent);
+  --pagefind-ui-border-radius: var(--dn-r-md);
+  --pagefind-ui-font: var(--f-body);
+}
+site-search dialog { border-radius: var(--dn-r-lg); box-shadow: var(--dn-sombra); }
+.pagefind-ui mark, site-search mark { background: var(--sl-color-accent-low); color: var(--sl-color-white); border-radius: 3px; padding: 0 2px; font-weight: 600; }
+.pagefind-ui__result-title, .pagefind-ui__result-link { font-family: var(--f-title); font-weight: 650; }

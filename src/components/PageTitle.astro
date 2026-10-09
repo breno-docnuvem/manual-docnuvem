@@ -1,0 +1,42 @@
+---
+// Trilha de navegação (Início › módulo › tela › página) + título, conforme o design.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import sidebar from '../generated/sidebar.json';
+
+type Item = { label: string; link?: string; items?: Item[] };
+const rota = Astro.locals.starlightRoute;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const atual = rota.id === 'index' ? base : `${base}${rota.id}/`;
+
+function caminho(itens: Item[], trilha: { label: string; link?: string }[]): { label: string; link?: string }[] | null {
+  for (const item of itens) {
+    if (item.items) {
+      const grupo = { label: item.label, link: item.items[0]?.link };
+      const filho = item.items.find((f) => f.link === atual && !f.items);
+      // a "Visão geral" do grupo é a própria página do grupo: a trilha termina no grupo
+      if (filho && filho === item.items[0]) return [...trilha, { label: item.label }];
+      const achou = caminho(item.items.slice(1), [...trilha, grupo]);
+      if (achou) return achou;
+    } else if (item.link === atual) {
+      return [...trilha, { label: item.label }];
+    }
+  }
+  return null;
+}
+const trilha = rota.id === 'index' ? null : caminho(sidebar as Item[], []);
+---
+
+{
+  trilha && (
+    <nav class="dn-bc" aria-label="Trilha de navegação">
+      <a href={base}>Início</a>
+      {trilha.map((t, i) => (
+        <>
+          <span class="sep" aria-hidden="true">›</span>
+          {i < trilha.length - 1 && t.link ? <a href={t.link}>{t.label}</a> : <span class="cur" aria-current="page">{t.label}</span>}
+        </>
+      ))}
+    </nav>
+  )
+}
+<Default><slot /></Default>
