@@ -274,7 +274,13 @@ function transformar(nota) {
     for (let k = ini + 1; k < linhas.length; k++) if (/^#{1,2}\s+/.test(linhas[k])) { fim = k; break; }
     const bloco = linhas.splice(ini, fim - ini);
     bloco[0] = '## Veja também';
-    linhas.push('', ...bloco);
+    // links viram a grade "Veja também" do design (ícone de documento + título)
+    const doc = '<svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5zM14 3v5h5"></path></svg>';
+    const links = bloco.slice(1).map((l) => l.match(/^\s*[-*]\s+\[([^\]]+)\]\(([^)]+)\)\s*$/)).filter(Boolean);
+    const corpoVeja = links.length === bloco.slice(1).filter((l) => l.trim()).length && links.length
+      ? [`<div class="dn-see">${links.map((m) => `<a href="${m[2]}">${doc}${escHtml(m[1])}</a>`).join('')}</div>`]
+      : bloco.slice(1);
+    linhas.push('', bloco[0], '', ...corpoVeja);
   }
   return linhas.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
 }

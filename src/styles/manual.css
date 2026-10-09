@@ -72,8 +72,11 @@
 .dn-grid { display: grid; gap: var(--dn-s4); }
 .dn-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .dn-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-@media (max-width: 72rem) { .dn-grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .dn-grid--4 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 50rem) { .dn-grid--5, .dn-grid--4 { grid-template-columns: 1fr; } .dn-hero h1 { font-size: 32px; } }
+@media (max-width: 72rem) { .dn-grid--5, .dn-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 50rem) {
+  .dn-grid--5, .dn-grid--4 { grid-template-columns: 1fr; }
+  .dn-hero h1 { font-size: 30px; }
+}
 .dn-card { display: flex; flex-direction: column; gap: var(--dn-s2); padding: var(--dn-s5); border: 1px solid var(--sl-color-gray-5); border-radius: var(--dn-r-lg); background: var(--sl-color-black); color: var(--sl-color-white) !important; text-decoration: none; }
 .dn-card:hover, .dn-mod:hover { border-color: var(--sl-color-accent); }
 .dn-card .ib { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--dn-r-md); background: var(--sl-color-accent-low); color: var(--sl-color-text-accent); }
@@ -104,3 +107,35 @@ main:has(.dn-hero) h1#_top { display: none; }
 .sl-markdown-content :is(h2, h3, h4) .passo { transform: translateY(-1px); }
 .sl-badge { font-family: var(--sl-font); font-weight: 600; letter-spacing: 0; text-transform: none; }
 main:has(.dn-hero) .content-panel:first-child { display: none; }
+
+/* ---------- Medidas do design ---------- */
+:root { --sl-content-width: 45rem; --sl-sidebar-width: 17.5rem; }
+.sl-markdown-content { font-size: 17px; line-height: 1.7; }
+@media (max-width: 50rem) {
+  .sl-markdown-content h1, #_top { font-size: 28px; }
+  .sl-markdown-content h2 { font-size: 20px; }
+  .sl-markdown-content { font-size: 16px; }
+}
+.site-title::after { content: 'Manual'; margin-left: var(--dn-s3); padding-left: var(--dn-s3); border-left: 1px solid var(--sl-color-gray-5); font-weight: 500; font-size: 17px; color: var(--sl-color-gray-2); white-space: nowrap; }
+.site-title img, .site-title svg { height: 30px; width: auto; }
+@media (max-width: 50rem) { .site-title img, .site-title svg { height: 24px; } }
+:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+.sl-markdown-content figure.print-placeholder { min-height: 80px; }
+
+/* "Veja também" */
+.dn-see { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--dn-s3); margin-top: var(--dn-s2); }
+.dn-see a { display: flex; align-items: center; gap: var(--dn-s2); min-height: 52px; padding: var(--dn-s3) var(--dn-s4); border: 1px solid var(--sl-color-gray-5); border-radius: var(--dn-r-md); color: var(--sl-color-white); font-weight: 600; font-size: 15px; text-decoration: none; }
+.dn-see a:hover { border-color: var(--sl-color-accent); }
+
+/* Anterior / Próxima como cartões */
+.pagination-links a { border-radius: var(--dn-r-md); border-color: var(--sl-color-gray-5); }
+.pagination-links .title { color: var(--sl-color-text-accent); }
+
+/* Cartão de tarefa vira linha única no celular */
+@media (max-width: 50rem) {
+  /* cartão de tarefa vira linha única: ícone, título, seta */
+  .dn-card { flex-direction: row; align-items: center; min-height: 64px; padding: var(--dn-s3) var(--dn-s4); gap: var(--dn-s3); }
+  .dn-card .d { display: none; }
+  .dn-card b { flex: 1; font-size: 16px; }
+  .dn-card::after { content: '›'; color: var(--sl-color-gray-3); font-size: 22px; }
+}

@@ -2,6 +2,7 @@
 // Página única com o manual inteiro, usada só para gerar o PDF (scripts/gerar-pdf.mjs).
 // Não aparece no menu nem na busca; fica com noindex.
 import { getCollection, render } from 'astro:content';
+import logoClaro from '../assets/logo-claro.svg?raw';
 import manual from '../generated/manual.json';
 import config from '../../site.config.mjs';
 import '../styles/tokens.css';
@@ -15,7 +16,8 @@ for (const item of manual.ordem) {
   const { Content } = await render(entrada);
   capitulos.push({ ...item, Content });
 }
-const data = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+const dataBruta = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
 ---
 
 <!doctype html>
@@ -28,7 +30,7 @@ const data = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'nume
   </head>
   <body data-pagefind-ignore data-base={manual.base}>
     <section class="capa">
-      <p class="capa__marca">Docnuvem</p>
+      <div class="capa__logo" set:html={logoClaro} />
       <h1>Manual do usuário</h1>
       <p class="capa__data">{data}</p>
     </section>

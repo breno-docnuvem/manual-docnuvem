@@ -13,6 +13,7 @@ export default defineConfig({
     starlight({
       title: config.titulo,
       description: config.descricao,
+      logo: { light: './src/assets/logo-claro.svg', dark: './src/assets/logo-escuro.svg', alt: 'Docnuvem', replacesTitle: true },
       defaultLocale: 'root',
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       sidebar,

@@ -11,9 +11,11 @@ code { font-family: var(--sl-font-mono); font-size: 0.9em; }
 img { max-width: 100%; height: auto; }
 
 .capa { height: 235mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; border-left: 8mm solid var(--sl-color-accent); padding-left: 14mm; }
+.capa__logo svg { height: 14mm; width: auto; }
+.capa__logo { margin-bottom: 6mm; }
 .capa__marca { font-size: 14pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sl-color-accent); margin: 0; }
 .capa h1 { font-size: 36pt; line-height: 1.1; margin: 4mm 0; }
-.capa__data { font-size: 13pt; color: var(--sl-color-gray-3); text-transform: capitalize; }
+.capa__data { font-size: 13pt; color: var(--sl-color-gray-3); }
 
 .indice { page-break-after: always; }
 .indice__titulo { font-size: 22pt; margin: 0 0 6mm; }
@@ -56,5 +58,7 @@ figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-siz
 
 /* Anchors do Starlight e a home interativa não fazem sentido no papel */
 .sl-anchor-link, .sr-only, .dn-hero, .dn-sec { display: none; }
+.dn-see { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3mm; }
+.dn-see a { display: flex; gap: 2mm; align-items: center; padding: 3mm; border: 1px solid var(--sl-color-gray-5); border-radius: var(--dn-r-md); }
 .passo { display: inline-flex; align-items: center; justify-content: center; width: 7mm; height: 7mm; margin-right: 2mm; border-radius: 50%; background: var(--sl-color-accent); color: #fff; font-weight: 700; font-size: 10pt; vertical-align: middle; }
 .starlight-aside svg { display: none; }
