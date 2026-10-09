@@ -58,7 +58,7 @@ Botão primário/secundário, campo de busca e resultados (com trecho encontrado
 
 - O tema vira variáveis CSS e componentes do Starlight; **tokens** em nomes claros (cor de destaque, superfícies, texto, bordas, raios, sombras, escala de espaçamento, escala de tipografia).
 - **Modo claro e escuro** obrigatórios, com contraste legível (padrão AA).
-- Fontes: preferir fontes do Google Fonts ou do sistema; sem fontes pagas (custo zero).
+- Fontes: livres (licença OFL ou equivalente), **hospedadas no próprio site** (`DECISIONS.md`); sem fontes pagas (custo zero).
 - Sem bibliotecas de componentes pesadas; o conteúdo é texto e capturas de tela.
 - Ícones simples e consistentes (um conjunto só).
 

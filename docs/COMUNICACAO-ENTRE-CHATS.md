@@ -90,15 +90,24 @@ No início de toda sessão, o chat lê os **3 handoffs mais recentes** de `docs/
 
 ## 4. Git e convivência na mesma pasta
 
-Os chats compartilham a mesma cópia local do repositório, então o cuidado é para não pisar uns nos outros:
+Os chats de pasta local compartilham a mesma cópia do repositório, e sessões na nuvem trabalham em clone próprio. Em ambos os casos o cuidado é não pisar uns nos outros. A regra completa está no `CLAUDE.md` (seção Git); aqui está o resumo.
 
-- O Breno faz o `push` pelo GitHub Desktop. **Nenhum chat roda `git push`.**
-- Commits pequenos e frequentes, com `git add` **por caminho**, nunca `git add -A` ou `git add .`.
-- Mensagem no formato `área: o que mudou`. O autor é o Breno e o Claude entra como coautor; o comando exato está no `CLAUDE.md`.
-- Antes de começar, `git status`: alterações que não são suas pertencem a outro chat (ou ao Breno) e ficam fora do seu commit.
-- Nada de `--force`, `reset --hard`, `clean -fd` ou reescrita de histórico. Para desfazer algo, use `git revert` e explique no handoff.
-- Antes de uma operação grande no vault ou no código, faça um commit de ponto de retorno.
-- Como o vault está no repositório, o GitHub Desktop mostrará alterações de vários chats juntas. Por isso o prefixo de área na mensagem do commit (`conteudo:`, `site:`, `design:`, `docs:`) importa: ele permite ao Breno ver de quem é cada commit antes do push.
+**Onde se trabalha e quem faz o push**
+- O trabalho fica **direto na `main`**, sem branches de funcionalidade por padrão (`DECISIONS.md`, "Trabalho direto na `main`").
+- Chat que roda na **pasta do Breno** não roda `git push`: o push é dele, pelo GitHub Desktop.
+- **Sessão na nuvem** pode dar `git push` direto na `main` (ou na branch de trabalho designada para a sessão), mas só depois de `git pull` e de `npm run build:completo` passando.
+- Cada push na `main` **republica o site** (GitHub Actions + Cloudflare Pages). Por isso o build verde vem antes do push, sempre.
+- Nunca `--force`, `reset --hard`, `clean -fd` nem reescrita de histórico. Para desfazer algo, use `git revert` e explique no handoff.
+
+**Commits**
+- Pequenos e frequentes, com `git add` **por caminho**; nunca `git add -A` nem `git add .`.
+- Mensagem no formato `área: o que mudou` (áreas: `docs`, `design`, `site`, `pdf`, `build`, `conteudo`). Como o GitHub Desktop mostra alterações de vários chats juntas, o prefixo permite ao Breno ver de quem é cada commit.
+- **Autoria:** o autor é o Claude e o Breno entra como coautor; o comando exato e as linhas de atribuição estão no `CLAUDE.md`.
+- O handoff atualizado vai no mesmo commit do trabalho a que se refere, ou em um commit `docs: handoff ...` logo em seguida.
+
+**Antes de começar e de operações grandes**
+- `git status`: alterações que não são suas pertencem a outro chat (ou ao Breno) e ficam fora do seu commit. Em sessão na nuvem, `git pull` antes de começar.
+- Antes de uma operação grande ou arriscada no vault ou no código, faça um commit de ponto de retorno.
 
 ## 5. Conflitos e dúvidas
 

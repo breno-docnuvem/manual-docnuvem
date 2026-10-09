@@ -74,3 +74,37 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 
 **Decisão:** a nota `Base de Conhecimento` não será criada; o link e a seção "Referência complementar" saíram de `Docnuvem.md`. A nota `Significados dos ícones` ainda será escrita (hoje é rascunho em `TODO/`).
 
+## 2026-10-09 — PDF gerado por Chromium/Playwright a partir de uma página única
+
+**Decisão:** o PDF do manual é gerado no build pela página única `/manual-completo/` (capa, índice numerado e todos os capítulos, com `noindex` e fora da busca), impressa em A4 com Playwright/Chromium em `dist/manual-docnuvem.pdf`. Comando: `npm run build:completo` (site + PDF). Proposta do chat de código, aprovada pelo Breno.
+**Motivo:** reaproveita o mesmo conteúdo, a mesma ordem e o mesmo tema do site, sem segunda cadeia de ferramentas. Dependência nova: `playwright` (dev, fixada em 1.56.1), custo zero.
+**Limitação conhecida:** o índice do PDF não traz número de página (o Chromium não suporta `target-counter`); há marcadores (bookmarks) e links internos clicáveis.
+**Substitui:** a escolha da ferramenta que ficou em aberto em "LaTeX abandonado; PDF gerado no build do site" e em "PDF do manual gerado a partir do Markdown".
+
+## 2026-10-09 — Deploy por GitHub Actions + Cloudflare Pages (Direct Upload)
+
+**Decisão:** o deploy é feito pelo workflow `.github/workflows/deploy.yml`, que constrói site + PDF e envia a pasta `dist/` ao Cloudflare Pages por Direct Upload, a cada push na `main`. O projeto no Cloudflare **não** é criado pelo "Connect to Git". Passos do Breno (conta, token, secrets): `docs/DEPLOY-CLOUDFLARE.md`. Endereço provisório: `manual-docnuvem.pages.dev`.
+**Motivo:** o ambiente de build do Cloudflare Pages não tem Chromium, necessário para o PDF. GitHub Actions e Cloudflare Pages continuam gratuitos. O Wrangler roda via `npx` só no CI, sem entrar nas dependências do projeto.
+**Complementa:** "Hospedagem provisória: Cloudflare Pages" (continua valendo; muda só o modo de publicar). `noindex` segue ligado até a apresentação; domínio da empresa só depois dela.
+
+## 2026-10-09 — Identidade visual aprovada e fontes hospedadas no site
+
+**Decisão:** identidade aprovada pelo Breno e registrada em `docs/DESIGN.md`: cores da marca `#101820`, `#196bfb`, `#ffffff` e `#f1f1f1`, modo claro e escuro, logos fornecidos por ele. Tipografia: **Plus Jakarta Sans** (títulos) e **Source Sans 3** (texto e interface). As fontes são **hospedadas no próprio site** (`public/fontes/*.woff2`, subconjuntos latin e latin-ext, licença OFL, cerca de 190 KB); site e PDF não dependem do Google Fonts em tempo de execução.
+**Motivo:** o Breno reprovou a primeira fonte proposta (Figtree) e aprovou a opção B. Hospedar as fontes dá privacidade, estabilidade e PDF reproduzível, sem custo.
+**Substitui:** a proposta inicial com Figtree e a orientação do briefing de design de "preferir Google Fonts". Para atualizar uma fonte, repetir o download dos subconjuntos e registrar aqui.
+
+## 2026-10-09 — Autoria dos commits: Claude autor, Breno coautor
+
+**Decisão:** o autor dos commits feitos pelos chats é o **Claude**, e o Breno consta como **coautor** (`Co-authored-by: brenonunesbatista <256785727+brenonunesbatista@users.noreply.github.com>`, além das linhas de atribuição do Claude). Em pasta local sem identidade de Git, usa-se `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...` sem alterar a configuração do Breno. Autorizado por ele; o chat de código ajustou o `CLAUDE.md`.
+**Substitui:** "Autoria dos commits: Breno autor, Claude coautor" e "Coautoria dos commits: conta brenonunesbatista". Commits antigos não são reescritos.
+
+## 2026-10-09 — Trabalho direto na `main`
+
+**Decisão:** o trabalho passa a ficar direto na `main`, sem branches de funcionalidade por padrão. Cada push na `main` republica o site pelo GitHub Actions. Regras de push (detalhe no `CLAUDE.md`, seção Git):
+- chat que roda na pasta do Breno **não** dá `git push`; o push é dele, pelo GitHub Desktop;
+- sessão na nuvem, sem GitHub Desktop, pode dar `git push` direto na `main` (ou na branch de trabalho designada para a sessão), depois de `git pull` e de `npm run build:completo` passando;
+- nunca `--force`, `reset --hard`, `clean -fd` nem reescrita de histórico.
+**Motivo:** o Breno é a única pessoa revisando; o fluxo mais curto reduz atrito, e o site ainda é provisório (`noindex`).
+**Risco aceito:** um erro entra no ar a cada push. A rede de segurança é o build verde antes do push e `git revert` quando for preciso desfazer. Rever esta decisão antes de apresentar o site ao chefe ou de liberar a indexação.
+**Substitui:** a orientação anterior de trabalhar em branch com link de prévia.
+

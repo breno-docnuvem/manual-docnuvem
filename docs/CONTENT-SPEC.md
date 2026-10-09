@@ -88,7 +88,7 @@ Comportamento, controlado por um único interruptor de build (`SHOW_PRINT_PLACEH
 
 ## 9. PDF
 
-- Gerado no build a partir do mesmo conteúdo e da mesma ordem do site (seção 4). Ferramenta: a ser proposta pelo chat de código (LaTeX descartado).
+- Gerado no build a partir do mesmo conteúdo e da mesma ordem do site (seção 4). Ferramenta: página única `/manual-completo/` impressa com Chromium/Playwright (`DECISIONS.md`; LaTeX descartado).
 - Conteúdo: capa, índice (do menu), numeração de páginas, links internos funcionando, legendas das figuras, avisos destacados.
 - Cada módulo começa em página nova. Imagem não se separa da instrução que a antecede; evitar páginas com apenas uma imagem.
 - Placeholders seguem o mesmo interruptor do site.
