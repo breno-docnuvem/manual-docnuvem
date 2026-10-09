@@ -21,6 +21,9 @@ export default {
   // Prefixo de URL dos links gerados (use '/' em *.pages.dev).
   base: process.env.SITE_BASE || '/',
 
+  // Nome do PDF gerado em dist/ (botão de download do site).
+  arquivoPdf: 'manual-docnuvem.pdf',
+
   // Vault (somente leitura).
   vault: 'vaults/Manual DOCNUVEM',
   notaRaiz: 'Docnuvem',

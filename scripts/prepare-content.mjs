@@ -164,7 +164,11 @@ function itemSidebar(no) {
     items: [{ label: 'Visão geral', link }, ...no.filhos.map(itemSidebar)],
   };
 }
-const sidebar = [{ label: 'Início', link: base }, ...topo.map(itemSidebar)];
+const sidebar = [
+  { label: 'Início', link: base },
+  { label: 'Baixar o manual em PDF', link: `${base}${config.arquivoPdf}`, attrs: { download: true, target: '_blank' } },
+  ...topo.map(itemSidebar),
+];
 for (const [r, n] of noMenu) if (n > 1) rel.duplicadasNoMenu.push(`${r} (${n}x)`);
 for (const n of alcancadas) if (n !== raiz && !noMenu.has(n.rel)) rel.foraDoMenu.push(n.rel);
 
@@ -302,9 +306,18 @@ for (const r of imagensUsadas.keys()) {
 const orfas = imagens.filter((i) => !imagensUsadas.has(i.rel)).map((i) => i.rel);
 
 fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar.json'), JSON.stringify(sidebar, null, 2));
-const ordemMenu = [];
-(function achatar(nos) { for (const n of nos) { ordemMenu.push(slugs.get(n.nota.rel)); achatar(n.filhos); } })(topo);
-fs.writeFileSync(path.join(SAIDA_GEN, 'manual.json'), JSON.stringify({ paginas: manual, ordem: ['index', ...ordemMenu] }, null, 2));
+// Ordem e numeração do manual (usadas pela página de impressão /manual-completo/ e pelo PDF).
+const ordem = [{ slug: 'index', titulo: tituloDe(raiz), numero: '', nivel: 0 }];
+(function achatar(nos, prefixo, nivel) {
+  nos.forEach((n, i) => {
+    const numero = prefixo ? `${prefixo}.${i + 1}` : `${i + 1}`;
+    ordem.push({ slug: slugs.get(n.nota.rel), titulo: tituloDe(n.nota), numero, nivel });
+    achatar(n.filhos, numero, nivel + 1);
+  });
+})(topo, '', 1);
+fs.writeFileSync(path.join(SAIDA_GEN, 'manual.json'), JSON.stringify({
+  titulo: config.titulo, base, geradoEm: new Date().toISOString(), ordem,
+}, null, 2));
 
 // ---------- 9. Relatório ----------
 const lista = (arr) => (arr.length ? arr.map((x) => `- ${x}`).join('\n') : '_nenhum_');
