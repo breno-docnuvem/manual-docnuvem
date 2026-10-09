@@ -55,8 +55,17 @@
   display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--dn-s4);
   padding: var(--dn-s8) var(--dn-s5) var(--dn-s7);
   background: linear-gradient(var(--sl-color-gray-6), var(--sl-color-black));
-  margin: 0 calc(-1 * var(--sl-content-pad-x, 1rem));
+  /* faixa de largura total, sem retângulo: dissolve no fundo (DESIGN.md §4.1) */
+  width: 100vw; margin-inline: calc(50% - 50vw);
 }
+html:has(.dn-hero) body { overflow-x: clip; }
+/* home: colunas de até 1120 px (artigo continua em 720 px) */
+body:has(.dn-hero) { --sl-content-width: 70rem; }
+/* home: a busca está no hero, não no cabeçalho */
+body:has(.dn-hero) .header site-search { display: none; }
+/* seletor de tema só com o ícone, sem rótulo "Claro/Escuro/Auto" */
+.header starlight-theme-select select { color: transparent; }
+.header starlight-theme-select option { color: var(--sl-color-text, #101820); }
 .dn-hero h1 { font-size: 44px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
 .dn-hero p { font-size: 18px; color: var(--sl-color-gray-2); max-width: 560px; margin: 0; }
 .dn-hero .box { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: var(--dn-s4); align-items: center; margin-top: var(--dn-s2); }
@@ -139,3 +148,6 @@ main:has(.dn-hero) .content-panel:first-child { display: none; }
   .dn-card b { flex: 1; font-size: 16px; }
   .dn-card::after { content: '›'; color: var(--sl-color-gray-3); font-size: 22px; }
 }
+
+/* O hero encosta no cabeçalho (sem faixa de respiro acima) */
+.content-panel:has(.dn-hero) { padding-top: 0; border-top: 0; }
