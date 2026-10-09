@@ -41,22 +41,35 @@ Os avisos se distinguem por ícone, rótulo em negrito **e** luminosidade, não 
 
 ### Tipografia
 
-Família: **Figtree** (Google Fonts, pesos 400/500/600/700), fallback `system-ui, -apple-system, 'Segoe UI', sans-serif`. Código: `ui-monospace, SFMono-Regular, Menlo, monospace` a `.9em`. Corpo do artigo 17 px / 1,7.
+*Revisão 2026-10-09: o Breno aprovou a opção B (a fonte única Figtree da v1 foi substituída).*
 
-| Papel | Desktop | Celular | Peso |
-|---|---|---|---|
-| Título da home (h1) | 44 / 1,15 | 30 | 700, `letter-spacing -.02em` |
-| Título do artigo (h1) | 36 / 1,2 | 28 | 700, `-.02em` |
-| Seção (h2) | 23 | 20 | 700 |
-| Seção da home (h2) | 22 | 19 | 700 |
-| Introdução (lead) | 19, `muted` | 16 | 400 |
-| Corpo | 17 | 16 | 400 |
-| Avisos | 16 | 16 | 400 (rótulo 700) |
-| Legenda | 14,5 itálico `muted` | 13,5 | 400 |
-| Menu lateral / TOC | 15 / 14 | 16 (gaveta) | 400, atual 650 |
-| Rótulo de grupo | 12, caixa alta, `.06em` | — | 700 |
+- **Títulos:** **Plus Jakarta Sans** (Google Fonts, pesos 500/600/700/800), fallback `'Source Sans 3', system-ui, sans-serif`. Vale para h1–h4, títulos de cartões e de avisos, rótulos de grupo do menu, título do índice da página, título dos resultados de busca e o "Manual" do logo.
+- **Corpo e interface:** **Source Sans 3** (Google Fonts, pesos 400/500/600/700 e itálico 400), fallback `system-ui, -apple-system, 'Segoe UI', sans-serif`. Vale para parágrafos, listas, menus, botões, campos, selos, tabelas e legendas.
+- **Código:** `ui-monospace, SFMono-Regular, Menlo, monospace` a `.9em`.
+- Variáveis sugeridas: `--f-title` e `--f-body`.
+- Carregar só os pesos usados (Plus Jakarta 500–800; Source Sans 3 400–700 + itálico 400) com `display=swap`. Custo zero. Se o site precisar funcionar sem Google Fonts, hospedar os arquivos `woff2` no próprio site (as duas famílias têm licença OFL).
+- Source Sans 3 tem corpo visual menor que Figtree: por isso o texto subiu 1 px em relação à v1.
 
-Largura de leitura do artigo: máx. **720 px**.
+| Papel | Fonte | Desktop | Celular | Peso |
+|---|---|---|---|---|
+| Título da home (h1) | Plus Jakarta | 44 / 1,15 | 30 | 700, `-.025em` |
+| Título do artigo (h1) | Plus Jakarta | 36 / 1,2 | 28 | 700, `-.02em` |
+| Seção (h2) | Plus Jakarta | 23 / 1,3 | 20 | 700, `-.01em` |
+| Seção da home (h2) | Plus Jakarta | 22 | 19 | 700 |
+| Subseção (h3) | Plus Jakarta | 19 | 18 | 650–700 |
+| Introdução (lead) | Source Sans 3, `muted` | 20 / 1,55 | 17 | 400 |
+| Corpo e listas | Source Sans 3 | **18** / 1,7 | 17 | 400 (negrito 700) |
+| Avisos | Source Sans 3 (rótulo em Plus Jakarta 700) | 17 | 16 | 400 |
+| Legenda de figura | Source Sans 3 itálico, `muted` | 15 | 14 | 400 |
+| Cartões (título / descrição) | Plus Jakarta / Source Sans 3 | 17 / 15,5 | 16 | 700 / 400 |
+| Módulo (nome) | Source Sans 3 | 16,5 | 16 | 600 |
+| Menu lateral / navegação | Source Sans 3 | 16 | 17 (gaveta) | 400, atual 650 |
+| Índice da página (TOC) | Source Sans 3 | 15 | — | 400, atual 650 |
+| Rótulo de grupo / "Nesta página" | Plus Jakarta, caixa alta, `.06em` | 12 | — | 700 |
+| Botões e campos | Source Sans 3 | 16 (busca 18) | 16 | 600 |
+| Rodapé, trilha, `kbd`, selo | Source Sans 3 | 15 / 14,5 / 12,5 / 12 | — | 400–600 |
+
+Largura de leitura do artigo: máx. **720 px** (≈ 70 caracteres por linha com o corpo de 18 px).
 
 ### Ícones
 
@@ -123,7 +136,7 @@ Estado de foco/hover, transições do menu, comportamento do `Ctrl K`, aparênci
 
 ## 8. Mapeamento sugerido para o Starlight
 
-`--sl-color-accent` = `accent`; `--sl-color-accent-high` = `link`; `--sl-color-accent-low` = `accent-soft`; `--sl-color-white` = `tx`; `--sl-color-bg` = `bg`; `--sl-color-bg-nav`/`bg-sidebar` = `bg`; `--sl-color-hairline` = `border`; `--sl-color-gray-*` a partir de `muted`/`surface`/`surface2`; `--sl-font` = Figtree; `--sl-content-width` ≈ 720 px. Avisos do Markdown (`:::note|tip|caution`) mapeiam para Observação, Dica e Importante. Os componentes da home (cartões, selo) são componentes Astro próprios.
+`--sl-color-accent` = `accent`; `--sl-color-accent-high` = `link`; `--sl-color-accent-low` = `accent-soft`; `--sl-color-white` = `tx`; `--sl-color-bg` = `bg`; `--sl-color-bg-nav`/`bg-sidebar` = `bg`; `--sl-color-hairline` = `border`; `--sl-color-gray-*` a partir de `muted`/`surface`/`surface2`; `--sl-font` = Source Sans 3 (corpo e interface) e `--sl-font-system`/títulos = Plus Jakarta Sans via `.sl-markdown-content :is(h1,h2,h3,h4)`, cartões e rótulos; `--sl-content-width` ≈ 720 px. Avisos do Markdown (`:::note|tip|caution`) mapeiam para Observação, Dica e Importante. Os componentes da home (cartões, selo) são componentes Astro próprios.
 
 ## 9. Pontos em aberto
 

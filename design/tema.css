@@ -9,7 +9,9 @@
   --shadow:0 1px 2px rgba(20,32,46,.06),0 6px 20px rgba(20,32,46,.07);
   --r-sm:6px; --r-md:10px; --r-lg:16px;
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px;
-  font-family:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-title:'Plus Jakarta Sans','Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-family:var(--f-body);
   background:var(--bg); color:var(--tx); line-height:1.6; font-size:16px;
   box-sizing:border-box;
 }
@@ -41,16 +43,16 @@
 .dn-iconbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);color:var(--tx);cursor:pointer;padding:0}
 
 /* Botões */
-.dn-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:44px;padding:0 var(--s5);border-radius:var(--r-md);font:600 15px/1 'Figtree',system-ui,sans-serif;border:1px solid var(--accent);background:var(--accent);color:var(--accent-tx)!important;cursor:pointer;text-decoration:none}
+.dn-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:44px;padding:0 var(--s5);border-radius:var(--r-md);font:600 16px/1 var(--f-body);border:1px solid var(--accent);background:var(--accent);color:var(--accent-tx)!important;cursor:pointer;text-decoration:none}
 .dn-btn.sec{background:transparent;color:var(--link)!important;border-color:var(--border)}
 
 /* Busca */
 .dn-search{display:flex;align-items:center;gap:var(--s3);min-height:56px;padding:0 var(--s4);border:1.5px solid var(--border);border-radius:var(--r-lg);background:var(--bg);box-shadow:var(--shadow);color:var(--muted);width:100%}
-.dn-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:500 17px 'Figtree',system-ui,sans-serif;color:var(--tx)}
+.dn-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:500 18px var(--f-body);color:var(--tx)}
 .dn-search input::placeholder{color:var(--muted)}
 .dn-search.sm{min-height:44px;border-radius:var(--r-md);box-shadow:none;background:var(--surface)}
 .dn-search.sm input{font-size:15px}
-.dn-kbd{font:600 12px 'Figtree',system-ui,sans-serif;border:1px solid var(--border);border-bottom-width:2px;border-radius:var(--r-sm);padding:2px 8px;color:var(--muted);background:var(--surface);white-space:nowrap}
+.dn-kbd{font:600 12.5px var(--f-body);border:1px solid var(--border);border-bottom-width:2px;border-radius:var(--r-sm);padding:2px 8px;color:var(--muted);background:var(--surface);white-space:nowrap}
 
 /* Home */
 .dn-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--s4);padding:var(--s8) var(--s5) var(--s7);background:linear-gradient(var(--surface),var(--bg))}
@@ -141,7 +143,7 @@
 .dn-drawer details[open]>summary .chev{transform:rotate(90deg)}
 .dn-drawer .sub{margin-left:var(--s5);border-left:1px solid var(--border);padding-left:var(--s2)}
 .dn-drawer a.cur{background:var(--accent-soft);color:var(--link);font-weight:650}
-.dn-label{font:600 13px 'Figtree',system-ui,sans-serif;color:#556579;padding:6px 0}
+.dn-label{font:600 13px var(--f-body);color:#556579;padding:6px 0}
 
 /* Resultados de busca */
 .dn-res{display:flex;flex-direction:column;gap:2px;padding:var(--s3) var(--s4);border-radius:var(--r-md);color:var(--tx)!important}
@@ -151,3 +153,24 @@
 .dn-res mark{background:var(--accent-soft);color:var(--tx);border-radius:3px;padding:0 2px;font-weight:600}
 .dn-res.sel{background:var(--accent-soft)}
 .dn-panel{border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow);background:var(--bg);padding:var(--s2);width:100%}
+
+/* Tipografia v2 (B): Plus Jakarta Sans nos títulos, Source Sans 3 no texto e na interface */
+.dn h1,.dn h2,.dn h3,.dn-logo,.dn-card b,.dn-res b,.dn-pager b,.dn-call .h,.dn-side .grp,.dn-toc .t,.dn-label{font-family:var(--f-title)}
+.dn-hero h1{letter-spacing:-.025em}
+.dn-art h1{letter-spacing:-.02em}
+.dn-art h2{letter-spacing:-.01em;font-weight:700}
+.dn-art p,.dn-art li{font-size:18px;line-height:1.7}
+.dn-art .lead{font-size:20px;line-height:1.55}
+.dn-call,.dn-call p{font-size:17px!important}
+.dn-fig figcaption{font-size:15px}
+.dn-nav{font-size:16px}
+.dn-side{font-size:16px}
+.dn-toc{font-size:15px}
+.dn-card b{font-size:17px;font-weight:700}
+.dn-card span.d{font-size:15.5px}
+.dn-mod{font-size:16.5px;font-weight:600}
+.dn-hero p{font-size:19px}
+.dn-foot{font-size:15px}
+.dn-res b{font-size:17px;font-weight:700}
+.dn-res p{font-size:15.5px}
+.dn-label{font-family:'Source Sans 3',system-ui,sans-serif}
