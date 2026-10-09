@@ -1,0 +1,26 @@
+/* Tokens do tema (cores, fontes, espaçamentos).
+   Único lugar a trocar quando o docs/DESIGN.md existir. Tema neutro provisório. */
+:root {
+  /* Cor de destaque (azul neutro) */
+  --sl-color-accent-low: #dbe7ff;
+  --sl-color-accent: #2f5fd0;
+  --sl-color-accent-high: #1c3d8f;
+
+  /* Fontes */
+  --sl-font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Espaçamentos e formas do manual */
+  --manual-raio: 0.5rem;
+  --manual-espaco: 1.25rem;
+  --manual-borda: var(--sl-color-gray-5);
+
+  /* Placeholder de print */
+  --manual-placeholder-fundo: var(--sl-color-gray-6);
+  --manual-placeholder-borda: var(--sl-color-gray-4);
+}
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #1a2c5e;
+  --sl-color-accent: #6f98ff;
+  --sl-color-accent-high: #c6d7ff;
+}

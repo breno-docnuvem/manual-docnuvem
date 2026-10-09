@@ -1,0 +1,36 @@
+name: Publicar no Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Site + PDF (dist/manual-docnuvem.pdf)
+      - run: npm run build:completo
+      - name: Garantir que o PDF foi gerado
+        run: test -s dist/manual-docnuvem.pdf
+      - name: Criar o projeto no Cloudflare (se ainda não existir)
+        run: npx wrangler pages project create manual-docnuvem --production-branch=main || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Publicar
+        run: npx wrangler pages deploy dist --project-name=manual-docnuvem --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
