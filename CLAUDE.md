@@ -7,10 +7,11 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 ## Stack e decisões
 
 - Site: **Astro Starlight**. Hospedagem provisória: **Cloudflare Pages** (`*.pages.dev`), com `noindex` enquanto for provisório. Subdomínio da empresa só será pedido depois da apresentação ao chefe.
-- PDF gerado no build a partir do mesmo Markdown (capa, índice, numeração).
+- PDF gerado no build a partir do mesmo Markdown (capa, índice, numeração). **LaTeX não é mais usado.**
+- Publica-se apenas o que é alcançável por links a partir de `Docnuvem.md`; `TODO/` e as notas de diretrizes nunca são publicadas.
 - Custo zero: não adicionar serviço, dependência ou plano pago sem aprovação do Breno.
 - Decisões completas e o motivo de cada uma: `DECISIONS.md`.
-- O vault já tem regras editoriais próprias (tom, estrutura das notas, prints, ordem dos módulos) em `vaults/Manual DOCNUVEM/Diretrizes de escrita do manual.md` e `Diretrizes de geração de manuais.md`. Elas continuam valendo para o conteúdo e **não são publicadas** no site. Existe também um fluxo antigo de PDF em LaTeX (repositório `doc_manuals`); veja o status em `DECISIONS.md`.
+- O vault já tem regras editoriais próprias (tom, estrutura das notas, prints, ordem dos módulos) em `vaults/Manual DOCNUVEM/Diretrizes de escrita do manual.md` e `Diretrizes de geração de manuais.md`. Elas continuam valendo para o conteúdo e **não são publicadas** no site.
 
 ## Antes de qualquer trabalho (obrigatório)
 
