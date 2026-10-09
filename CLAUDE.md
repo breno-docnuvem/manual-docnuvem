@@ -1,6 +1,6 @@
 # CLAUDE.md — manual-docnuvem
 
-Site-manual do sistema **Docnuvem** (SaaS de gestão, armazenamento e assinatura de documentos). Público final: **clientes**. Responsivo, com busca forte e **download do manual em PDF**. O conteúdo nasce em um vault do Obsidian e é publicado por um site estático.
+Site-manual do sistema **Docnuvem** (SaaS de gestão, armazenamento e assinatura de documentos). Público final: **clientes**. Responsivo, com busca forte e **download do manual em PDF**. O conteúdo nasce em um vault do Obsidian, que fica **dentro deste repositório** em `vaults/Manual DOCNUVEM/`, e é publicado por um site estático.
 
 Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e de todo o conteúdo: **português do Brasil**.
 
@@ -10,6 +10,7 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 - PDF gerado no build a partir do mesmo Markdown (capa, índice, numeração).
 - Custo zero: não adicionar serviço, dependência ou plano pago sem aprovação do Breno.
 - Decisões completas e o motivo de cada uma: `DECISIONS.md`.
+- O vault já tem regras editoriais próprias (tom, estrutura das notas, prints, ordem dos módulos) em `vaults/Manual DOCNUVEM/Diretrizes de escrita do manual.md` e `Diretrizes de geração de manuais.md`. Elas continuam valendo para o conteúdo e **não são publicadas** no site. Existe também um fluxo antigo de PDF em LaTeX (repositório `doc_manuals`); veja o status em `DECISIONS.md`.
 
 ## Antes de qualquer trabalho (obrigatório)
 
@@ -21,7 +22,7 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 ## Regras que valem para todo chat
 
 - **Cada chat só edita a sua área** (tabela em `docs/COMUNICACAO-ENTRE-CHATS.md`). Se precisar de mudança em outra área, escreva um pedido no seu handoff; não faça a mudança.
-- O código **lê** o vault, **nunca escreve** nele.
+- O código **lê** o vault (`vaults/`), **nunca escreve** nele. Só o chat do vault edita `vaults/`.
 - Não reabra decisão registrada em `DECISIONS.md`. Se achar que está errada, proponha a mudança em um handoff para o chat de planejamento.
 - **Handoff é automático**: escreva e atualize o handoff sem que o Breno peça. Detalhes no documento de comunicação.
 - Conteúdo interno (macros de suporte, processos de implantação) **nunca** entra no site público. Só vai para o site o que estiver marcado como publicável conforme o `CONTENT-SPEC.md`.
@@ -32,7 +33,7 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 - Faça commits pequenos e frequentes na branch atual. Adicione arquivos **por caminho** (`git add caminho/arquivo`); não use `git add -A` nem `git add .`, para não levar junto o trabalho de outro chat.
 - Mensagens de commit em português, no formato `área: o que mudou` (ex.: `docs: adiciona CONTENT-SPEC inicial`). Áreas: `docs`, `design`, `site`, `pdf`, `build`, `conteudo`.
 - Antes de uma operação grande ou arriscada, faça um commit de ponto de retorno.
-- Se o Git não tiver identidade configurada, use `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...` sem alterar a configuração do Breno.
+- O login do Breno no GitHub Desktop não vale para os commits feitos pelos chats: esta pasta não tem identidade de Git configurada. Use `git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit ...` sem alterar a configuração do Breno. O push, feito por ele no GitHub Desktop, é que o identifica no GitHub.
 - Inclua o handoff atualizado no mesmo commit do trabalho a que ele se refere, ou em um commit `docs: handoff ...` logo em seguida.
 
 ## Código (chat do Claude Code)

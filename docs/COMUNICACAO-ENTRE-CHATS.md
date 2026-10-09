@@ -8,7 +8,7 @@ Todo chat deve ler este documento antes de começar (o `CLAUDE.md` da raiz manda
 
 | Chat | É dono de | Entrega | Nunca edita |
 |---|---|---|---|
-| **Vault** (Obsidian) | Conteúdo do manual: notas, imagens, estrutura de pastas do vault | Notas no formato do `CONTENT-SPEC.md` | Código, tema, `DESIGN.md` |
+| **Vault** (Obsidian) | Conteúdo do manual em `vaults/`: notas, imagens, estrutura de pastas | Notas no formato do `CONTENT-SPEC.md` | Código, tema, `DESIGN.md` |
 | **Design** (artifacts) | Identidade visual | `docs/DESIGN.md` (tokens, telas aprovadas) e protótipos em `design/` | Conteúdo, código do site |
 | **Claude Code** | Código do site: tema, configuração, build, PDF, deploy | Site funcionando e PDF gerado | Notas do vault, `DESIGN.md` |
 | **Planejamento** | Decisões e contratos | `DECISIONS.md`, `docs/CONTENT-SPEC.md`, este documento, `CLAUDE.md`, briefings | Código e notas do vault |
@@ -18,7 +18,8 @@ Regras de fronteira:
 - O fluxo é de **mão única**: vault → build → site; design → tokens → tema. O código lê o vault, mas nunca escreve nele.
 - Se um chat precisa de uma mudança na área de outro, **ele não faz a mudança**: escreve um **pedido** no seu handoff, endereçado ao dono.
 - Mudanças em `docs/CONTENT-SPEC.md` passam pelo chat de planejamento, porque afetam vault e código ao mesmo tempo.
-- O vault fica fora deste repositório. O caminho dele e o que é publicável são definidos no `CONTENT-SPEC.md`. Os chats de vault e de planejamento precisam ter **esta pasta do repositório conectada** para poder gravar seus handoffs aqui.
+- O vault fica **dentro deste repositório**, em `vaults/Manual DOCNUVEM/`. O que é publicável no site é definido no `CONTENT-SPEC.md`. Todos os chats precisam ter a pasta do repositório conectada para gravar seus handoffs aqui.
+- As notas `Diretrizes de escrita do manual` e `Diretrizes de geração de manuais`, dentro do vault, são as regras editoriais do conteúdo e pertencem ao chat do vault. Elas são internas e não vão para o site. Se alguma regra delas conflitar com este documento (por exemplo, onde registrar o histórico de trabalho), vale este documento para a comunicação entre chats e o chat do vault deve atualizar a nota.
 
 ## 2. Os arquivos que ligam os chats
 
@@ -97,6 +98,7 @@ Os chats compartilham a mesma cópia local do repositório, então o cuidado é 
 - Antes de começar, `git status`: alterações que não são suas pertencem a outro chat (ou ao Breno) e ficam fora do seu commit.
 - Nada de `--force`, `reset --hard`, `clean -fd` ou reescrita de histórico. Para desfazer algo, use `git revert` e explique no handoff.
 - Antes de uma operação grande no vault ou no código, faça um commit de ponto de retorno.
+- Como o vault está no repositório, o GitHub Desktop mostrará alterações de vários chats juntas. Por isso o prefixo de área na mensagem do commit (`conteudo:`, `site:`, `design:`, `docs:`) importa: ele permite ao Breno ver de quem é cada commit antes do push.
 
 ## 5. Conflitos e dúvidas
 

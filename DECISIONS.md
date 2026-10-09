@@ -28,3 +28,14 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 
 **Decisão:** os chats se comunicam por arquivos neste repositório, cada um dono de uma área; handoffs são escritos automaticamente. Ver `docs/COMUNICACAO-ENTRE-CHATS.md`.
 **Motivo:** chats não enxergam o trabalho uns dos outros; arquivos versionados evitam que um desfaça o que o outro fez.
+
+## 2026-10-09 — Vault dentro do repositório
+
+**Decisão:** o vault do manual fica em `vaults/Manual DOCNUVEM/` neste repositório (feito pelo Breno). O chat do vault edita só `vaults/`; os demais só leem.
+**Motivo:** versiona o conteúdo junto com o site, dá ponto de retorno para edições de IA e deixa o build ler o conteúdo sem sincronização manual.
+**Substitui:** a premissa anterior de vault fora do repositório.
+
+## 2026-10-09 — PDF: fluxo LaTeX existente ainda a avaliar (em aberto)
+
+**Situação:** o vault já documenta um fluxo de PDF em LaTeX (repositório `doc_manuals`, estilo `settings.cls`, links internos, placeholders de prints). A entrada "PDF do manual gerado a partir do Markdown" não escolheu a ferramenta. Fica em aberto: reaproveitar o LaTeX existente ou gerar o PDF no build do site. Decisão do Breno, com proposta do chat de código. Até lá, ninguém remove nem altera o fluxo existente.
+
