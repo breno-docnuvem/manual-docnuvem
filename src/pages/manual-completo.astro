@@ -19,8 +19,7 @@ for (const item of manual.ordem) {
 }
 // Capa: texto de apresentação (primeira frase do Docnuvem.md) e os três primeiros módulos como "comece por aqui"
 const apresentacao = capitulos.find((c) => c.slug === 'index')?.descricao ?? '';
-const curto = (t, n = 96) => (t.length > n ? t.slice(0, n - 1).trimEnd() + '…' : t);
-const comece = capitulos.filter((c) => c.nivel === 1).slice(0, 3);
+const modulos = capitulos.filter((c) => c.nivel === 1);
 const dataBruta = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
 ---
@@ -42,14 +41,14 @@ const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
         <p class="capa__sub">Gestão, armazenamento e assinatura de documentos.</p>
         <p class="capa__texto">{apresentacao}</p>
       </div>
-      <ol class="capa__cards">
-        {comece.map((c) => (
-          <li>
-            <span class="n">{c.numero.padStart(2, '0')}</span>
-            <div><strong>{c.titulo}</strong><span>{curto(c.descricao)}</span></div>
-          </li>
-        ))}
-      </ol>
+      <div class="capa__modulos">
+        <p class="capa__kicker">Neste manual</p>
+        <ol>
+          {modulos.map((c) => (
+            <li><span class="n">{c.numero.padStart(2, '0')}</span>{c.titulo}</li>
+          ))}
+        </ol>
+      </div>
       <p class="capa__rodape">Manual do cliente Docnuvem | Edição {data}</p>
     </section>
 

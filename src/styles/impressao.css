@@ -34,11 +34,10 @@ img { max-width: 100%; height: auto; }
 .capa h1 { font: 800 50pt/1.04 var(--f-title); letter-spacing: -0.025em; margin: 8mm 0 6mm; color: #fff; }
 .capa__sub { font: 700 17pt/1.3 var(--f-title); margin: 0 0 6mm; max-width: 140mm; color: #fff; }
 .capa__texto { font-size: 11pt; line-height: 1.6; color: #c9d2dc; max-width: 130mm; margin: 0; }
-.capa__cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4mm; }
-.capa__cards li { display: flex; gap: 6mm; align-items: center; padding: 5mm 6mm; background: var(--pdf-navy-2); border-radius: 2.4mm; }
-.capa__cards .n { font: 700 15pt var(--f-title); color: var(--sl-color-accent-high); min-width: 10mm; }
-.capa__cards strong { display: block; font: 700 11pt var(--f-title); color: #fff; }
-.capa__cards li div span { display: block; font-size: 9pt; color: #a8b3bf; margin-top: 0.8mm; }
+.capa__modulos .capa__kicker { margin: 0 0 4mm; }
+.capa__modulos ol { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(8, auto); column-gap: 10mm; border-top: 1px solid #2d3b4a; }
+.capa__modulos li { display: flex; gap: 4mm; align-items: baseline; padding: 2.6mm 0; border-bottom: 1px solid #2d3b4a; font: 600 10pt var(--f-title); color: #f1f1f1; }
+.capa__modulos .n { font: 700 9pt var(--f-title); color: var(--sl-color-accent-high); min-width: 7mm; }
 .capa__rodape { margin: 0; font: 700 7pt var(--f-body); letter-spacing: 0.1em; text-transform: uppercase; color: #a8b3bf; }
 
 /* ---------- Índice ---------- */
@@ -98,7 +97,7 @@ figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-siz
 .sl-anchor-link, .sr-only, .dn-hero, .dn-sec { display: none; }
 
 /* títulos: espaço entre palavras um pouco maior (Plus Jakarta Sans fica apertada no papel) */
-.cap__titulo, .conteudo :is(h1, h2, h3, h4), .indice__titulo, .indice__n1, .capa h1, .capa__sub, .capa__cards strong, .starlight-aside__title { word-spacing: 0.08em; }
+.cap__titulo, .conteudo :is(h1, h2, h3, h4), .indice__titulo, .indice__n1, .capa h1, .capa__sub, .starlight-aside__title { word-spacing: 0.08em; }
 
 /* Ícones (o CSS do site não é carregado aqui) */
 .ic { width: 4.2mm; height: 4.2mm; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
