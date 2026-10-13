@@ -325,10 +325,22 @@ fs.mkdirSync(SAIDA_DOCS, { recursive: true });
 fs.mkdirSync(SAIDA_GEN, { recursive: true });
 fs.mkdirSync(SAIDA_REL, { recursive: true });
 
+// Ícone da plataforma (arquivo em src/assets/icones/plataforma) ou, se o valor for um caminho SVG, ícone genérico do design.
+function iconeSvg(valor) {
+  const arq = path.join(RAIZ, 'src/assets/icones/plataforma', `${valor}.svg`);
+  if (/^[\w-]+$/.test(valor) && fs.existsSync(arq)) {
+    const svg = fs.readFileSync(arq, 'utf8').trim();
+    const vb = svg.match(/viewBox="([^"]+)"/)?.[1] || '0 0 24 24';
+    const interno = svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+    return `<svg class="ic-plat" viewBox="${vb}" fill="currentColor" aria-hidden="true">${interno}</svg>`;
+  }
+  return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="${valor}"></path></svg>`;
+}
+
 function paginaInicial(corpo) {
   // Home do design: hero com busca + cartões por tarefa + grade de módulos; o sumário do hub sai (a grade o substitui).
   const semSumario = corpo.replace(/^## Sumário\n[\s\S]*?(?=^## |(?![\s\S]))/m, '');
-  const icone = (d) => `<span class="ib"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"></path></svg></span>`;
+  const icone = (v) => `<span class="ib">${iconeSvg(v)}</span>`;
   const cartoes = config.cartoesHome.map((c) => {
     const dest = resolverNota(c.nota);
     if (!dest || !slugs.has(dest.rel)) { rel.quebrados.set('(cartões da home)', [...(rel.quebrados.get('(cartões da home)') || []), c.nota]); return ''; }

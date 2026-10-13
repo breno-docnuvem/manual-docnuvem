@@ -39,6 +39,8 @@
 .sl-markdown-content figure.print-placeholder figcaption { font-family: var(--sl-font-mono); font-size: 12px; font-style: normal; word-break: break-all; }
 
 /* ---------- Botões e ícones ---------- */
+.ic-plat { width: 22px; height: 22px; flex: none; }
+.dn-mod .ib .ic-plat { width: 19px; height: 19px; }
 .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .ic-sm { width: 16px; height: 16px; }
 .dn-btn {
