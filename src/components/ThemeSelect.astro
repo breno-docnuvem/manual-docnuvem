@@ -39,10 +39,10 @@
         });
         document.addEventListener('click', () => this.alternar(false));
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.alternar(false); });
-        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (this.escolhido === 'auto') this.aplicar('auto'); });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (this.escolhido === 'auto') this.aplicar('auto'); });
       }
       guardado() {
-        try { const v = localStorage.getItem('starlight-theme'); return v === 'light' || v === 'dark' ? v : 'auto'; } catch (e) { return 'auto'; }
+        try { const v = localStorage.getItem('starlight-theme'); return v === 'dark' || v === 'auto' ? v : 'light'; } catch (e) { return 'light'; }
       }
       alternar(abrir) {
         const vaiAbrir = abrir === undefined ? this.menu.hidden : abrir;
@@ -51,9 +51,9 @@
       }
       aplicar(tema) {
         this.escolhido = tema;
-        const efetivo = tema === 'auto' ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : tema;
+        const efetivo = tema === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : tema;
         document.documentElement.dataset.theme = efetivo;
-        try { localStorage.setItem('starlight-theme', tema === 'auto' ? '' : tema); } catch (e) {}
+        try { localStorage.setItem('starlight-theme', tema); } catch (e) {}
         this.marcar();
       }
       marcar() {
