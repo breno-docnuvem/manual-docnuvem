@@ -18,6 +18,10 @@ export default {
   // Enquanto o endereço for provisório (*.pages.dev), nada de indexação.
   NOINDEX: flag('NOINDEX', true),
 
+  // Modo estrito: o build FALHA em link quebrado, seção inexistente ou imagem ausente.
+  // Desligado por padrão (o vault ainda tem pendências); use `npm run build:estrito` ou BUILD_ESTRITO=1.
+  BUILD_ESTRITO: flag('BUILD_ESTRITO', false),
+
   // Prefixo de URL dos links gerados (use '/' em *.pages.dev).
   base: process.env.SITE_BASE || '/',
 

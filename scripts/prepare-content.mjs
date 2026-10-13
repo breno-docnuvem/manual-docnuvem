@@ -455,3 +455,20 @@ console.log(
   `${imagensUsadas.size} imagens (${rel.imagensAusentes.length} ausentes) · ${totalPH} placeholders (${config.SHOW_PRINT_PLACEHOLDERS ? 'visíveis' : 'ocultos'})`,
 );
 console.log('[vault] relatório: .build/relatorio-build.md');
+
+// Modo estrito (CONTENT-SPEC, seção 11): problemas de conteúdo passam a ser erro de build
+if (config.BUILD_ESTRITO || process.argv.includes('--estrito')) {
+  const problemas = [
+    ...[...rel.quebrados].flatMap(([n, l]) => [...new Set(l)].map((x) => `link quebrado em ${n}: ${x}`)),
+    ...rel.secoesInexistentes.map((x) => `seção inexistente: ${x}`),
+    ...rel.imagensAusentes.map((x) => `imagem ausente: ${x}`),
+    ...rel.imagensAmbiguas.map((x) => `imagem ambígua: ${x}`),
+  ];
+  if (problemas.length) {
+    console.error(`\n[vault] MODO ESTRITO: ${problemas.length} problema(s) de conteúdo:`);
+    problemas.forEach((x) => console.error(`  - ${x}`));
+    console.error('\nCorrija no vault (ou rode `npm run build` sem o modo estrito).');
+    process.exit(1);
+  }
+  console.log('[vault] modo estrito: nenhum problema de conteúdo.');
+}
