@@ -34,7 +34,7 @@ const inlineHtml = (s) =>
 const rel = {
   excluidas: [], quebrados: new Map(), imagensAusentes: [], imagensAmbiguas: [],
   placeholders: new Map(), placeholdersComImagem: [], foraDoMenu: [], vazias: [],
-  duplicadasNoMenu: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
+  duplicadasNoMenu: [], hierarquiaInferida: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
 };
 const somar = (mapa, k, n = 1) => mapa.set(k, (mapa.get(k) || 0) + n);
 const empurrar = (mapa, k, v) => { if (!mapa.has(k)) mapa.set(k, []); mapa.get(k).push(v); };
@@ -155,6 +155,18 @@ function itensSumario(nota) {
     pilha[pilha.length - 1].filhos.push(item);
     pilha.push({ nivel, filhos: item.filhos });
   }
+  // Sumário plano (sem recuo) que mistura telas e guias "Como ...": cada guia pertence à tela anterior.
+  // O ideal é recuar no vault; enquanto isso a hierarquia é inferida e listada no relatório.
+  const ehGuia = (i) => /^Como /i.test(i.nota.nome);
+  if (itens.length > 1 && itens.every((i) => !i.filhos.length) && itens.some(ehGuia) && itens.some((i) => !ehGuia(i))) {
+    const agrupado = [];
+    for (const i of itens) {
+      const tela = agrupado[agrupado.length - 1];
+      if (ehGuia(i) && tela && !ehGuia(tela)) tela.filhos.push(i);
+      else agrupado.push(i);
+    }
+    if (agrupado.length < itens.length) { rel.hierarquiaInferida.push(nota.rel); return agrupado; }
+  }
   return itens;
 }
 const noMenu = new Map(); // rel -> vezes
@@ -225,10 +237,39 @@ const urlImagem = (i) =>
 
 // ---------- 7. Transformação do texto ----------
 const TIPOS_ROTULO = config.avisos;
+// Nó do menu de cada nota (para montar o Sumário em grupos)
+const noPorNota = new Map();
+(function indexar(nos) { for (const n of nos) { if (!noPorNota.has(n.nota.rel)) noPorNota.set(n.nota.rel, n); indexar(n.filhos); } })(topo);
+
+// Troca a lista "## Sumário" por grupos: cada tela vira um cartão com seus guias abaixo.
+function sumarioEmGrupos(nota, texto) {
+  const no = noPorNota.get(nota.rel);
+  if (!no || !no.filhos.length) return texto;
+  const linhas = texto.split('\n');
+  const ini = linhas.findIndex((l) => /^##\s+Sumário\s*$/.test(l));
+  if (ini < 0) return texto;
+  let fim = linhas.length;
+  for (let i = ini + 1; i < linhas.length; i++) if (/^#{1,2}\s+/.test(linhas[i])) { fim = i; break; }
+  const link = (n, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${urlDe(n.nota)}">${escHtml(tituloDe(n.nota))}</a>`;
+  const comFilhos = no.filhos.filter((f) => f.filhos.length);
+  let html;
+  if (!comFilhos.length) {
+    html = `<ul class="dn-sum__lista">${no.filhos.map((f) => `<li>${link(f)}</li>`).join('')}</ul>`;
+  } else {
+    const grupos = no.filhos.map((f) => f.filhos.length
+      ? `<section class="dn-sum__grupo">${link(f, 'dn-sum__tela')}<ul>${f.filhos.map((g) => `<li>${link(g)}</li>`).join('')}</ul></section>`
+      : `<section class="dn-sum__grupo dn-sum__grupo--solo">${link(f, 'dn-sum__tela')}</section>`).join('');
+    html = grupos;
+  }
+  const bloco = ['## Sumário', '', `<div class="dn-sum">${html}</div>`, ''];
+  return [...linhas.slice(0, ini), ...bloco, ...linhas.slice(fim)].join('\n');
+}
+
 function transformar(nota) {
   let t = nota.texto;
   // remove o H1 (o título vai no frontmatter)
   t = t.replace(/^\s*#\s+.+\n/, '');
+  t = sumarioEmGrupos(nota, t);
 
   // figuras com legenda: embed + "*Figura N. ...*"
   t = t.replace(/^!\[\[([^\]|\n]+)(?:\|[^\]\n]*)?\]\]\s*\n(?:[ \t]*\n)?\*(Figura[^\n]*?)\*[ \t]*$/gm, (_, ref, legenda) => figura(ref, legenda, nota));
@@ -441,6 +482,9 @@ ${lista(rel.emBreve)}
 
 ## Seções "[[Nota#Seção]]" inexistentes (link vai para a nota)
 ${lista(rel.secoesInexistentes)}
+
+## Sumários planos com hierarquia inferida (recuar no vault: guias "Como ..." sob a tela)
+${lista(rel.hierarquiaInferida)}
 
 ## Notas que aparecem mais de uma vez no menu
 ${lista(rel.duplicadasNoMenu)}
