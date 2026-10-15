@@ -1,14 +1,11 @@
 # Arquivos
 
-O módulo **Arquivos** reúne telas voltadas ao acompanhamento de documentos específicos, certificados, processamento pela IA Documental e assinatura em massa.
+O módulo **Arquivos** reúne telas voltadas ao acompanhamento de certificados, processamento pela IA Documental e assinatura em massa.
 
-Use estas telas para monitorar prazos, acompanhar certificados, enviar arquivos para automações e executar ações em lote.
+Use estas telas para acompanhar certificados, enviar arquivos para automações e executar ações em lote.
 
 ## Sumário
 
-- [[Contratos]]
-- [[Como filtrar e visualizar Contratos]]
-- [[Como configurar data de vencimento para Contratos]]
 - [[Certificados]]
 - [[Como visualizar Certificados]]
 - [[IA Documental]]
