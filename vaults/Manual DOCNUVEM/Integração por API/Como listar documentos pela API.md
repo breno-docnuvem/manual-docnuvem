@@ -24,7 +24,7 @@ Os documentos vêm do mais recente para o mais antigo, pela data de envio. Docum
 Exemplo usando `curl`, para listar os documentos pendentes de assinatura em agosto de 2026:
 
 ```bash
-curl "https://URL_DA_API/api/documentos?instancia=SUA_INSTANCIA&status=pendente&dataInicio=2026-08-01&dataFim=2026-08-31" \
+curl "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/documentos?instancia=SUA_INSTANCIA&status=pendente&dataInicio=2026-08-01&dataFim=2026-08-31" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 

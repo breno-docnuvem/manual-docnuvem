@@ -22,7 +22,7 @@ As pastas que estão na lixeira não aparecem na lista. As pastas vêm em ordem 
 Exemplo usando `curl`:
 
 ```bash
-curl "https://URL_DA_API/api/diretorios?instancia=SUA_INSTANCIA&nome=CONTRATOS" \
+curl "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/diretorios?instancia=SUA_INSTANCIA&nome=CONTRATOS" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 

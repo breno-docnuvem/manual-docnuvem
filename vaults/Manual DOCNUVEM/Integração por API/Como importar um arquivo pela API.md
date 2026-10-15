@@ -33,7 +33,7 @@ Observações sobre o tipo:
 Envie a chamada com o token no cabeçalho `Authorization` e o arquivo no campo `file`. Exemplo usando `curl`:
 
 ```bash
-curl -X POST "https://URL_DA_API/importar?instancia=SUA_INSTANCIA&nomeArquivo=contrato.pdf&nomePasta=Contratos&nomePastaPai=/Meus%20documentos/Clientes&tipo=Contrato" \
+curl -X POST "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/importar?instancia=SUA_INSTANCIA&nomeArquivo=contrato.pdf&nomePasta=Contratos&nomePastaPai=/Meus%20documentos/Clientes&tipo=Contrato" \
   -H "Authorization: Bearer SEU_TOKEN" \
   -F "file=@contrato.pdf"
 ```

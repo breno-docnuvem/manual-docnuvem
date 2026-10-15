@@ -22,7 +22,7 @@ Use o método `POST` no recurso `/enviarParaEnvioInteligente`, com os parâmetro
 Envie a chamada com o token no cabeçalho `Authorization` e o arquivo no campo `file`. Exemplo usando `curl`:
 
 ```bash
-curl -X POST "https://URL_DA_API/enviarParaEnvioInteligente?instancia=SUA_INSTANCIA&nomeArquivo=nota-fiscal.pdf" \
+curl -X POST "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/enviarParaEnvioInteligente?instancia=SUA_INSTANCIA&nomeArquivo=nota-fiscal.pdf" \
   -H "Authorization: Bearer SEU_TOKEN" \
   -F "file=@nota-fiscal.pdf"
 ```

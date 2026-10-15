@@ -9,7 +9,7 @@ Os modelos são cadastrados pela tela do Docnuvem. A API não cria nem edita mod
 Use o método `GET` no recurso `/api/modelos`, com o parâmetro `instancia`. Exemplo usando `curl`:
 
 ```bash
-curl "https://URL_DA_API/api/modelos?instancia=SUA_INSTANCIA" \
+curl "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/modelos?instancia=SUA_INSTANCIA" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 

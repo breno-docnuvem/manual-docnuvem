@@ -81,7 +81,7 @@ O `linkAssinatura` da resposta já vem no formato certo para cada caso.
 Exemplo usando `curl`:
 
 ```bash
-curl -X POST "https://URL_DA_API/api/assinatura?instancia=SUA_INSTANCIA" \
+curl -X POST "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/assinatura?instancia=SUA_INSTANCIA" \
   -H "Authorization: Bearer SEU_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{

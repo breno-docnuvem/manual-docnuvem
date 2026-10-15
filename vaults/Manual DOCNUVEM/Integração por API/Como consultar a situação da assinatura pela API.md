@@ -11,7 +11,7 @@ Use o método `GET` no recurso `/api/documento/{documentoId}/status`, trocando `
 Exemplo usando `curl`:
 
 ```bash
-curl "https://URL_DA_API/api/documento/48213/status?instancia=SUA_INSTANCIA" \
+curl "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/documento/48213/status?instancia=SUA_INSTANCIA" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 

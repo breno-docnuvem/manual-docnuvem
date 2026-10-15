@@ -28,7 +28,7 @@ Use o método `DELETE` no recurso `/api/assinatura/{assinaturaId}`, trocando `{a
 Exemplo usando `curl`:
 
 ```bash
-curl -X DELETE "https://URL_DA_API/api/assinatura/731?instancia=SUA_INSTANCIA&motivo=Contrato%20desistido" \
+curl -X DELETE "http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083/api/assinatura/731?instancia=SUA_INSTANCIA&motivo=Contrato%20desistido" \
   -H "Authorization: Bearer SEU_TOKEN"
 ```
 

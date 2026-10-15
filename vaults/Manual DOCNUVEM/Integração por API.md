@@ -8,11 +8,11 @@ Este módulo é voltado à equipe de TI. Esta nota apresenta o que é necessári
 
 Antes de usar a API, a equipe de TI precisa ter em mãos:
 
-- **O endereço da API do Docnuvem.** Nos exemplos deste manual, ele aparece como `https://URL_DA_API`.
-- **O identificador da instância**, informado em todas as chamadas no parâmetro `instancia`.
-- **Um token de acesso (Bearer Token)**, enviado no cabeçalho `Authorization`.
+- **O endereço da API do Docnuvem:** `http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083`. É o endereço usado nos exemplos deste manual.
+- **O identificador da instância**, informado em todas as chamadas no parâmetro `instancia`. É o subdomínio do endereço de acesso ao sistema. Por exemplo, se o acesso é `https://exemplo.docnuvem.com.br/sistema/login/Index`, a instância é `exemplo`.
+- **Um token de acesso (Bearer Token)**, enviado no cabeçalho `Authorization`. Para obtê-lo, acesse **Configurações do sistema** e abra a aba **Token**.
 
-<!-- TODO: confirmar com Breno (a) o endereço da API que o cliente deve usar; (b) onde o cliente obtém o identificador da instância e o token (a aba Token, em Configurações do sistema?); (c) a API é liberada para todos os clientes ou precisa ser contratada/habilitada? O endereço de teste da API não deve aparecer no manual público. -->
+A API é aberta: não é preciso contratá-la nem solicitar liberação.
 
 > **Importante:** o token dá acesso aos documentos da instância. Guarde-o em local seguro e não o compartilhe nem o inclua em arquivos de código compartilhados.
 
