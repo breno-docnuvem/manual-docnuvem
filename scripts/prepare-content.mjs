@@ -137,7 +137,13 @@ const ancorasDe = (nota) => {
   }
   return slugsDeTitulos.get(nota.rel);
 };
-const urlDe = (nota) => (nota === raiz ? base : `${base}${slugs.get(nota.rel)}/`);
+const urlPagina = (nota) => (nota === raiz ? base : `${base}${slugs.get(nota.rel)}/`);
+// Página única por tema: guias e telas de um módulo viram seções (âncoras) da página do módulo.
+const paginaDe = new Map(); // rel da nota incorporada -> { cabeca, ancora, prof, maxNivel }
+const urlDe = (nota) => {
+  const p = paginaDe.get(nota.rel);
+  return p ? `${urlPagina(p.cabeca)}#${p.ancora}` : urlPagina(nota);
+};
 
 // ---------- 5. Menu a partir dos sumários ----------
 function secao(texto, titulo) {
@@ -192,14 +198,9 @@ function arvore(item, ancestrais) {
 const topo = itensSumario(raiz).map((i) => arvore(i, new Set([raiz.rel])));
 const topoApi = raizApi ? itensSumario(raizApi).map((i) => arvore(i, new Set([raizApi.rel]))) : [];
 const tituloDe = (nota) => (nota.texto.match(/^#\s+(.+)$/m)?.[1] || nota.nome).trim();
+// Menu plano: cada tema é uma página; a navegação interna é pelo "Nesta página" e pelo sumário.
 function itemSidebar(no) {
-  const link = urlDe(no.nota);
-  if (!no.filhos.length) return { label: tituloDe(no.nota), link };
-  return {
-    label: tituloDe(no.nota),
-    collapsed: true,
-    items: [{ label: 'Visão geral', link }, ...no.filhos.map(itemSidebar)],
-  };
+  return { label: tituloDe(no.nota), link: urlPagina(no.nota) };
 }
 // Nota alcançável fora de qualquer sumário: vai para o fim do módulo de onde foi descoberta.
 const modulos = topo;
@@ -211,6 +212,31 @@ for (const n of alcancadas) {
   let mod = null;
   while (origem && !(mod = moduloDe(origem.rel))) origem = descobertaPor.get(origem.rel);
   if (mod) { mod.filhos.push({ nota: n, filhos: [] }); noMenu.set(n.rel, 1); rel.foraDoMenu.push(`${n.rel} (anexada ao módulo "${mod.nota.nome}")`); }
+}
+// Seções de cada página (telas e guias do tema, na ordem do sumário)
+const paginas = []; // { cabeca, secoes: [{ nota, prof, ancora, numero }], maxNivel }
+{
+  const cabecas = [...topo.map((no, i) => ({ no, numero: String(i + 1) })), ...(raizApi ? [{ no: { nota: raizApi, filhos: topoApi }, numero: '' }] : [])];
+  for (const { no, numero } of cabecas) {
+    const usadas = new Set();
+    const secoes = [];
+    const andar = (filhos, prof, prefixo) => filhos.forEach((f, i) => {
+      if (paginaDe.has(f.nota.rel) || f.nota === no.nota || cabecas.some((c) => c.no.nota === f.nota)) return;
+      // mesmo id que o Astro gera para o título (github-slugger); repetidos ganham -1, -2...
+      let ancora = slugHeading(tituloDe(f.nota)) || 'secao';
+      if (usadas.has(ancora)) { let k = 1; while (usadas.has(`${ancora}-${k}`)) k++; ancora = `${ancora}-${k}`; }
+      usadas.add(ancora);
+      const num = prefixo ? `${prefixo}.${i + 1}` : '';
+      const sec = { nota: f.nota, prof, ancora, numero: num, filhos: f.filhos.length };
+      secoes.push(sec);
+      paginaDe.set(f.nota.rel, sec);
+      andar(f.filhos, prof + 1, num);
+    });
+    andar(no.filhos, 0, numero);
+    const maxNivel = Math.min(6, 2 + secoes.reduce((m, x) => Math.max(m, x.prof), 0));
+    for (const sec of secoes) { sec.cabeca = no.nota; sec.maxNivel = maxNivel; }
+    paginas.push({ cabeca: no.nota, secoes, maxNivel, numero });
+  }
 }
 const sidebar = [
   { label: 'Início', link: base },
@@ -225,7 +251,7 @@ const sidebar = [
 ];
 for (const [r, n] of noMenu) if (n > 1) rel.duplicadasNoMenu.push(`${r} (${n}x)`);
 for (const n of alcancadas) if (n !== raiz && n !== raizApi && !noMenu.has(n.rel)) rel.foraDoMenu.push(`${n.rel} (${ehApi(n) ? 'API: fora do sumário da API' : 'sem módulo de origem'})`);
-const sidebarApi = raizApi ? [{ label: 'Visão geral', link: urlDe(raizApi) }, ...topoApi.map(itemSidebar)] : [];
+const sidebarApi = raizApi ? [{ label: tituloDe(raizApi), link: urlPagina(raizApi) }] : [];
 
 // ---------- 6. Imagens ----------
 const imagensUsadas = new Map(); // rel -> true
@@ -304,7 +330,7 @@ function transformar(nota) {
     if (!dest) { empurrar(rel.quebrados, nota.rel, alvo + (sec ? `#${sec}` : '')); return texto; }
     let ancora = '';
     if (sec) {
-      if (ancorasDe(dest).has(slugHeading(sec))) ancora = `#${slugHeading(sec)}`;
+      if (ancorasDe(dest).has(slugHeading(sec))) ancora = paginaDe.has(dest.rel) ? '' : `#${slugHeading(sec)}`; // em página de tema, o link vai ao início da seção
       else rel.secoesInexistentes.push(`${nota.rel}: [[${alvo}#${sec}]]`);
     }
     return `[${texto}](${urlDe(dest)}${ancora})`;
@@ -339,7 +365,23 @@ function transformar(nota) {
       : bloco.slice(1);
     linhas.push('', bloco[0], '', ...corpoVeja);
   }
-  return linhas.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  let saida = linhas.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  const sec = paginaDe.get(nota.rel);
+  if (sec) saida = cabecalhosDaSecao(saida, sec);
+  return saida;
+}
+
+// Nota incorporada em página de tema: os títulos internos descem de nível (o título da seção é emitido na montagem da página).
+function cabecalhosDaSecao(texto, sec) {
+  let emCodigo = false;
+  return texto.split('\n').map((l) => {
+    if (/^```/.test(l)) emCodigo = !emCodigo;
+    if (emCodigo) return l;
+    const m = l.match(/^(#{2,6})\s+(.+?)\s*$/);
+    if (!m) return l;
+    const nivel = Math.min(6, Math.max(m[1].length + sec.prof + 1, sec.maxNivel + 1));
+    return `${'#'.repeat(nivel)} ${m[2]}`;
+  }).join('\n');
 }
 
 function figura(ref, legenda, nota) {
@@ -414,16 +456,27 @@ function paginaInicial(corpo) {
 }
 
 const manual = [];
+const paginaDaCabeca = new Map(paginas.map((pg) => [pg.cabeca.rel, pg]));
 for (const nota of alcancadas) {
+  if (paginaDe.has(nota.rel)) continue; // incorporada na página do tema
   let corpo = transformar(nota);
   if (nota === raiz) corpo = paginaInicial(corpo);
+  const pg = paginaDaCabeca.get(nota.rel);
+  const proprio = corpo;
+  if (pg) {
+    for (const sec of pg.secoes) {
+      const nivel = Math.min(6, 2 + sec.prof);
+      corpo += `\n---\n\n${'#'.repeat(nivel)} ${tituloDe(sec.nota)}\n\n${transformar(sec.nota)}`;
+    }
+  }
   const titulo = tituloDe(nota);
   if (!/^#\s+/m.test(nota.texto)) rel.semTitulo.push(nota.rel);
-  const semConteudo = corpo.replace(/:::|\s/g, '') === '' ||
-    /\(Aguardando cadastro de notas\)/.test(corpo);
+  const semConteudo = proprio.replace(/:::|\s/g, '') === '' ||
+    /\(Aguardando cadastro de notas\)/.test(proprio);
   if (semConteudo) rel.vazias.push(nota.rel);
   const slug = slugs.get(nota.rel);
-  const fm = ['---', `title: ${JSON.stringify(titulo)}`, `description: ${JSON.stringify(descricao(corpo))}`, `editUrl: false`];
+  const fm = ['---', `title: ${JSON.stringify(titulo)}`, `description: ${JSON.stringify(descricao(proprio))}`, `editUrl: false`];
+  if (pg && pg.secoes.length) fm.push(`tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: ${pg.maxNivel} }`);
   if (nota === raiz) fm.push('tableOfContents: false', 'template: splash');
   fm.push('---', '');
   const destino = path.join(SAIDA_DOCS, `${slug}.md`);
@@ -444,13 +497,13 @@ fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar.json'), JSON.stringify(sidebar, n
 fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar-api.json'), JSON.stringify(sidebarApi, null, 2));
 // Ordem e numeração do manual (usadas pela página de impressão /manual-completo/ e pelo PDF).
 const ordem = [{ slug: 'index', titulo: tituloDe(raiz), numero: '', nivel: 0 }];
-(function achatar(nos, prefixo, nivel) {
-  nos.forEach((n, i) => {
-    const numero = prefixo ? `${prefixo}.${i + 1}` : `${i + 1}`;
-    ordem.push({ slug: slugs.get(n.nota.rel), titulo: tituloDe(n.nota), numero, nivel });
-    achatar(n.filhos, numero, nivel + 1);
+topo.forEach((n, i) => {
+  const pg = paginaDaCabeca.get(n.nota.rel);
+  ordem.push({
+    slug: slugs.get(n.nota.rel), titulo: tituloDe(n.nota), numero: String(i + 1), nivel: 1,
+    secoes: (pg ? pg.secoes : []).map((x) => ({ id: x.ancora, titulo: tituloDe(x.nota), numero: x.numero, nivel: Math.min(3, x.prof + 2) })),
   });
-})(topo, '', 1);
+});
 fs.writeFileSync(path.join(SAIDA_GEN, 'manual.json'), JSON.stringify({
   titulo: config.titulo, base, geradoEm: new Date().toISOString(), ordem,
 }, null, 2));
@@ -527,7 +580,7 @@ ${rel.placeholders.size ? [...rel.placeholders].map(([n, c]) => `- ${n}: ${c}`).
 fs.writeFileSync(path.join(SAIDA_REL, 'relatorio-build.md'), relatorio);
 
 console.log(
-  `[vault] ${alcancadas.length} páginas publicadas · ${rel.excluidas.length} excluídas · ${totalQuebrados} links quebrados · ` +
+  `[vault] ${alcancadas.length - paginaDe.size} páginas publicadas (${alcancadas.length} notas) · ${rel.excluidas.length} excluídas · ${totalQuebrados} links quebrados · ` +
   `${imagensUsadas.size} imagens (${rel.imagensAusentes.length} ausentes) · ${totalPH} placeholders (${config.SHOW_PRINT_PLACEHOLDERS ? 'visíveis' : 'ocultos'})`,
 );
 console.log('[vault] relatório: .build/relatorio-build.md');

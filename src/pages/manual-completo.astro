@@ -57,9 +57,16 @@ const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
       <h1 class="indice__titulo">Índice</h1>
       <ul>
         {capitulos.filter((c) => c.slug !== 'index').map((c) => (
-          <li class={`indice__n${Math.min(c.nivel, 3)}`}>
-            <a href={`#${c.slug}`}><span class="num">{c.numero}</span> {c.titulo}</a>
-          </li>
+          <>
+            <li class={`indice__n${Math.min(c.nivel, 3)}`}>
+              <a href={`#${c.slug}`}><span class="num">{c.numero}</span> {c.titulo}</a>
+            </li>
+            {(c.secoes ?? []).map((x) => (
+              <li class={`indice__n${x.nivel}`}>
+                <a href={`#${c.slug}--${x.id}`}><span class="num">{x.numero}</span> {x.titulo}</a>
+              </li>
+            ))}
+          </>
         ))}
       </ul>
     </nav>
