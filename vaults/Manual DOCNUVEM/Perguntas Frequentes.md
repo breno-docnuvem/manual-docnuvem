@@ -26,7 +26,7 @@ O ícone de WhatsApp depende das informações de contato do destinatário e da 
 
 Verifique se o número de telefone foi informado corretamente e se a integração necessária está disponível.
 
-Para configurar a integração, consulte [[Como conectar o Whatsapp]]. Para revisar os dados do destinatário, consulte [[Cadastro de Contatos]].
+Para configurar a integração, conecte um número na seção **Conectar WhatsApp para Envios**. Para revisar os dados do destinatário, consulte [[Cadastro de Contatos]].
 
 ## Onde acompanho os documentos enviados por uma solicitação?
 

@@ -4,10 +4,8 @@ Depois de criar uma solicitação de preenchimento, de envio de documentos ou de
 
 Existem duas formas de fazer esse envio:
 
-- Usando um número já cadastrado na plataforma. Veja [[Como conectar o Whatsapp]].
+- Usando um número conectado na plataforma, na seção **Conectar WhatsApp para Envios**. Nesse caso, as mensagens são enviadas automaticamente.
 - Pela API aberta, que dispara o WhatsApp que estiver logado na máquina em que a solicitação está sendo feita.
-
-<!-- TODO: a nota Como conectar o Whatsapp ainda está vazia (pasta TODO). O manual antigo cita a seção "Conectar WhatsApp para Envios", que não consta no PDF — confirmar com Breno. -->
 
 ## 1. Criar a solicitação
 
@@ -40,9 +38,7 @@ Caso contrário, o WhatsApp Web é aberto com a mensagem pronta. Clique em **Ini
 
 ## Solicitações agendadas
 
-As solicitações agendadas também podem ser integradas ao WhatsApp. Quando a automação está configurada, o link de envio é disparado para o WhatsApp do contato responsável sempre que um novo ciclo de recorrência começa, sem acionamento manual. É indicado para rotinas recorrentes de cobrança de documentos. Veja [[Como agendar solicitações de documentos]].
-
-<!-- TODO: confirmar com Breno como ativar essa automação. -->
+As solicitações agendadas também podem ser integradas ao WhatsApp. Se houver um WhatsApp conectado na seção **Conectar WhatsApp para Envios**, as mensagens são enviadas automaticamente: o link de envio é disparado para o WhatsApp do contato responsável sempre que um novo ciclo de recorrência começa, sem acionamento manual. É indicado para rotinas recorrentes de cobrança de documentos. Veja [[Como agendar solicitações de documentos]].
 
 ## Relacionados
 
