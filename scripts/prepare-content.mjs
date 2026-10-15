@@ -34,7 +34,7 @@ const inlineHtml = (s) =>
 const rel = {
   excluidas: [], quebrados: new Map(), imagensAusentes: [], imagensAmbiguas: [],
   placeholders: new Map(), placeholdersComImagem: [], foraDoMenu: [], vazias: [],
-  duplicadasNoMenu: [], hierarquiaInferida: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
+  duplicadasNoMenu: [], comentariosRemovidos: [], hierarquiaInferida: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
 };
 const somar = (mapa, k, n = 1) => mapa.set(k, (mapa.get(k) || 0) + n);
 const empurrar = (mapa, k, v) => { if (!mapa.has(k)) mapa.set(k, []); mapa.get(k).push(v); };
@@ -267,6 +267,8 @@ function sumarioEmGrupos(nota, texto) {
 
 function transformar(nota) {
   let t = nota.texto;
+  // comentários HTML (<!-- ... -->) são anotações internas do vault: nunca vão para o site
+  t = fora(t, (trecho) => trecho.replace(/<!--[\s\S]*?-->\s*/g, (c) => { rel.comentariosRemovidos.push(`${nota.rel}: ${c.replace(/\s+/g, ' ').trim().slice(0, 90)}`); return ''; }));
   // remove o H1 (o título vai no frontmatter)
   t = t.replace(/^\s*#\s+.+\n/, '');
   t = sumarioEmGrupos(nota, t);
@@ -485,6 +487,9 @@ ${lista(rel.secoesInexistentes)}
 
 ## Sumários planos com hierarquia inferida (recuar no vault: guias "Como ..." sob a tela)
 ${lista(rel.hierarquiaInferida)}
+
+## Comentários internos <!-- --> removidos do texto publicado
+${lista(rel.comentariosRemovidos)}
 
 ## Notas que aparecem mais de uma vez no menu
 ${lista(rel.duplicadasNoMenu)}
