@@ -18,6 +18,7 @@ Vai para o site e para o PDF **somente o que é alcançável por links `[[...]]`
 2. Ignore links dentro de blocos de código (```` ``` ````) e de código inline. As notas de diretrizes têm exemplos assim.
 3. **Exclusões fixas**, mesmo que alguém crie um link para elas: a pasta `TODO/`, `Diretrizes de escrita do manual.md` e `Diretrizes de geração de manuais.md`.
 4. Notas não alcançadas são ignoradas e listadas no relatório do build (seção 11).
+5. **Área da API (segunda raiz):** `Integração por API.md` é uma raiz própria, publicada como área separada em `/api/` (guias em `/api/<slug>/`, pasta `Integração por API/`). Ela **não** é linkada por `Docnuvem.md` e fica fora do menu do manual, da grade de módulos da home, da paginação cruzada e do PDF do manual. O site mostra a troca Manual | API no topo do menu lateral e um link no rodapé. Configuração em `site.config.mjs` (`areaApi`). A busca (Pagefind) ainda é única.
 
 Situação em 2026-10-09: 161 notas distintas, 157 alcançáveis. Ficam de fora as duas diretrizes e `Filtros` e `Significados dos ícones` (ambas em `TODO/`).
 

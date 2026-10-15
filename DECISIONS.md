@@ -120,3 +120,9 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 **Decisões do Breno, já em produção:** tema claro como padrão (escuro por escolha ou "Automático"); ícones do manual vindos dos sprites da própria plataforma, separados em `src/assets/icones/plataforma/` (uso no texto depende da marcação `[[icone:nome]]`, a definir); PDF no estilo do guia de referência (capa escura com logo, faixa azul, cabeçalho e rodapé numerado); sumários em cartões agrupados por tela, com hierarquia inferida em listas planas (o ideal é recuar no vault); favicon com o "D" do logo; modo estrito de conteúdo (`npm run build:estrito`) pronto e desligado por padrão até o vault ficar sem links quebrados; placeholders de print continuam visíveis.
 **Limite técnico:** o Cloudflare Pages recusa arquivos acima de 25 MiB; por isso o PDF recodifica os prints em JPEG (largura máx. 1100 px, qualidade 0,8) e a geração falha se passar de 24 MiB. O site mantém os PNG originais. Otimizar as imagens do site com `sharp` exigiria dependência nova e continua pendente de aprovação.
 
+
+## 2026-10-15 — API de integração como área separada do manual
+
+**Decisão:** a documentação da API (10 endpoints do `importacao.json`: importar arquivo, Envio Inteligente, listar pastas, listar/baixar documentos, modelos, gerar documento, solicitar/consultar/cancelar assinatura) é publicada como área própria em `/api/`, fora do menu, da home e do PDF do manual. Raiz: `Integração por API.md`; guias na pasta `Integração por API/`. Pedido do Breno: "crie um item separado para a API. Não deixe junto ao restante do manual".
+**Pendências com o Breno (TODO internos no vault):** URL base da API para clientes (hoje `https://URL_DA_API`), onde o cliente obtém `instancia` e token, se a API depende de contratação. A URL do Swagger interno (ELB da AWS) não foi publicada.
+**Em aberto:** separar a busca da API da do manual; PDF próprio da API.
