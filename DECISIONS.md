@@ -131,3 +131,9 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 
 **Respostas:** o endereço da API para os clientes é o do servidor `http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083` (agora publicado nos exemplos); o `instancia` é o subdomínio do cliente (`https://exemplo.docnuvem.com.br/...` → `exemplo`); o token vem de Configurações do sistema > aba Token; a API é aberta, sem contratação.
 **Observação:** o endereço usa HTTP, sem TLS. Rever se o Docnuvem passar a oferecer um domínio com HTTPS para a API.
+
+## 2026-10-15 — Uma página por tema, com seções ancoradas
+
+**Decisão:** o site passa de uma página por guia (cerca de 178) para uma página por módulo (17), com telas e guias como seções ancoradas na mesma página. A área da API também vira uma página só. Pedido do Breno: o site tinha páginas demais e era cansativo navegar.
+**Como:** o build (`prepare-content.mjs`) junta as notas descendentes na página do módulo; o vault não muda. Os links internos viram âncoras. O menu lateral fica plano (só módulos), e o "Nesta página" lista telas e guias. O PDF segue com um capítulo por módulo e índice com as seções.
+**Custo:** páginas longas (o módulo com mais guias tem dezenas de seções) e a busca passa a levar à seção (âncora), não a uma página própria.

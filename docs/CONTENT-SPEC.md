@@ -38,6 +38,7 @@ Situação em 2026-10-09: 161 notas distintas, 157 alcançáveis. Ficam de fora 
 - A seção `## Guias relacionados` (24 notas) não define ordem nem hierarquia. Vira um bloco "Veja também" no fim da página.
 - Nota alcançável que não aparece em nenhum `## Sumário` é publicada no fim do módulo de onde foi descoberta, com aviso no relatório.
 - Módulo sem notas filhas (hoje: Assistente IADoc, Notificações, Relatórios e Notas de atualização têm só a nota do módulo) é publicado como página simples e aparece no menu com o selo **"em breve"**. Padrão provisório: pode mudar ao apresentar o site.
+- **Uma página por tema (desde 2026-10-15):** cada módulo vira **uma única página** do site (`/modulo/`). Telas e guias descendentes dele no sumário viram **seções** da mesma página, na ordem do sumário, com o título como âncora (`/modulo/#como-criar-uma-tarefa`). Telas ficam em H2, guias em H3, passos em H4 (um nível abaixo do título da seção). Links `[[Guia]]` apontam para a âncora; `[[Guia#Seção]]` leva ao início da seção do guia. O menu lateral lista só os módulos; a navegação interna é o "Nesta página" e o sumário em cartões. A área da API segue a mesma regra: uma única página `/api/`.
 - Mudar a ordem do menu é editar o sumário no vault. Nunca no código.
 
 ## 5. Padrão de artigo
