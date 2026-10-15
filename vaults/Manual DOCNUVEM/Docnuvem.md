@@ -41,7 +41,3 @@ Antes de executar qualquer procedimento, verifique se o usuário possui permiss�
 - [[Auditoria]]
 - [[Lixeira]]
 - [[Perguntas Frequentes]]
-
-## Referência complementar
-
-- [[Base de Conhecimento]]

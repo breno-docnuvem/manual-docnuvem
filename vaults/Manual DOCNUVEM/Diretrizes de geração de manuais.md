@@ -1,6 +1,6 @@
 # Diretrizes de geração de manuais
 
-Esta nota define como os manuais do Docnuvem devem ser organizados no Obsidian e como devem ser gerados em PDF usando LaTeX.
+Esta nota define como o manual do Docnuvem deve ser organizado no Obsidian para ser publicado no site e gerado em PDF.
 
 ## Estrutura no Obsidian
 
@@ -50,85 +50,24 @@ Exemplo:
 - Uma nota para editar um agendamento.
 - Uma nota para excluir um agendamento.
 
-## Geração do manual completo
+## Publicação no site e PDF
 
-Para gerar o manual completo da plataforma, usar a nota [[Docnuvem]] como ponto de partida.
+O site e o PDF são gerados a partir do vault pelo build do repositório. O vault não guarda arquivos gerados.
 
-Quando o pedido do usuário for algo como **"Gere um manual a partir da nota X"**, a nota informada deve ser usada como ponto de partida da geração.
-
-Exemplos de comando:
-
-- **Gere um manual a partir da nota Docnuvem**
-- **Gere um manual a partir da nota Módulo de Tarefas**
-- **Gere um manual a partir da nota Projetos**
-
-Nesses casos, o conteúdo gerado deve respeitar o sumário da nota indicada. Se a nota indicada possuir links para outras notas, esses links devem orientar a ordem de leitura e inclusão do conteúdo no PDF.
-
-O processo deve ser:
-
-1. Identificar a nota indicada pelo usuário como ponto de partida.
-2. Ler o sumário da nota indicada.
-3. Processar os links na ordem em que aparecem nesse sumário.
-4. Para cada módulo ou nota vinculada, ler o conteúdo correspondente.
-5. Incorporar as notas relacionadas na ordem definida pelo sumário.
-6. Converter o conteúdo consolidado para LaTeX.
-7. Gerar o PDF usando o arquivo de configuração `C:\Users\breno\OneDrive\Documentos\GitHub\doc_manuals\Manual\settings.cls`.
-
-## Geração de mini manual
-
-Para gerar um mini manual de apenas uma parte da plataforma, usar a mesma lógica, mas restringir a leitura ao módulo, tela ou subtópico solicitado.
-
-Mesmo em mini manuais, a estrutura e a ordem devem respeitar os links existentes em [[Docnuvem]] e no sumário do módulo correspondente, quando aplicável.
-
-## Links no PDF
-
-Todos os links internos do Obsidian devem ser convertidos em links internos no PDF.
-
-Links no formato:
-
-```markdown
-[[Nome da nota]]
-```
-
-devem apontar para a seção correspondente no PDF.
-
-Links para subtópicos no formato:
-
-```markdown
-[[Nome da nota#Título da seção]]
-```
-
-devem apontar para a âncora correspondente daquele item no PDF.
-
-Quando uma nota do Obsidian for incorporada ao PDF, o título da nota deve gerar uma âncora de destino no LaTeX para permitir a navegação interna.
-
-## LaTeX
-
-Os PDFs devem ser gerados com LaTeX usando o estilo visual definido em:
-
-```text
-C:\Users\breno\OneDrive\Documentos\GitHub\doc_manuals\Manual\settings.cls
-```
-
-O arquivo `.tex` gerado deve preservar:
-
-- Sumário do PDF.
-- Hierarquia de seções.
-- Títulos claros.
-- Destaque de botões, campos e opções.
-- Placeholders de prints quando os prints ainda não existirem.
-
-### Paginação de imagens
-
-Antes de finalizar um PDF, revisar a distribuição das imagens nas páginas. Usar uma largura única para os prints de cada manual e preservar suas proporções. Reservar espaço antes de títulos e instruções que possuem print, movendo o conjunto para a página seguinte quando necessário. Evitar grandes espaços em branco, instruções separadas da imagem correspondente e páginas com apenas uma imagem.
+- **O que é publicado:** apenas as notas alcançáveis, por links `[[...]]`, a partir de [[Docnuvem]]. Nota que não está no sumário de nenhum módulo não vai para o site nem para o PDF.
+- **Nunca publicados:** a pasta `TODO` e as notas de diretrizes (esta e a [[Diretrizes de escrita do manual]]).
+- **Ordem:** a ordem dos links no sumário de [[Docnuvem]] e no sumário de cada módulo define a ordem no site e no PDF.
+- **Manual de um módulo:** o PDF de uma parte do manual segue o mesmo princípio, a partir da nota do módulo ou da tela desejada.
+- **Links:** os links `[[Nome da nota]]` e `[[Nome da nota#Título da seção]]` viram links internos no site e no PDF.
+- Não crie uma nota consolidada intermediária no Obsidian.
 
 ## Prints
 
 Quando uma nota tiver instruções de print, essa instrução deve ser mantida como placeholder no PDF até que o print real seja adicionado.
 
-Ao substituir por uma imagem real, os prints devem ser salvos no repositório `doc_manuals`, seguindo a estrutura de imagens do manual em LaTeX.
+Quando o print real existir, ele é salvo na pasta `images` do vault, no caminho indicado no placeholder, e o placeholder é trocado pelo embed da imagem.
 
-Os placeholders de prints devem indicar o caminho sugerido do arquivo de imagem. Isso permite que, no futuro, a geração do PDF substitua automaticamente o placeholder pela imagem real quando o arquivo existir.
+Os placeholders de prints devem indicar o caminho sugerido do arquivo de imagem.
 
 Formato recomendado para placeholders:
 
@@ -157,16 +96,8 @@ Regras de nomenclatura:
 - Usar nomes curtos e descritivos.
 - Usar a extensão `.png`.
 
-Também foi criado um documento para orientar a equipe de prints na Área de Trabalho:
-
-```text
-C:\Users\breno\OneDrive\Desktop\Instruções para prints - Manual Docnuvem.md
-```
-
 ## Diretriz geral
 
 A nota [[Docnuvem]] é a fonte principal de ordem e organização do manual.
 
 As notas dos módulos e suas pastas são a fonte principal de conteúdo.
-
-Ao gerar PDFs, não criar uma nota consolidada intermediária no Obsidian. A consolidação deve acontecer diretamente no arquivo `.tex` gerado.

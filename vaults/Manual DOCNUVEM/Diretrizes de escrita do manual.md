@@ -131,9 +131,9 @@ A nota principal `Módulo de Tarefas.md` deve permanecer na raiz do manual e fun
 
 O objetivo do manual é orientar o usuário com clareza. Sempre que houver dúvida entre um texto mais completo e um texto mais simples, priorizar a versão mais simples, desde que a informação essencial esteja preservada.
 
-## Sincronização entre Assistentes de IA (Codex / Antigravity)
+## Continuidade entre chats e assistentes de IA
 
-Sempre que uma assistente de IA criar ou modificar notas, fluxos ou estruturas no manual:
-- Deve registrar imediatamente o progresso no arquivo de histórico `G:\Meu Drive\Atualização do Manual 2026\historico-manual-docnuvem.txt`.
-- Deve manter as diretrizes atualizadas para garantir continuidade total de trabalho entre o Codex e o Antigravity.
+Sempre que um chat ou assistente de IA criar ou modificar notas, fluxos ou estruturas no manual:
 
+- Deve registrar o progresso em um handoff em `docs/handoffs/`, no repositório, conforme `docs/COMUNICACAO-ENTRE-CHATS.md`. O handoff é feito automaticamente, sem que seja pedido.
+- Deve ler os handoffs mais recentes antes de começar.
