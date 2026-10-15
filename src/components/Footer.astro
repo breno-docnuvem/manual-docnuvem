@@ -7,7 +7,7 @@ const href = `${config.base.replace(/\/?$/, '/')}${config.arquivoPdf}`;
 <Default {...Astro.props}><slot /></Default>
 <div class="dn-foot">
   <span>Manual do cliente Docnuvem</span>
-  <a href={href} download>Baixar manual (PDF)</a>
+  <span class="dn-foot__links"><a href={`${config.base.replace(/\/?$/, '/')}api/`}>Integração por API</a> · <a href={href} download>Baixar manual (PDF)</a></span>
 </div>
 
 <script is:inline>

@@ -5,7 +5,12 @@ import config from './site.config.mjs';
 
 // Gerado por `npm run prepare-content` (scripts/prepare-content.mjs).
 const arquivoMenu = new URL('./src/generated/sidebar.json', import.meta.url);
-const sidebar = existsSync(arquivoMenu) ? JSON.parse(readFileSync(arquivoMenu, 'utf8')) : [];
+const arquivoMenuApi = new URL('./src/generated/sidebar-api.json', import.meta.url);
+const sidebarManual = existsSync(arquivoMenu) ? JSON.parse(readFileSync(arquivoMenu, 'utf8')) : [];
+const sidebarApi = existsSync(arquivoMenuApi) ? JSON.parse(readFileSync(arquivoMenuApi, 'utf8')) : [];
+// A API é uma área à parte: o grupo "API" existe aqui só para o Starlight conhecer as páginas;
+// src/routeData.ts mostra cada menu apenas na sua área.
+const sidebar = [...sidebarManual, ...(sidebarApi.length ? [{ label: 'API', items: sidebarApi }] : [])];
 
 export default defineConfig({
   base: config.base,
@@ -18,6 +23,7 @@ export default defineConfig({
       defaultLocale: 'root',
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       sidebar,
+      routeMiddleware: './src/routeData.ts',
       customCss: ['./src/styles/fontes.css', './src/styles/tokens.css', './src/styles/manual.css'],
       pagination: true,
       components: {

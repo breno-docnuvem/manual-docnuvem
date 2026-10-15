@@ -105,6 +105,11 @@ function visitar(nota) {
   }
 }
 visitar(raiz);
+// Área da API: raiz própria. O que só é alcançado por ela pertence à API (não entra no menu, na home nem no PDF do manual).
+const manualRels = new Set(vistas);
+const raizApi = notas.get(chave(config.areaApi.raiz));
+if (raizApi) visitar(raizApi);
+const ehApi = (nota) => !manualRels.has(nota.rel);
 
 // ---------- 4. Slugs ----------
 const slugs = new Map(); // rel -> slug
@@ -112,6 +117,12 @@ const usados = new Set(['index']);
 for (const n of alcancadas) {
   if (n === raiz) { slugs.set(n.rel, 'index'); continue; }
   let s = n.rel.replace(/\.md$/, '').split('/').map(slugify).filter(Boolean).join('/') || 'pagina';
+  if (raizApi && ehApi(n)) {
+    const pasta = nfc(config.areaApi.pasta);
+    if (n === raizApi) s = config.areaApi.slug;
+    else if (n.rel.startsWith(pasta + '/')) s = config.areaApi.slug + '/' + n.rel.slice(pasta.length + 1).replace(/\.md$/, '').split('/').map(slugify).filter(Boolean).join('/');
+    else s = config.areaApi.slug + '/' + s;
+  }
   if (usados.has(s)) { let i = 2; while (usados.has(`${s}-${i}`)) i++; rel.colisoesSlug.push(`Slug repetido "${s}" para "${n.rel}" → "${s}-${i}"`); s = `${s}-${i}`; }
   usados.add(s);
   slugs.set(n.rel, s);
@@ -179,6 +190,7 @@ function arvore(item, ancestrais) {
   return { nota: item.nota, filhos: todos.filter((f) => !prox.has(f.nota.rel)).map((f) => arvore(f, prox)) };
 }
 const topo = itensSumario(raiz).map((i) => arvore(i, new Set([raiz.rel])));
+const topoApi = raizApi ? itensSumario(raizApi).map((i) => arvore(i, new Set([raizApi.rel]))) : [];
 const tituloDe = (nota) => (nota.texto.match(/^#\s+(.+)$/m)?.[1] || nota.nome).trim();
 function itemSidebar(no) {
   const link = urlDe(no.nota);
@@ -194,7 +206,7 @@ const modulos = topo;
 const noDeNota = (nos, rel_) => { for (const n of nos) { if (n.nota.rel === rel_) return n; const f = noDeNota(n.filhos, rel_); if (f) return f; } return null; };
 const moduloDe = (rel_) => modulos.find((m) => m.nota.rel === rel_ || noDeNota(m.filhos, rel_));
 for (const n of alcancadas) {
-  if (n === raiz || noMenu.has(n.rel)) continue;
+  if (n === raiz || noMenu.has(n.rel) || ehApi(n)) continue;
   let origem = descobertaPor.get(n.rel);
   let mod = null;
   while (origem && !(mod = moduloDe(origem.rel))) origem = descobertaPor.get(origem.rel);
@@ -212,7 +224,8 @@ const sidebar = [
   }),
 ];
 for (const [r, n] of noMenu) if (n > 1) rel.duplicadasNoMenu.push(`${r} (${n}x)`);
-for (const n of alcancadas) if (n !== raiz && !noMenu.has(n.rel)) rel.foraDoMenu.push(`${n.rel} (sem módulo de origem)`);
+for (const n of alcancadas) if (n !== raiz && n !== raizApi && !noMenu.has(n.rel)) rel.foraDoMenu.push(`${n.rel} (${ehApi(n) ? 'API: fora do sumário da API' : 'sem módulo de origem'})`);
+const sidebarApi = raizApi ? [{ label: 'Visão geral', link: urlDe(raizApi) }, ...topoApi.map(itemSidebar)] : [];
 
 // ---------- 6. Imagens ----------
 const imagensUsadas = new Map(); // rel -> true
@@ -239,7 +252,8 @@ const urlImagem = (i) =>
 const TIPOS_ROTULO = config.avisos;
 // Nó do menu de cada nota (para montar o Sumário em grupos)
 const noPorNota = new Map();
-(function indexar(nos) { for (const n of nos) { if (!noPorNota.has(n.nota.rel)) noPorNota.set(n.nota.rel, n); indexar(n.filhos); } })(topo);
+(function indexar(nos) { for (const n of nos) { if (!noPorNota.has(n.nota.rel)) noPorNota.set(n.nota.rel, n); indexar(n.filhos); } })([...topo, ...topoApi]);
+if (raizApi) noPorNota.set(raizApi.rel, { nota: raizApi, filhos: topoApi });
 
 // Troca a lista "## Sumário" por grupos: cada tela vira um cartão com seus guias abaixo.
 function sumarioEmGrupos(nota, texto) {
@@ -427,6 +441,7 @@ fs.writeFileSync(path.join(SAIDA_DOCS, '404.md'), `---\ntitle: "Página não enc
 const orfas = imagens.filter((i) => !imagensUsadas.has(i.rel)).map((i) => i.rel);
 
 fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar.json'), JSON.stringify(sidebar, null, 2));
+fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar-api.json'), JSON.stringify(sidebarApi, null, 2));
 // Ordem e numeração do manual (usadas pela página de impressão /manual-completo/ e pelo PDF).
 const ordem = [{ slug: 'index', titulo: tituloDe(raiz), numero: '', nivel: 0 }];
 (function achatar(nos, prefixo, nivel) {
@@ -450,7 +465,7 @@ Gerado em ${new Date().toISOString()} · SHOW_PRINT_PLACEHOLDERS=${config.SHOW_P
 
 ## Resumo
 - Notas no vault (.md): ${notas.size + rel.excluidas.length}
-- Publicadas (alcançáveis a partir de ${config.notaRaiz}.md): ${alcancadas.length}
+- Publicadas (alcançáveis a partir de ${config.notaRaiz}.md): ${alcancadas.filter((n) => !ehApi(n)).length}, mais ${alcancadas.filter(ehApi).length} da área da API (alcançáveis a partir de ${config.areaApi.raiz}.md)
 - Excluídas por regra (TODO/ e diretrizes): ${rel.excluidas.length}
 - Notas do vault não alcançadas e não excluídas: ${notas.size - alcancadas.length}
 - Links quebrados: ${totalQuebrados}

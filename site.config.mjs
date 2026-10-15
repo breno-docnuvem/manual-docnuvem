@@ -61,6 +61,10 @@ export default {
   vault: 'vaults/Manual DOCNUVEM',
   notaRaiz: 'Docnuvem',
 
+  // Área separada do site: a documentação da API tem raiz própria (nota abaixo), menu próprio, endereço /api/
+  // e fica fora do menu, da home e do PDF do manual.
+  areaApi: { raiz: 'Integração por API', pasta: 'Integração por API', slug: 'api', rotulo: 'API' },
+
   // Nunca publicados, mesmo que alcançáveis por link.
   pastasExcluidas: ['TODO'],
   notasExcluidas: ['Diretrizes de escrita do manual', 'Diretrizes de geração de manuais'],

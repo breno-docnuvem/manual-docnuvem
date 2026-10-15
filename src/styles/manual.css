@@ -239,3 +239,15 @@ site-search dialog { border-radius: var(--dn-r-lg); box-shadow: var(--dn-sombra)
 @media (max-width: 50rem) { .sl-markdown-content .dn-sum { column-count: 1; } }
 .sl-markdown-content .dn-sum .dn-sum__grupo { break-inside: avoid; margin: 0 0 var(--dn-s4); }
 .sl-markdown-content .dn-sum ul.dn-sum__lista { column-span: all; margin: 0; padding: var(--dn-s1, 4px) var(--dn-s5); }
+
+/* ---------- Áreas do site: Manual | API ---------- */
+.dn-areas { display: flex; gap: 4px; padding: 4px; margin-bottom: var(--dn-s3); border: 1px solid var(--sl-color-gray-5); border-radius: var(--dn-r-md); background: var(--sl-color-gray-6); }
+.dn-areas a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 36px; border-radius: var(--dn-r-sm); color: var(--sl-color-gray-2); font-weight: 600; font-size: 15px; text-decoration: none; }
+.dn-areas a:hover { color: var(--sl-color-white); }
+.dn-areas a[aria-current='true'] { background: var(--sl-color-black); color: var(--sl-color-text-accent); box-shadow: var(--dn-sombra); }
+body:has(.dn-area-api) .site-title::after { content: 'API'; }
+body:has(.dn-area-api) .dn-search--gaveta .ph { font-size: 0; }
+body:has(.dn-area-api) .dn-search--gaveta .ph::after { content: 'Buscar'; font-size: 16px; }
+/* a home do manual não tem seletor de área: ela não tem menu lateral; o acesso à API fica no rodapé */
+/* o PDF é do manual: não é oferecido na área da API */
+body:has(.dn-area-api) .dn-btn--sec, body:has(.dn-area-api) .dn-foot a[download] { display: none; }
