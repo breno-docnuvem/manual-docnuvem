@@ -19,3 +19,7 @@ Por que GitHub Actions e não o build do próprio Cloudflare: o PDF é gerado co
 
 ## Local
 `npm install && npm run build:completo` (gera `dist/` com o PDF). Em máquina com Chromium próprio: `CHROMIUM_PATH=/caminho/chrome npm run pdf`.
+
+## Limites do Cloudflare Pages
+- Cada arquivo do site deve ter no máximo **25 MiB** (o PDF do manual precisa ficar abaixo disso; `npm run pdf` falha se passar de 24 MiB). O PDF recodifica os prints em JPEG para caber.
+- Máximo de 20.000 arquivos por deploy.

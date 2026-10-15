@@ -39,10 +39,34 @@ try {
   const pagina = await navegador.newPage();
   await pagina.goto(`http://127.0.0.1:${porta}${base}manual-completo/`, { waitUntil: 'networkidle' });
   await pagina.waitForFunction(() => [...document.images].every((i) => i.complete));
+  // Peso: os prints são PNG grandes (até 1900 px). Só para o PDF, recodifica em JPEG (qualidade 0,8, largura máx. 1100 px (~160 dpi na página A4)).
+  // O site continua servindo os PNG originais. Sem dependência nova: usa o próprio Chromium.
+  await pagina.evaluate(async ({ larguraMax, qualidade }) => {
+    const imgs = [...document.images].filter((i) => /\/imagens\//.test(i.src) && i.naturalWidth > 0);
+    for (const img of imgs) {
+      const esc = Math.min(1, larguraMax / img.naturalWidth);
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * esc);
+      c.height = Math.round(img.naturalHeight * esc);
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      img.removeAttribute('loading');
+      img.src = c.toDataURL('image/jpeg', qualidade);
+      await img.decode().catch(() => {});
+    }
+  }, { larguraMax: 1100, qualidade: 0.8 });
   await pagina.pdf({ path: SAIDA, preferCSSPageSize: true, printBackground: true, outline: true, tagged: true });
 } finally {
   await navegador.close();
   servidor.close();
 }
-const kb = Math.round(fs.statSync(SAIDA).size / 1024);
-console.log(`[pdf] ${path.relative(RAIZ, SAIDA)} gerado (${kb} KB)`);
+const bytes = fs.statSync(SAIDA).size;
+console.log(`[pdf] ${path.relative(RAIZ, SAIDA)} gerado (${(bytes / 1048576).toFixed(1)} MiB)`);
+// O Cloudflare Pages recusa arquivos acima de 25 MiB: falhar aqui, antes do deploy
+if (bytes > 24 * 1048576) {
+  console.error('ERRO: o PDF passou de 24 MiB e o Cloudflare Pages não aceita arquivos acima de 25 MiB. Reduza as imagens.');
+  process.exit(1);
+}
