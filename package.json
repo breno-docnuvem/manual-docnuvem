@@ -9,7 +9,9 @@
     "build": "npm run prepare-content && astro build",
     "preview": "astro preview",
     "pdf": "node scripts/gerar-pdf.mjs",
-    "build:completo": "npm run build && npm run pdf"
+    "build:completo": "npm run build && npm run pdf",
+    "prepare-content:estrito": "node scripts/prepare-content.mjs --estrito",
+    "build:estrito": "npm run prepare-content:estrito && astro build"
   },
   "engines": {
     "node": ">=22"

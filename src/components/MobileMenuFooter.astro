@@ -1,0 +1,19 @@
+---
+// Rodapé da gaveta do celular: botão "Baixar manual (PDF)" em largura total + tema (design/menu-celular.html).
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import config from '../../site.config.mjs';
+const href = `${config.base.replace(/\/?$/, '/')}${config.arquivoPdf}`;
+---
+
+<div class="dn-drawer-foot">
+  <a class="dn-btn" href={href} download>
+    <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+    Baixar manual (PDF)
+  </a>
+  <ThemeSelect />
+</div>
+
+<style>
+  .dn-drawer-foot { display: flex; flex-direction: column; gap: var(--dn-s3); padding-top: var(--dn-s3); border-top: 1px solid var(--sl-color-gray-5); }
+  .dn-drawer-foot :global(.dn-btn) { width: 100%; }
+</style>

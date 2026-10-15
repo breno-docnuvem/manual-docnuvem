@@ -34,7 +34,7 @@ const inlineHtml = (s) =>
 const rel = {
   excluidas: [], quebrados: new Map(), imagensAusentes: [], imagensAmbiguas: [],
   placeholders: new Map(), placeholdersComImagem: [], foraDoMenu: [], vazias: [],
-  duplicadasNoMenu: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
+  duplicadasNoMenu: [], hierarquiaInferida: [], emBreve: [], secoesInexistentes: [], colisoesSlug: [], semTitulo: [], avisosConvertidos: 0,
 };
 const somar = (mapa, k, n = 1) => mapa.set(k, (mapa.get(k) || 0) + n);
 const empurrar = (mapa, k, v) => { if (!mapa.has(k)) mapa.set(k, []); mapa.get(k).push(v); };
@@ -155,6 +155,18 @@ function itensSumario(nota) {
     pilha[pilha.length - 1].filhos.push(item);
     pilha.push({ nivel, filhos: item.filhos });
   }
+  // Sumário plano (sem recuo) que mistura telas e guias "Como ...": cada guia pertence à tela anterior.
+  // O ideal é recuar no vault; enquanto isso a hierarquia é inferida e listada no relatório.
+  const ehGuia = (i) => /^Como /i.test(i.nota.nome);
+  if (itens.length > 1 && itens.every((i) => !i.filhos.length) && itens.some(ehGuia) && itens.some((i) => !ehGuia(i))) {
+    const agrupado = [];
+    for (const i of itens) {
+      const tela = agrupado[agrupado.length - 1];
+      if (ehGuia(i) && tela && !ehGuia(tela)) tela.filhos.push(i);
+      else agrupado.push(i);
+    }
+    if (agrupado.length < itens.length) { rel.hierarquiaInferida.push(nota.rel); return agrupado; }
+  }
   return itens;
 }
 const noMenu = new Map(); // rel -> vezes
@@ -225,10 +237,39 @@ const urlImagem = (i) =>
 
 // ---------- 7. Transformação do texto ----------
 const TIPOS_ROTULO = config.avisos;
+// Nó do menu de cada nota (para montar o Sumário em grupos)
+const noPorNota = new Map();
+(function indexar(nos) { for (const n of nos) { if (!noPorNota.has(n.nota.rel)) noPorNota.set(n.nota.rel, n); indexar(n.filhos); } })(topo);
+
+// Troca a lista "## Sumário" por grupos: cada tela vira um cartão com seus guias abaixo.
+function sumarioEmGrupos(nota, texto) {
+  const no = noPorNota.get(nota.rel);
+  if (!no || !no.filhos.length) return texto;
+  const linhas = texto.split('\n');
+  const ini = linhas.findIndex((l) => /^##\s+Sumário\s*$/.test(l));
+  if (ini < 0) return texto;
+  let fim = linhas.length;
+  for (let i = ini + 1; i < linhas.length; i++) if (/^#{1,2}\s+/.test(linhas[i])) { fim = i; break; }
+  const link = (n, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="${urlDe(n.nota)}">${escHtml(tituloDe(n.nota))}</a>`;
+  const comFilhos = no.filhos.filter((f) => f.filhos.length);
+  let html;
+  if (!comFilhos.length) {
+    html = `<ul class="dn-sum__lista">${no.filhos.map((f) => `<li>${link(f)}</li>`).join('')}</ul>`;
+  } else {
+    const grupos = no.filhos.map((f) => f.filhos.length
+      ? `<section class="dn-sum__grupo">${link(f, 'dn-sum__tela')}<ul>${f.filhos.map((g) => `<li>${link(g)}</li>`).join('')}</ul></section>`
+      : `<section class="dn-sum__grupo dn-sum__grupo--solo">${link(f, 'dn-sum__tela')}</section>`).join('');
+    html = grupos;
+  }
+  const bloco = ['## Sumário', '', `<div class="dn-sum">${html}</div>`, ''];
+  return [...linhas.slice(0, ini), ...bloco, ...linhas.slice(fim)].join('\n');
+}
+
 function transformar(nota) {
   let t = nota.texto;
   // remove o H1 (o título vai no frontmatter)
   t = t.replace(/^\s*#\s+.+\n/, '');
+  t = sumarioEmGrupos(nota, t);
 
   // figuras com legenda: embed + "*Figura N. ...*"
   t = t.replace(/^!\[\[([^\]|\n]+)(?:\|[^\]\n]*)?\]\]\s*\n(?:[ \t]*\n)?\*(Figura[^\n]*?)\*[ \t]*$/gm, (_, ref, legenda) => figura(ref, legenda, nota));
@@ -325,10 +366,22 @@ fs.mkdirSync(SAIDA_DOCS, { recursive: true });
 fs.mkdirSync(SAIDA_GEN, { recursive: true });
 fs.mkdirSync(SAIDA_REL, { recursive: true });
 
+// Ícone da plataforma (arquivo em src/assets/icones/plataforma) ou, se o valor for um caminho SVG, ícone genérico do design.
+function iconeSvg(valor) {
+  const arq = path.join(RAIZ, 'src/assets/icones/plataforma', `${valor}.svg`);
+  if (/^[\w-]+$/.test(valor) && fs.existsSync(arq)) {
+    const svg = fs.readFileSync(arq, 'utf8').trim();
+    const vb = svg.match(/viewBox="([^"]+)"/)?.[1] || '0 0 24 24';
+    const interno = svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+    return `<svg class="ic-plat" viewBox="${vb}" fill="currentColor" aria-hidden="true">${interno}</svg>`;
+  }
+  return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="${valor}"></path></svg>`;
+}
+
 function paginaInicial(corpo) {
   // Home do design: hero com busca + cartões por tarefa + grade de módulos; o sumário do hub sai (a grade o substitui).
   const semSumario = corpo.replace(/^## Sumário\n[\s\S]*?(?=^## |(?![\s\S]))/m, '');
-  const icone = (d) => `<span class="ib"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"></path></svg></span>`;
+  const icone = (v) => `<span class="ib">${iconeSvg(v)}</span>`;
   const cartoes = config.cartoesHome.map((c) => {
     const dest = resolverNota(c.nota);
     if (!dest || !slugs.has(dest.rel)) { rel.quebrados.set('(cartões da home)', [...(rel.quebrados.get('(cartões da home)') || []), c.nota]); return ''; }
@@ -367,6 +420,8 @@ for (const r of imagensUsadas.keys()) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(path.join(VAULT, r), dest);
 }
+// Página 404 (o Starlight a exige; texto fixo do site, não vem do vault)
+fs.writeFileSync(path.join(SAIDA_DOCS, '404.md'), `---\ntitle: "Página não encontrada"\ndescription: "Esta página não existe ou mudou de endereço."\ntemplate: splash\neditUrl: false\n---\n\nNão encontramos essa página. Ela pode ter mudado de endereço.\n\n[Voltar ao início](${base}) ou use a busca no topo da página.\n`);
 const orfas = imagens.filter((i) => !imagensUsadas.has(i.rel)).map((i) => i.rel);
 
 fs.writeFileSync(path.join(SAIDA_GEN, 'sidebar.json'), JSON.stringify(sidebar, null, 2));
@@ -428,6 +483,9 @@ ${lista(rel.emBreve)}
 ## Seções "[[Nota#Seção]]" inexistentes (link vai para a nota)
 ${lista(rel.secoesInexistentes)}
 
+## Sumários planos com hierarquia inferida (recuar no vault: guias "Como ..." sob a tela)
+${lista(rel.hierarquiaInferida)}
+
 ## Notas que aparecem mais de uma vez no menu
 ${lista(rel.duplicadasNoMenu)}
 
@@ -453,3 +511,20 @@ console.log(
   `${imagensUsadas.size} imagens (${rel.imagensAusentes.length} ausentes) · ${totalPH} placeholders (${config.SHOW_PRINT_PLACEHOLDERS ? 'visíveis' : 'ocultos'})`,
 );
 console.log('[vault] relatório: .build/relatorio-build.md');
+
+// Modo estrito (CONTENT-SPEC, seção 11): problemas de conteúdo passam a ser erro de build
+if (config.BUILD_ESTRITO || process.argv.includes('--estrito')) {
+  const problemas = [
+    ...[...rel.quebrados].flatMap(([n, l]) => [...new Set(l)].map((x) => `link quebrado em ${n}: ${x}`)),
+    ...rel.secoesInexistentes.map((x) => `seção inexistente: ${x}`),
+    ...rel.imagensAusentes.map((x) => `imagem ausente: ${x}`),
+    ...rel.imagensAmbiguas.map((x) => `imagem ambígua: ${x}`),
+  ];
+  if (problemas.length) {
+    console.error(`\n[vault] MODO ESTRITO: ${problemas.length} problema(s) de conteúdo:`);
+    problemas.forEach((x) => console.error(`  - ${x}`));
+    console.error('\nCorrija no vault (ou rode `npm run build` sem o modo estrito).');
+    process.exit(1);
+  }
+  console.log('[vault] modo estrito: nenhum problema de conteúdo.');
+}

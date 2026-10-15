@@ -1,0 +1,16 @@
+---
+// Tema inicial: CLARO por padrão. "dark" só se a pessoa escolheu; "auto" segue o sistema.
+// (O padrão do Starlight seguia o sistema operacional.) Inline para evitar o "flash" de tema.
+---
+
+<script is:inline>
+  window.StarlightThemeProvider = (() => {
+    let guardado = null;
+    try { guardado = typeof localStorage !== 'undefined' ? localStorage.getItem('starlight-theme') : null; } catch (e) {}
+    const tema = guardado === 'dark' ? 'dark'
+      : guardado === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : 'light';
+    document.documentElement.dataset.theme = tema;
+    return { updatePickers() {} };
+  })();
+</script>

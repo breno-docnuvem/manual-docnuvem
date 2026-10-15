@@ -2,7 +2,7 @@
 // Página única com o manual inteiro, usada só para gerar o PDF (scripts/gerar-pdf.mjs).
 // Não aparece no menu nem na busca; fica com noindex.
 import { getCollection, render } from 'astro:content';
-import logoClaro from '../assets/logo-claro.svg?raw';
+import logoBranca from '../assets/logo-escuro.svg?raw';
 import manual from '../generated/manual.json';
 import config from '../../site.config.mjs';
 import '../styles/fontes.css';
@@ -15,8 +15,11 @@ for (const item of manual.ordem) {
   const entrada = docs.get(item.slug);
   if (!entrada) continue;
   const { Content } = await render(entrada);
-  capitulos.push({ ...item, Content });
+  capitulos.push({ ...item, Content, descricao: entrada.data.description ?? '' });
 }
+// Capa: texto de apresentação (primeira frase do Docnuvem.md) e os três primeiros módulos como "comece por aqui"
+const apresentacao = capitulos.find((c) => c.slug === 'index')?.descricao ?? '';
+const modulos = capitulos.filter((c) => c.nivel === 1);
 const dataBruta = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
 ---
@@ -30,12 +33,27 @@ const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
   </head>
   <body data-pagefind-ignore data-base={manual.base}>
     <section class="capa">
-      <div class="capa__logo" set:html={logoClaro} />
-      <h1>Manual do usuário</h1>
-      <p class="capa__data">{data}</p>
+      <div class="capa__topo">
+        <div class="capa__barra" />
+        <div class="capa__logo" set:html={logoBranca} />
+        <p class="capa__kicker">Docnuvem / Manual do usuário</p>
+        <h1>Manual do usuário</h1>
+        <p class="capa__sub">Gestão, armazenamento e assinatura de documentos.</p>
+        <p class="capa__texto">{apresentacao}</p>
+      </div>
+      <div class="capa__modulos">
+        <p class="capa__kicker">Neste manual</p>
+        <ol>
+          {modulos.map((c) => (
+            <li><span class="n">{c.numero.padStart(2, '0')}</span>{c.titulo}</li>
+          ))}
+        </ol>
+      </div>
+      <p class="capa__rodape">Manual do cliente Docnuvem | Edição {data}</p>
     </section>
 
     <nav class="indice" aria-label="Índice">
+      <p class="cap__kicker">Navegação</p>
       <h1 class="indice__titulo">Índice</h1>
       <ul>
         {capitulos.filter((c) => c.slug !== 'index').map((c) => (
@@ -48,7 +66,8 @@ const data = dataBruta.charAt(0).toUpperCase() + dataBruta.slice(1);
 
     {capitulos.map((c) => (
       <section id={c.slug} class={`cap cap--n${Math.min(c.nivel, 3)}`} data-slug={c.slug}>
-        <h1 class="cap__titulo">{c.numero && <span class="num">{c.numero}</span>} {c.titulo}</h1>
+        {c.numero && <p class="cap__kicker">{c.nivel === 1 ? `Módulo ${c.numero.padStart(2, '0')}` : c.numero}</p>}
+        <h1 class="cap__titulo">{c.titulo}</h1>
         <div class="conteudo"><c.Content /></div>
       </section>
     ))}
