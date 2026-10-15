@@ -126,3 +126,8 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 **Decisão:** a documentação da API (10 endpoints do `importacao.json`: importar arquivo, Envio Inteligente, listar pastas, listar/baixar documentos, modelos, gerar documento, solicitar/consultar/cancelar assinatura) é publicada como área própria em `/api/`, fora do menu, da home e do PDF do manual. Raiz: `Integração por API.md`; guias na pasta `Integração por API/`. Pedido do Breno: "crie um item separado para a API. Não deixe junto ao restante do manual".
 **Pendências com o Breno (TODO internos no vault):** URL base da API para clientes (hoje `https://URL_DA_API`), onde o cliente obtém `instancia` e token, se a API depende de contratação. A URL do Swagger interno (ELB da AWS) não foi publicada.
 **Em aberto:** separar a busca da API da do manual; PDF próprio da API.
+
+## 2026-10-15 — API: respostas do Breno (substitui as pendências da entrada anterior)
+
+**Respostas:** o endereço da API para os clientes é o do servidor `http://docnuvem-1325424578.sa-east-1.elb.amazonaws.com:8083` (agora publicado nos exemplos); o `instancia` é o subdomínio do cliente (`https://exemplo.docnuvem.com.br/...` → `exemplo`); o token vem de Configurações do sistema > aba Token; a API é aberta, sem contratação.
+**Observação:** o endereço usa HTTP, sem TLS. Rever se o Docnuvem passar a oferecer um domínio com HTTPS para a API.
