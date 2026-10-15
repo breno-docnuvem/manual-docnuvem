@@ -27,13 +27,37 @@ As cores indicam o status do envio e da visualização:
 
 Nas solicitações de envio de documentos, a coluna **Solicitações** exibe uma barra de progresso, que mostra quantos dos documentos solicitados já foram recebidos.
 
+## Ícones das colunas Notificação, Agendamento e Checklist(s)
+
+Na listagem de diretórios, três colunas mostram um ícone quando a pasta tem o recurso configurado:
+
+- **Notificação:** um ícone de sino indica que as notificações estão ligadas para a pasta.
+- **Agendamento:** o ícone indica que a pasta tem algum agendamento de solicitação de envio de documentos. Veja [[Como agendar solicitações de documentos]].
+- **Checklist(s):** o ícone indica que a pasta tem checklist vinculado.
+
+![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/06-coluna-notificacao.png]]
+
+*Figura 2. Ícone de sino na coluna Notificação.*
+
+![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/08-coluna-agendamento.png]]
+
+*Figura 3. Ícone da coluna Agendamento.*
+
+![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/07-coluna-checklist.png]]
+
+*Figura 4. Ícone da coluna Checklist(s).*
+
+## Ícone de formulário
+
+Quando um documento tem formulário vinculado, aparece um ícone de lápis ao lado dele. Clique nele para visualizar ou editar as informações do formulário. Veja [[Vinculando e editando informações de formulário no documento]].
+
 ## Solicitações de assinatura
 
-Para arquivos com solicitação de assinatura, a coluna **Assinatura** mostra o status geral do fluxo: **Em andamento**, **Cancelado** ou **Assinado**. A coluna **Informações** traz três ícones que abrem os detalhes do envio.
+Para arquivos com solicitação de assinatura, a coluna **Assinatura** mostra o status geral do fluxo: **Aguardando**, **Cancelado** ou **Assinado**. A coluna **Informações** traz três ícones que abrem os detalhes do envio.
 
 ![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/02-status-assinatura.png]]
 
-*Figura 2. Status do fluxo na coluna Assinatura e ícones da coluna Informações.*
+*Figura 5. Status do fluxo na coluna Assinatura e ícones da coluna Informações.*
 
 ### E-mail(s) enviado(s)
 
@@ -41,7 +65,7 @@ Lista o nome de todos os participantes do fluxo de assinatura e registra a data 
 
 ![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/03-emails-enviados.png]]
 
-*Figura 3. Janela E-mail(s) enviado(s).*
+*Figura 6. Janela E-mail(s) enviado(s).*
 
 ### Link(s) visualizado(s)
 
@@ -49,7 +73,7 @@ Lista os participantes do fluxo e registra a data e a hora em que cada um abriu 
 
 ![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/04-links-visualizados.png]]
 
-*Figura 4. Janela Link(s) visualizado(s).*
+*Figura 7. Janela Link(s) visualizado(s).*
 
 ### Envio WhatsApp
 
@@ -57,7 +81,7 @@ Lista os participantes do fluxo e permite enviar a cada um o link de acesso e as
 
 ![[Manual DOCNUVEM/images/meus-documentos/significado-dos-icones/05-envio-whatsapp.png]]
 
-*Figura 5. Janela Envio WhatsApp, com um ícone por participante.*
+*Figura 8. Janela Envio WhatsApp, com um ícone por participante.*
 
 > **Importante:** o ícone do WhatsApp só aparece na coluna **Informações** se o número de telefone do participante tiver sido informado. Mantenha os telefones dos contatos atualizados e confira os dados ao criar a solicitação.
 
