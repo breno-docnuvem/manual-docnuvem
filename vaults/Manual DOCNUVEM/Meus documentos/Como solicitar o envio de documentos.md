@@ -60,4 +60,4 @@ Após adicionar o destinatário, clique em **Solicitar** para disparar a solicit
 
 ## Observação
 
-Para acompanhar o andamento dos envios, consulte [[Significados dos ícones]].
+Para acompanhar o andamento dos envios, consulte [[Significado dos ícones]].

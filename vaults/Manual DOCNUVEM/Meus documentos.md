@@ -13,7 +13,7 @@ Por meio desse módulo, é possível importar arquivos e pastas, visualizar deta
   - [[Importando diretórios]]
 - [[Documentos]]
   - [[Visualizando documentos e seus detalhes]]
-  - [[Significados dos ícones]]
+  - [[Significado dos ícones]]
   - [[Gerenciando documentos]]
   - [[Como renomear documentos e diretórios]]
   - [[Como agrupar documentos]]
@@ -30,4 +30,3 @@ Por meio desse módulo, é possível importar arquivos e pastas, visualizar deta
   - [[Como agendar solicitações de documentos]]
   - [[Como editar um agendamento de solicitação de documentos]]
   - [[Como cancelar um agendamento de solicitação de documentos]]
-  - [[Significado dos ícones]]

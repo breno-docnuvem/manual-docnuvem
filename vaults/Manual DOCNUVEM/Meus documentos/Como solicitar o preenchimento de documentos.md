@@ -38,4 +38,4 @@ Clique em **Solicitar**. O destinatário recebe a solicitação por e-mail ou Wh
 
 ## Observação
 
-Para acompanhar o andamento dos envios, consulte [[Significados dos ícones]].
+Para acompanhar o andamento dos envios, consulte [[Significado dos ícones]].

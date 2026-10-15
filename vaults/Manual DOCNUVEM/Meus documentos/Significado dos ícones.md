@@ -59,11 +59,9 @@ Lista os participantes do fluxo e permite enviar a cada um o link de acesso e as
 
 *Figura 5. Janela Envio WhatsApp, com um ícone por participante.*
 
-## Importante
+> **Importante:** o ícone do WhatsApp só aparece na coluna **Informações** se o número de telefone do participante tiver sido informado. Mantenha os telefones dos contatos atualizados e confira os dados ao criar a solicitação.
 
-O ícone do WhatsApp só aparece na coluna **Informações** se o número de telefone do participante tiver sido informado. Mantenha os telefones dos contatos atualizados e confira os dados ao criar a solicitação.
-
-## Relacionados
+## Guias relacionados
 
 - [[Como solicitar o preenchimento de documentos]]
 - [[Como solicitar o envio de documentos]]
