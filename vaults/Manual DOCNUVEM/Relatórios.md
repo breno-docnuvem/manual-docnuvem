@@ -1,16 +1,11 @@
 ﻿# Relatórios
 
-O módulo de **Relatórios** oferece dados consolidados e métricas gerenciais sobre a utilização, solicitações, assinaturas e volume de documentos no Docnuvem.
+O módulo de **Relatórios** reúne, em uma única tela, os relatórios do Docnuvem. Para abrir, clique em **Relatórios** no menu lateral e escolha o relatório desejado.
 
-Cada relatório tem uma tela própria, com filtros de busca e botões para exportar o resultado. Os relatórios gerados ficam registrados no **Histórico de relatórios exportados**, na própria tela.
+![[Manual DOCNUVEM/images/relatorios/relatorios/01-tela-relatorios.png]]
 
-Para abrir a lista de relatórios, clique em **Relatórios** no menu lateral.
+*Figura 1. Tela de Relatórios, com os relatórios disponíveis: Assinaturas, Documentos, Diretórios, Checklists, Formulários, Tarefas e Envio Inteligente.*
 
 ## Sumário
 
-- [[Como gerar o relatório de Assinaturas]]
-- [[Como gerar o relatório de Certificados]]
-- [[Como gerar o relatório de Contratos]]
-- [[Como gerar o relatório de Checklists]]
-- [[Como gerar o relatório de Solicitações de Envio]]
-- [[Como gerar o relatório de Auditoria]]
+*(Aguardando cadastro de notas)*
