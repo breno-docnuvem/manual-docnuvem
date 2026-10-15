@@ -108,3 +108,15 @@ Formato: `## AAAA-MM-DD — Título` + **Decisão**, **Motivo**, **Substitui** (
 **Risco aceito:** um erro entra no ar a cada push. A rede de segurança é o build verde antes do push e `git revert` quando for preciso desfazer. Rever esta decisão antes de apresentar o site ao chefe ou de liberar a indexação.
 **Substitui:** a orientação anterior de trabalhar em branch com link de prévia.
 
+## 2026-10-15 — Um chat só conduz o projeto (código, vault, design e planejamento)
+
+**Decisão:** a partir de agora um único chat do Claude Code cuida de tudo: código do site e do PDF, edição do vault, manutenção do design e dos documentos de contrato. Os chats de vault, design e planejamento foram encerrados.
+**Motivo:** o design e a base de código estão prontos; manter vários chats passou a custar mais coordenação (handoffs, pedidos entre áreas, trabalho perdido em substituições do vault) do que valor. O Breno pediu a consolidação.
+**Salvaguardas:** o build continua só lendo o vault; edições de conteúdo em commits `conteudo:` separados; regras editoriais do vault mantidas; nada de inventar comportamento da plataforma; decisões registradas aqui na hora.
+**Substitui:** a separação de áreas de "Comunicação entre chats por arquivos, com handoff automático" (os handoffs continuam).
+
+## 2026-10-15 — Registro das decisões de implementação recentes
+
+**Decisões do Breno, já em produção:** tema claro como padrão (escuro por escolha ou "Automático"); ícones do manual vindos dos sprites da própria plataforma, separados em `src/assets/icones/plataforma/` (uso no texto depende da marcação `[[icone:nome]]`, a definir); PDF no estilo do guia de referência (capa escura com logo, faixa azul, cabeçalho e rodapé numerado); sumários em cartões agrupados por tela, com hierarquia inferida em listas planas (o ideal é recuar no vault); favicon com o "D" do logo; modo estrito de conteúdo (`npm run build:estrito`) pronto e desligado por padrão até o vault ficar sem links quebrados; placeholders de print continuam visíveis.
+**Limite técnico:** o Cloudflare Pages recusa arquivos acima de 25 MiB; por isso o PDF recodifica os prints em JPEG (largura máx. 1100 px, qualidade 0,8) e a geração falha se passar de 24 MiB. O site mantém os PNG originais. Otimizar as imagens do site com `sharp` exigiria dependência nova e continua pendente de aprovação.
+

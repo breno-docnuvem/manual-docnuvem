@@ -13,6 +13,16 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 - Decisões completas e o motivo de cada uma: `DECISIONS.md`.
 - O vault já tem regras editoriais próprias (tom, estrutura das notas, prints, ordem dos módulos) em `vaults/Manual DOCNUVEM/Diretrizes de escrita do manual.md` e `Diretrizes de geração de manuais.md`. Elas continuam valendo para o conteúdo e **não são publicadas** no site.
 
+## Modo de trabalho: um chat só (desde 2026-10-15)
+
+O projeto passou a ser conduzido por **um único chat do Claude Code**, que cuida de código, vault (conteúdo), manutenção do design e dos documentos de planejamento (`DECISIONS.md`, `CONTENT-SPEC.md`, `DESIGN.md`, este arquivo). Os chats separados de vault, design e planejamento foram encerrados. A tabela de áreas de `docs/COMUNICACAO-ENTRE-CHATS.md` só volta a valer se houver vários chats de novo.
+
+Continuam valendo, mesmo com um chat só:
+- O build **lê** o vault e nunca escreve nele. Mudança de conteúdo é feita à mão, em commits próprios com prefixo `conteudo:`, separados dos de código (`site:`, `pdf:`, `build:`).
+- As regras editoriais do vault (`Diretrizes de escrita do manual` e `Diretrizes de geração de manuais`) valem para qualquer nota escrita ou alterada. Fatos sobre a plataforma (telas, botões, comportamentos) vêm do Breno, de prints ou dos próprios arquivos; não se inventa comportamento do sistema. Dúvida de fato vira pergunta ao Breno.
+- Toda decisão relevante é registrada em `DECISIONS.md` (só acréscimo) pelo mesmo chat, na hora.
+- Handoff único em `docs/handoffs/`: um arquivo por sessão, atualizado a cada bloco de trabalho.
+
 ## Antes de qualquer trabalho (obrigatório)
 
 1. Leia `docs/COMUNICACAO-ENTRE-CHATS.md`. Ele define quem é dono de quê e como fazer handoffs.
@@ -22,9 +32,8 @@ Responsável pelo projeto: Breno (setor de implantação). Idioma de trabalho e 
 
 ## Regras que valem para todo chat
 
-- **Cada chat só edita a sua área** (tabela em `docs/COMUNICACAO-ENTRE-CHATS.md`). Se precisar de mudança em outra área, escreva um pedido no seu handoff; não faça a mudança.
-- O código **lê** o vault (`vaults/`), **nunca escreve** nele. Só o chat do vault edita `vaults/`.
-- Não reabra decisão registrada em `DECISIONS.md`. Se achar que está errada, proponha a mudança em um handoff para o chat de planejamento.
+- Com um chat só não há "área de outro chat". Se voltar a haver vários, vale a tabela de `docs/COMUNICACAO-ENTRE-CHATS.md`: cada chat edita só a sua área e deixa pedidos no handoff.
+- Não reabra decisão registrada em `DECISIONS.md` sem motivo: para mudar uma, acrescente uma entrada nova que a substitui e cite a anterior.
 - **Handoff é automático**: escreva e atualize o handoff sem que o Breno peça. Detalhes no documento de comunicação.
 - Conteúdo interno (macros de suporte, processos de implantação) **nunca** entra no site público. Só vai para o site o que estiver marcado como publicável conforme o `CONTENT-SPEC.md`.
 

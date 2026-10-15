@@ -1,5 +1,7 @@
 # Comunicação entre chats
 
+> **Atualização 2026-10-15:** o projeto agora é conduzido por **um único chat do Claude Code**, que faz código, vault, manutenção do design e planejamento (ver `CLAUDE.md`, "Modo de trabalho"). Este documento descreve o modelo com vários chats e só volta a valer se eles voltarem a existir; os handoffs continuam sendo usados, como histórico e para retomar o trabalho.
+
 Este projeto é tocado por vários chats do Claude. **Chats não enxergam o trabalho uns dos outros**; tudo o que um precisa saber do outro precisa estar em **arquivos neste repositório**. Este documento define quem é dono de quê e como passar o bastão sem desfazer o trabalho alheio.
 
 Todo chat deve ler este documento antes de começar (o `CLAUDE.md` da raiz manda fazer isso).
