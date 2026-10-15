@@ -11,7 +11,7 @@ Antes de executar qualquer procedimento, verifique se o usuário possui permiss�
 - Utilize o sumário para acessar diretamente a funcionalidade desejada.
 - Leia as orientações de pré-requisito, importante, dica e resultado esperado antes de concluir um processo.
 - Siga os passos na ordem apresentada, principalmente em fluxos que dependem de cadastros prévios, como modelos, formulários, contatos e tipos de documento.
-- Consulte o glossário ao final do manual sempre que encontrar um termo técnico ou uma nomenclatura do sistema.
+- Consulte a tabela de **Conceitos principais**, logo abaixo, sempre que encontrar um termo técnico ou uma nomenclatura do sistema.
 
 ## Conceitos principais
 
