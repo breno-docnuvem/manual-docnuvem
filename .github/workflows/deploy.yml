@@ -22,6 +22,9 @@ jobs:
       - run: npx playwright install --with-deps chromium
       # Site + PDF (dist/manual-docnuvem.pdf)
       - run: npm run build:completo
+        env:
+          # Modo estrito: o deploy falha (e o site não muda) se houver link quebrado, seção inexistente ou imagem ausente no vault
+          BUILD_ESTRITO: '1'
       - name: Garantir que o PDF foi gerado
         run: test -s dist/manual-docnuvem.pdf
       - name: Criar o projeto no Cloudflare (se ainda não existir)
