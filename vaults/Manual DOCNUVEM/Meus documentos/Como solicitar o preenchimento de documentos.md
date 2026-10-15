@@ -24,7 +24,7 @@ Clique com o botão direito na pasta e selecione **Solicitar preenchimento de do
 
 Na janela de configurações, selecione o modelo de documento e informe o nome do documento que será criado. Se necessário, defina a data de vencimento da solicitação e o contato do destinatário.
 
-Para alterar as permissões ou informações de envio, consulte [[Solicitações e Compartilhamentos]].
+Para alterar a mensagem padrão enviada ao destinatário, consulte [[Solicitações e Compartilhamentos]].
 
 ![[Manual DOCNUVEM/images/meus-documentos/como-solicitar-o-preenchimento-de-documentos/03-configurar-solicitacao.png]]
 

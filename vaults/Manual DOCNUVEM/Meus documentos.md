@@ -20,6 +20,7 @@ Por meio desse módulo, é possível importar arquivos e pastas, visualizar deta
   - [[Como criar documentos]]
   - [[Importando documentos]]
   - [[Vinculando e editando informações de formulário no documento]]
+  - [[Solicitações e Compartilhamentos]]
   - [[Como solicitar o preenchimento de documentos]]
   - [[Como solicitar o envio de documentos]]
   - [[Como acompanhar e enviar pendências no envio de documentos]]

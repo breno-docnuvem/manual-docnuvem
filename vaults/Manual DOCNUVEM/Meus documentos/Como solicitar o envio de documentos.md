@@ -46,7 +46,7 @@ Ao selecionar **Contato**, informe o nome, o e-mail e o telefone do destinatári
 
 Depois de preencher as informações, clique em **Adicionar** para incluir o destinatário na solicitação.
 
-Para alterar as permissões ou informações de envio, consulte [[Solicitações e Compartilhamentos]].
+Para alterar a mensagem padrão enviada ao destinatário, consulte [[Solicitações e Compartilhamentos]].
 
 ![[Manual DOCNUVEM/images/meus-documentos/como-solicitar-o-envio-de-documentos/06-adicionar-destinatario.png]]
 

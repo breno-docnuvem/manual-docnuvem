@@ -42,7 +42,7 @@ Se necessário, ative a criação automática de diretórios para que os documen
 
 ## 6. Definir e adicionar o destinatário
 
-Informe o destinatário da solicitação e clique em **Adicionar**. Para orientações sobre as opções de destinatário, consulte [[Como solicitar o envio de documentos]]. Para alterar as permissões ou informações de envio, consulte [[Solicitações e Compartilhamentos]].
+Informe o destinatário da solicitação e clique em **Adicionar**. Para orientações sobre as opções de destinatário, consulte [[Como solicitar o envio de documentos]]. Para alterar a mensagem padrão enviada ao destinatário, consulte [[Solicitações e Compartilhamentos]].
 
 ![[Manual DOCNUVEM/images/meus-documentos/como-agendar-solicitacoes-de-documentos/06-adicionar-destinatario.png]]
 

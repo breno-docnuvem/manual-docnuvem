@@ -10,10 +10,8 @@ Marque as notificações como visualizadas ou não visualizadas para controlar o
 
 No final da linha da notificação, clique no ícone de lápis e escolha uma das opções:
 
-- **Marcar como visualizado:** a notificação passa a constar como visualizada.
+- **Marcar como visualizado:** a notificação passa a constar como visualizada e fica oculta da lista.
 - **Visualizar:** abre o item que originou a notificação. Se for um documento assinado, abre o documento; se for um documento enviado, abre a pasta onde a solicitação foi feita.
-
-<!-- TODO: o manual antigo diz que essas opções também servem para "continuar ou parar de receber alertas de uma certa ação" — confirmar com Breno se isso procede. -->
 
 ## 2. Marcar várias notificações
 
